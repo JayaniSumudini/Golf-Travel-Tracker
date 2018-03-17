@@ -1,15 +1,14 @@
 <?php
-//    session_start();
-//    if(!isset($_SESSION['user']))
-//    {
-//        header("Location:../login");
-//       // echo $_SESSION['user'];
-//    }
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location:../login");
+}else if(!isset($_SESSION['hasParty']) || $_SESSION['hasParty']==false){
+    header("location: ../createTrip/");
+}
 
 if ($_POST) {
     header("Location: ../createTrip/");
 }
-
 ?>
 
 
