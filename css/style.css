@@ -634,6 +634,7 @@ h1, h2, h3, h4, h5, h6, figure {
 
 form label {
   font-weight: normal !important;
+  font-size: 12px !important;
 }
 
 #gtco-header .display-tc,
@@ -1446,11 +1447,10 @@ form label {
   box-shadow: none;
   background: transparent;
   border: 2px solid rgba(0, 0, 0, 0.1);
-  height: 46px;
-  font-size: 16px;
+  height: 35px;
+  font-size: 14px;
   font-weight: 300;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 5px 15px;
 }
 .form-control:active, .form-control:focus {
   outline: none;
@@ -1899,4 +1899,8 @@ form label {
 
 .nav-tabs{
   border-bottom: none
+}
+
+.form-group{
+  margin-bottom: 8px;
 }
