@@ -241,7 +241,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 @media screen and (max-width: 992px) {
   #gtco-header.gtco-cover {
-    height: inherit !important;
+    /* height: inherit !important; */
     padding: 3em 0 !important;
   }
 }
@@ -437,7 +437,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 .gtco-cover {
-  height: 900px;
+  height: 100vh;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -466,7 +466,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 @media screen and (max-width: 768px) {
   .gtco-cover {
-    height: 600px;
+    height: 100vh;
   }
 }
 .gtco-cover .display-t,
@@ -1459,11 +1459,18 @@ form label {
 }
 
 .row-mt-15em {
-  margin-top: 15em;
+  margin-top: 12em;
 }
+
+@media screen and (max-width: 1370px) {
+  .row-mt-15em {
+    margin-top: 4em;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .row-mt-15em {
-    margin-top: 7em;
+    margin-top: 2em;
   }
 }
 
@@ -1889,3 +1896,7 @@ form label {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.nav-tabs{
+  border-bottom: none
+}
