@@ -1,6 +1,6 @@
 <?php
 session_start(); // Includes Login Script
-if (isset($_SESSION['user']) != "") {
+if (isset($_SESSION['user'])) {
     header("location: ../createTrip/");
 }
 

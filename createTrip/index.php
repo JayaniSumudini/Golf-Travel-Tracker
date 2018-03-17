@@ -1,15 +1,11 @@
 <?php
-//    session_start();
-//    if(!isset($_SESSION['user']))
-//    {
-//        header("Location:../login");
-//       // echo $_SESSION['user'];
-//    }
-
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location:../login");
+}
 if ($_POST) {
     header("Location: ../planner/");
 }
-
 ?>
 
 
