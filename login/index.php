@@ -1,30 +1,29 @@
 <?php
-
 session_start(); // Includes Login Script
-
-if(isset($_SESSION['user']) != ""){
+if (isset($_SESSION['user']) != "") {
     header("location: ../createTrip/");
 }
-?>
 
-<?php
-
-if($_POST){
+if ($_POST) {
     require "../function/function.php";
     $conn = connection();
-    $username = mysqli_real_escape_string($conn,$_POST['username']);
-    $password = mysqli_real_escape_string($conn,$_POST['password']);
-    $query="SELECT * FROM user_details WHERE user_email='$username'";
-    $result = mysqli_query($conn,$query);
-    $row[]=mysqli_fetch_assoc($result);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $query = "SELECT * FROM user_details WHERE user_email='$username'";
+    $result = mysqli_query($conn, $query);
+    $row[] = mysqli_fetch_assoc($result);
 
-    if($row[0]["password"]==$password){
+    if ($row[0]["password"] == $password) {
         $_SESSION['user'] = $row[0]['user_id'];
 //        header("Location: ../main/");
-    }else print("<script>alert('Username or password is incorrect!');</script>");
+    } else print("<script>alert('Username or password is incorrect!');</script>");
 
     mysqli_free_result($result);
     mysqli_close($conn);
+
+    if (isset($_SESSION['user']) != "") {
+        header("location: ../createTrip/");
+    }
 }
 ?>
 
@@ -131,7 +130,8 @@ if($_POST){
                                                     <div class="col-md-6">
                                                         <input type="submit" class="btn btn-primary btn-block"
                                                                value="Login">
-<!--                                                        <span>--><?php //echo $error; ?><!--</span>-->
+                                                        <!--                                                        <span>-->
+                                                        <?php //echo $error; ?><!--</span>-->
                                                     </div>
                                                     <div class="col-md-6">
                                                         <a href="../signup/">
