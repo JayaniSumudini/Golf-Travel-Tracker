@@ -42,30 +42,29 @@ if (isset($_POST['save'])) {
             $_SESSION['itenary'] = $conn->insert_id;
             $itenary_id = $_SESSION['itenary'];
             $travel_price = 'null';
-            $query = "DELETE FROM trip WHERE itenary_id = '$itenary_id'";
-            if ($conn->query($query)) {
-                $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id) VALUES";
-                foreach ($_SESSION['trips'] as $tripValues) {
-                    //calculate price
-                    $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$travel_price,$itenary_id),";
-                }
-                $insertQuery .= ";";
-                $insertQuery = str_replace(',;',';',$insertQuery);
-                if ($conn->query($insertQuery)) {
-                    print("<script>alert('New records created successfully');</script>");
-                } else {
-                    print("<script>alert('error while insert data');</script>");
-                }
-            } else {
-                print("<script>alert('error while create itineary ');</script>");
+//            $query = "DELETE FROM trip WHERE itenary_id = '$itenary_id'";
+//            if ($conn->query($query)) {
+            $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id) VALUES";
+            foreach ($_SESSION['trips'] as $tripValues) {
+                //calculate price
+                $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$travel_price,$itenary_id),";
             }
-
+            $insertQuery .= ";";
+            $insertQuery = str_replace(',;', ';', $insertQuery);
+            if ($conn->query($insertQuery)) {
+                print("<script>alert('New records created successfully');</script>");
+            } else {
+                print("<script>alert('error while insert data');</script>");
+            }
         } else {
-            print("<script>alert('error while registering you');</script>");
+            print("<script>alert('error while create itineary ');</script>");
         }
+
+//        } else {
+//            print("<script>alert('error while registering you');</script>");
+//        }
     }
     $_SESSION['trips'] = [];
-
 }
 
 
