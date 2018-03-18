@@ -7,7 +7,7 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
 } else if (!isset($_SESSION['party']) || $_SESSION['party'] == "") {
-    header("location: ../createTrip/");
+    header("location: ../partyCreate/");
 } else if (!isset($_SESSION['trips'])) {
     $_SESSION['trips'] = [];
 }

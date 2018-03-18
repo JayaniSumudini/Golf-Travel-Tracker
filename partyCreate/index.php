@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
 
             echo "<script>
                     alert('Succefully saved your details!');
-                    window.location.href='../planner';
+                    window.location.href='../tripCreate';
                   </script>";
         } else {
             print("<script>alert('error while registering you');</script>");
@@ -151,7 +151,7 @@ if (isset($_POST['submit'])) {
                                                 </form>
                                                 <?php
                                                 if (isset($_POST['delete'])) {
-                                                    print("<script> alert('delete'); </script>");
+//                                                    print("<script> alert('delete'); </script>");
                                                     $party_id = isset($_POST['party_id']) ? $_POST['party_id'] : "";
                                                     $queryDelete = "DELETE FROM party_details WHERE party_id='$party_id'";
                                                     if ($conn->query($queryDelete)) {
@@ -159,7 +159,7 @@ if (isset($_POST['submit'])) {
                                                         $_SESSION['trips'] = [];
                                                         print("<script>
                                                                 alert('Party removed');
-                                                                 window.location.href='../planner';
+                                                                 window.location.href='../tripCreate';
                                                                 </script>");
                                                     } else {
                                                         print("<script>alert('Error when remove ! ');</script>");
@@ -172,7 +172,7 @@ if (isset($_POST['submit'])) {
                                                     $_SESSION['party'] = isset($_POST['party_id']) ? $_POST['party_id'] : "";
                                                     $_SESSION['trips'] = [];
                                                     echo "<script>
-                                                            window.location.href='../planner';
+                                                            window.location.href='../tripCreate';
                                                           </script>";
                                                 }
                                                 ?>

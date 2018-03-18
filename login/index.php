@@ -1,7 +1,7 @@
 <?php
 session_start(); // Includes Login Script
 if (isset($_SESSION['user'])) {
-    header("location: ../createTrip/");
+    header("location: ../partyCreate/");
 }
 
 if ($_POST) {
@@ -22,7 +22,7 @@ if ($_POST) {
     mysqli_close($conn);
 
     if (isset($_SESSION['user']) != "") {
-        header("location: ../createTrip/");
+        header("location: ../partyCreate/");
     }
 }
 ?>
