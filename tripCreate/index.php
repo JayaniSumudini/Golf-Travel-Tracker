@@ -11,6 +11,13 @@ if (!isset($_SESSION['user'])) {
 } else if (!isset($_SESSION['trips'])) {
     $_SESSION['trips'] = [];
 }
+$party_id = $_SESSION['party'];
+$query = "SELECT itenary_id
+              FROM itenary 
+              WHERE party_id = '$party_id'";
+
+$result = mysqli_query($conn, $query);
+$row[] = mysqli_fetch_assoc($result);
 if (isset($_POST['add'])) {
     $trip = new Trip();
     $trip->travel_date = mysqli_real_escape_string($conn, $_POST['travel_date']);
@@ -19,50 +26,36 @@ if (isset($_POST['add'])) {
     $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
     array_push($_SESSION['trips'], $trip);
-
 }
 
 if (isset($_POST['save'])) {
-    $party_id = $_SESSION['party'];
-    $query = "SELECT itenary_id
-              FROM itenary 
-              WHERE party_id = '$party_id'";
 
-    $result = mysqli_query($conn, $query);
-    $row[] = mysqli_fetch_assoc($result);
 
     if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
-//check status and add values to trip
         $_SESSION['itenary'] = $row[0]["itenary_id"];
+        $itenary_id = $_SESSION['itenary'];
     } else {
-        $status = 'NEW';
+        $status = 'SAVED';
         $query = "INSERT INTO itenary (party_id,status)
               VALUES ('$party_id','$status')";
         if ($conn->query($query)) {
             $_SESSION['itenary'] = $conn->insert_id;
             $itenary_id = $_SESSION['itenary'];
-            $travel_price = 'null';
-//            $query = "DELETE FROM trip WHERE itenary_id = '$itenary_id'";
-//            if ($conn->query($query)) {
-            $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id) VALUES";
-            foreach ($_SESSION['trips'] as $tripValues) {
-                //calculate price
-                $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$travel_price,$itenary_id),";
-            }
-            $insertQuery .= ";";
-            $insertQuery = str_replace(',;', ';', $insertQuery);
-            if ($conn->query($insertQuery)) {
-                print("<script>alert('New records created successfully');</script>");
-            } else {
-                print("<script>alert('error while insert data');</script>");
-            }
         } else {
             print("<script>alert('error while create itineary ');</script>");
         }
-
-//        } else {
-//            print("<script>alert('error while registering you');</script>");
-//        }
+    }
+    $travel_price = 'null';
+    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id) VALUES";
+    foreach ($_SESSION['trips'] as $tripValues) {
+        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$travel_price,$itenary_id),";
+    }
+    $insertQuery .= ";";
+    $insertQuery = str_replace(',;', ';', $insertQuery);
+    if ($conn->query($insertQuery)) {
+        print("<script>alert('New records created successfully');</script>");
+    } else {
+        print("<script>alert('error while insert data');</script>");
     }
     $_SESSION['trips'] = [];
 }
@@ -72,11 +65,6 @@ if (isset($_POST['save'])) {
 
 
 <!DOCTYPE HTML>
-<!--
-	Aesthetic by gettemplates.co
-	Twitter: http://twitter.com/gettemplateco
-	URL: http://gettemplates.co
--->
 <html>
 <head>
     <meta charset="utf-8">
@@ -206,30 +194,44 @@ if (isset($_POST['save'])) {
                                                                 <th>Flight No</th>
                                                                 <th>From</th>
                                                                 <th>To</th>
-                                                                <th>Number</th>
+                                                                <th>Number Of passengers</th>
                                                                 <th>Price</th>
+                                                                <th></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td>25/10/2018</td>
-                                                                <td>10.30</td>
-                                                                <td></td>
-                                                                <td>Edlinbrows</td>
-                                                                <td>St Androws</td>
-                                                                <td>8</td>
-                                                                <td>60</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>25/10/2018</td>
-                                                                <td>10.30</td>
-                                                                <td></td>
-                                                                <td>Edlinbrows</td>
-                                                                <td>St Androws</td>
-                                                                <td>8</td>
-                                                                <td>60</td>
-                                                            </tr>
+                                                            <?php
+                                                            $itenary_id = $row[0]["itenary_id"];
+                                                            $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id'";
+                                                            $tripList = $conn->query($query);
+                                                            if ($tripList->num_rows > 0) {
+                                                                while ($rowValue = $tripList->fetch_assoc()) {
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><?php echo($rowValue["travel_date"]); ?></td>
+                                                                        <td><?php echo($rowValue["travel_time"]); ?></td>
+                                                                        <td><?php
+                                                                            $query = "SELECT flight_number FROM party_details WHERE party_id='$party_id'";
+                                                                            $flight_number = mysqli_query($conn, $query);
+                                                                            $rowflight[] = mysqli_fetch_assoc($flight_number);
+                                                                            echo($rowflight[0]["flight_number"]);
+                                                                            ?></td>
+                                                                        <td><?php echo($rowValue["travel_from"]); ?></td>
+                                                                        <td><?php echo($rowValue["travel_to"]); ?></td>
+                                                                        <td><?php echo($rowValue["number_of_pessengers"]); ?></td>
+                                                                        <td><?php echo($rowValue["travel_price"]); ?></td>
+                                                                        <td><input type="submit"
+                                                                                   class="btn btn-sm btn-danger btn-block"
+                                                                                   id="delete" name="delete"
+                                                                                   value="Delete"
+                                                                                   style="font-size: 12px; padding: 3px;">
+                                                                        </td>
+                                                                    </tr>
 
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
                                                             <tr style="font-weight: 800;">
                                                                 <td colspan="6">Total Price For Trip</td>
                                                                 <td>120</td>
