@@ -20,7 +20,9 @@ if ($_POST) {
         $query = "INSERT INTO party_details (lead_name,phone_number,email,hotel_address,flight_number,notes,user_id,number_in_party)
               VALUES ('$lead_name','$phone_number','$email','$hotel_address','$flight_number','$notes','$user_id','$number_in_party')";
         if ($conn->query($query)) {
-            $_SESSION['hasParty']=true;
+            $_SESSION['party']=$conn->insert_id;
+            $_SESSION['trips'] = [];
+
             echo "<script>
                     alert('Succefully saved your details!');
                     window.location.href='../planner';

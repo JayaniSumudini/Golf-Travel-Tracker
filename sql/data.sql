@@ -30,16 +30,16 @@ VALUES
 INSERT INTO itenary
   (itenary_id,party_id,status)
 VALUES
-  (1,1,'CREATE'),
-  (2,2,'APPROVED'),
-  (3,3,'CREATE'),
-  (4,4,'PENDING'),
-  (5,5,'CREATE'),
-  (6,6,'APPROVED'),
-  (7,7,'CREATE'),
-  (8,8,'APPROVED'),
-  (9,9,'PENDING'),
-  (10,10,'PENDING');
+  (1,1,'NEW'),
+  (2,2,'NEW'),
+  (3,3,'NEW'),
+  (4,4,'NEW'),
+  (5,5,'NEW'),
+  (6,6,'NEW'),
+  (7,7,'NEW'),
+  (8,8,'NEW'),
+  (9,9,'NEW'),
+  (10,10,'NEW');
 
 INSERT INTO trip
   (trip_id,travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id)

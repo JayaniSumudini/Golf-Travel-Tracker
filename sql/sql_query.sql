@@ -33,7 +33,7 @@ create table party_details(
 create table itenary(
   itenary_id int not null AUTO_INCREMENT,
   party_id int not null,
-  status enum ('CREATE','PENDING','APPROVED') not null DEFAULT 'CREATE',
+  status enum ('NEW','SAVE','SUBMITED','ACCEPTED','ADMIN_CHANGED','TO_BE_ACCEPTANCE') not null DEFAULT 'NEW',
   PRIMARY KEY(itenary_id),
   FOREIGN KEY(party_id)REFERENCES party_details(party_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );

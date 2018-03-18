@@ -1,14 +1,74 @@
 <?php
+// instantiate product object
+include_once 'Trip.php';
+require "../function/function.php";
+$conn = connection();
 session_start();
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
-}else if(!isset($_SESSION['hasParty']) || $_SESSION['hasParty']==false){
+} else if (!isset($_SESSION['party']) || $_SESSION['party'] == "") {
     header("location: ../createTrip/");
+} else if (!isset($_SESSION['trips'])) {
+    $_SESSION['trips'] = [];
+}
+if (isset($_POST['add'])) {
+    $trip = new Trip();
+    $trip->travel_date = mysqli_real_escape_string($conn, $_POST['travel_date']);
+    $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
+    $trip->travel_from = mysqli_real_escape_string($conn, $_POST['travel_from']);
+    $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
+    $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
+    array_push($_SESSION['trips'], $trip);
+
 }
 
-if ($_POST) {
-    header("Location: ../createTrip/");
+if (isset($_POST['save'])) {
+    $party_id = $_SESSION['party'];
+    $query = "SELECT itenary_id
+              FROM itenary 
+              WHERE party_id = '$party_id'";
+
+    $result = mysqli_query($conn, $query);
+    $row[] = mysqli_fetch_assoc($result);
+
+    if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
+//check status and add values to trip
+        $_SESSION['itenary'] = $row[0]["itenary_id"];
+    } else {
+        $status = 'NEW';
+        $query = "INSERT INTO itenary (party_id,status)
+              VALUES ('$party_id','$status')";
+        if ($conn->query($query)) {
+            $_SESSION['itenary'] = $conn->insert_id;
+            $itenary_id = $_SESSION['itenary'];
+            $travel_price = 'null';
+            $query = "DELETE FROM trip WHERE itenary_id = '$itenary_id'";
+            if ($conn->query($query)) {
+                foreach ($_SESSION['trips'] as $tripValues) {
+                    //calculate price
+                    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id)
+                                    VALUES ('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$travel_price,$itenary_id)";
+                    if ($conn->query($insertQuery)) {
+                        print("<script>alert('New records created successfully');</script>");
+                    } else {
+                        print("<script>alert('error while insert data');</script>");
+                    }
+                }
+
+
+            } else {
+                print("<script>alert('error while create itineary ');</script>");
+            }
+
+        } else {
+            print("<script>alert('error while registering you');</script>");
+        }
+    }
+    $_SESSION['trips'] = [];
+
 }
+
+
 ?>
 
 
@@ -98,38 +158,40 @@ if ($_POST) {
                                                 <div class="row form-group">
                                                     <div class="col-md-2">
                                                         <label for="login-username">Date</label>
-                                                        <input data-provide="datepicker" type="text" id="date"
-                                                               name="leader"
+                                                        <input data-provide="datepicker" type="text" id="travel_date"
+                                                               name="travel_date"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Time</label>
-                                                        <input type="text" id="login-username" name="leader"
+                                                        <input type="text" id="travel_time"
+                                                               name="travel_time"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">From</label>
-                                                        <input type="text" id="login-username" name="leader"
+                                                        <input type="text" id="travel_from" name="travel_from"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">To</label>
-                                                        <input type="text" id="login-username" name="leader"
+                                                        <input type="text" id="travel_to" name="travel_to"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Number</label>
-                                                        <input type="number" id="login-username" name="leader"
+                                                        <input type="number" id="number_of_pessengers"
+                                                               name="number_of_pessengers"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username"></label>
-                                                        <input type="button" id="login-username" name="leader"
+                                                        <input type="submit" id="add" name="add"
                                                                class="btn btn-primary btn-block" value="Add">
                                                     </div>
                                                 </div>
@@ -182,17 +244,25 @@ if ($_POST) {
                                                     <div class="col-md-6">
                                                         <div class="col-md-6">
                                                             <input type="button" class="btn btn-primary btn-block"
+                                                                   id="print" name="print"
                                                                    value="Print">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <input type="submit" class="btn btn-primary btn-block"
+                                                                   id="submit" name="submit"
                                                                    value="Submit">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="col-md-6">
                                                             <input type="button" class="btn btn-primary btn-block"
-                                                                   value="Confermed">
+                                                                   id="confirm" name="confirm"
+                                                                   value="Confirm">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="submit" class="btn btn-primary btn-block"
+                                                                   id="save" name="save"
+                                                                   value="save">
                                                         </div>
                                                         <div class="col-md-6">
                                                         </div>
