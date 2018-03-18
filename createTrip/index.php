@@ -6,7 +6,7 @@ if (!isset($_SESSION['user'])) {
 
 }
 
-if ($_POST) {
+if (isset($_POST['submit'])) {
     require "../function/function.php";
     $conn = connection();
     $lead_name = mysqli_real_escape_string($conn, $_POST['lead_name']);
@@ -38,7 +38,6 @@ if ($_POST) {
 
     mysqli_close($conn);
 }
-
 ?>
 
 
@@ -114,37 +113,55 @@ if ($_POST) {
 
 
                     <div class="row row-mt-15em" style="margin-top: 4em;">
-                        <div class="col-md-5  mt-text animate-box" data-animate-effect="fadeInUp" style="margin-top:1em">
+                        <div class="col-md-5  mt-text animate-box" data-animate-effect="fadeInUp"
+                             style="margin-top:1em">
                             <?php
                             require "../function/function.php";
                             $conn = connection();
                             ?>
                             <h4>Your Existing Trips</h4>
                             <?php
-                            $query = "SELECT * FROM party_details WHERE user_id =" .$_SESSION['user'];
+                            $query = "SELECT * FROM party_details WHERE user_id =" . $_SESSION['user'];
                             $result = $conn->query($query);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
                                     ?>
 
-                                    <div class="col-md-12" style="border: 1px solid #09C6AB;padding:10px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
-                                       <div class="row">
-                                           <div class="col-sm-9">
-                                               <b>Leader : </b><?php echo($row["lead_name"]); ?><br>
-                                               <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
-                                               <b>Email : </b><?php echo($row["email"]); ?><br>
-                                           </div>
-                                           <div class="col-sm-3 ">
-                                               <a href="#">
-                                                   <input type="button" class="btn btn-sm btn-success btn-block"
-                                                          value="Edit" style="font-size: 12px; padding: 3px;">
-                                               </a>
-                                               <a href="#">
-                                                   <input type="button" class="btn btn-sm btn-danger btn-block"
-                                                          value="Delete" style="font-size: 12px; padding: 3px;">
-                                               </a>
-                                           </div>
-                                       </div>
+                                    <div class="col-md-12"
+                                         style="border: 1px solid #09C6AB;padding:10px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
+                                        <div class="row">
+
+                                            <div class="col-sm-9">
+                                                <b>Leader : </b><?php echo($row["lead_name"]); ?><br>
+                                                <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
+                                                <b>Email : </b><?php echo($row["email"]); ?><br>
+                                            </div>
+                                            <div class="col-sm-3 ">
+                                                <form role="form" action='index.php' method='POST'>
+                                                    <input type='hidden' name='party_id'
+                                                           value='<?php echo($row["party_id"]); ?> '>
+                                                    <input type="submit" class="btn btn-sm btn-success btn-block"
+                                                           id="edit" name="edit"
+                                                           value="Edit" style="font-size: 12px; padding: 3px;">
+                                                    <input type="submit" class="btn btn-sm btn-danger btn-block"
+                                                           id="delete" name="delete"
+                                                           value="Delete" style="font-size: 12px; padding: 3px;">
+                                                </form>
+                                                <?php
+                                                if (isset($_POST['delete'])) {
+                                                    $party_id = isset($_POST['party_id']) ? $_POST['party_id'] : "";
+                                                    $queryDelete = "DELETE FROM party_details WHERE party_id='$party_id'";
+                                                    if ($conn->query($queryDelete)) {
+                                                        print("<script>alert('Party removed');</script>");
+                                                    } else {
+                                                        print("<script>alert('Error when remove ! ');</script>");
+                                                    }
+                                                    unset($_POST['delete']);
+                                                }
+                                                ?>
+                                            </div>
+
+                                        </div>
                                     </div>
 
                                     <?php
@@ -222,6 +239,7 @@ if ($_POST) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <input type="submit" class="btn btn-primary btn-block"
+                                                               id="submit" name="submit"
                                                                value="Itinerary Planner">
                                                     </div>
                                                 </div>
