@@ -2,7 +2,173 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="080b03a1-3e6d-4e2d-a3c1-15e78a7bdc91" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/planner/index.php" afterPath="$PROJECT_DIR$/planner/index.php" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/createTrip/index.php" afterPath="$PROJECT_DIR$/createTrip/index.php" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/.lvimrc" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/.npmignore" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/LICENSE" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/README.md" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/package.json" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.bg.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.cs.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.da.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.de.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.es.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.fi.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.fr.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.hr.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.id.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.is.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.it.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.ja.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.kr.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.lt.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.lv.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.ms.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.nb.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.nl.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.pl.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.pt-BR.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.pt.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.ro.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.rs-latin.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.rs.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.ru.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.sk.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.sl.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.sv.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.th.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.tr.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.zh-CN.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.zh-TW.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bootstrap-datetimepicker/src/less/bootstrap-datetimepicker.less" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/.npmignore" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/DateTimePicker.jquery.json" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/Gruntfile.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/LICENSE" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/README.md" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/bower.json" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/AngularJS/BasicDatePicker-AngularJS.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/AngularJS/BasicDatePicker-LongTypeOfModel.html" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/AngularJS/TwoPicker-AngularJS.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/AngularJS/angular-1.4.2.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Basic-Zepto.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicDatePicker.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicDateTimePicker.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-CustomEvent.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-CustomInputString.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-CustomInputValue-Issue125.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-CustomInputValue.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-ElementsGroup-DataAttribute.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-ElementsGroup.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-HumanDateFormatting.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-InputHTML5.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-InputText.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-MinuteInterval-Multiple.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-MinuteInterval.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-NonInputElement.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-Seconds.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-SecondsInterval-Multiple.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-SecondsInterval.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicExamples-SetDateTimeOnLoad.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/BasicTimePicker.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Bootstrap Examples/BasicExample-Bootstrap.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Bootstrap Examples/BasicExample-BootstrapModal.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Bootstrap Examples/bootstrap.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Bootstrap Examples/bootstrap.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Callback-beforeShow.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Events-MouseHold.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Events-TouchHold.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Format-Both.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Format-DataAttributes.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Format-MonthYear.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Format-Parameters.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/FormatConversion.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Internationalization-Chinese.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Internationalization-German.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/Internationalization.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/KeyboardNavigation.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/PeriodRange-Both.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/PeriodRange-Constant_Date.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/PeriodRange-DataAttributes.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/PeriodRange-MinNow.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/PeriodRange-MinToday.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/PeriodRange-Parameters.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/SetValueInInput.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/StartEnd-DataAttributes.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/View-BasedOnDocumentWidth.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/View-DataAttributes.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/View-Inline.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/ViewDropdown-Parameters.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/ViewPopup-Parameters.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/index.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQuery Mobile Project/BasicExampleMobile.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQuery Mobile Project/BasicExampleMobileWithLink.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQuery Mobile Project/jquery.mobile-1.4.0.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQuery Mobile Project/jquery.mobile-1.4.0.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/BasicDateTimePicker-jQueryUI-ElementsGroup.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/BasicDateTimePicker-jQueryUI.htm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/images/ui-icons_444444_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/images/ui-icons_555555_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/images/ui-icons_777620_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/images/ui-icons_777777_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/images/ui-icons_cc0000_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/images/ui-icons_ffffff_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/jquery-ui.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/jquery-ui.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jQueryUI-Tabs/jquery-ui.theme.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jquery-1.11.0.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/jquery-3.1.0.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/demo/zepto-1.1.6-Custom.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker-Zepto.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker-ltie9.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker-ltie9.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker-ltie9.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker-ltie9.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/DateTimePicker_iOS_fix.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-cs.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-de.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-en.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-es.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-fr.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-it.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-ja.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-nb.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-nl.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-ro.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-ru.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-uk.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n-zh-TW.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DateTimePicker-i18n.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/dist/i18n/DatetimePicker-i18n-zh-CN.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/package.json" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/DateTimePicker-Zepto.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/DateTimePicker-ltie9.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/DateTimePicker-ltie9.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/DateTimePicker.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/DateTimePicker.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/DateTimePicker_iOS_fix.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-cs.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-de.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-en.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-es.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-fr.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-it.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-ja.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-nb.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-nl.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-ro.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-ru.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-uk.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n-zh-TW.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DateTimePicker-i18n.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/node_modules/datetimepicker/src/i18n/DatetimePicker-i18n-zh-CN.js" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,16 +179,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/login/index.php">
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/createTrip/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="241">
+              <caret line="148" column="55" lean-forward="true" selection-start-line="148" selection-start-column="55" selection-end-line="148" selection-end-column="55" />
               <folding>
-                <marker date="1521305779970" expanded="true" signature="357:401" ph="SELECT * FRO... user_details" />
-                <marker date="1521305779970" expanded="true" signature="357:402" ph="SELECT * FRO... user_details" />
-                <marker date="1521305779970" expanded="true" signature="357:411" ph="SELECT * FRO... user_details" />
-                <marker date="1521305779970" expanded="true" signature="357:412" ph="SELECT * FRO... user_details" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#2;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1521388186081" expanded="true" signature="808:1056" ph="INSERT INTO party_details... " />
+                <marker date="1521388186081" expanded="true" signature="1209:1353" ph="..." />
+                <marker date="1521388186081" expanded="true" signature="4609:4652" ph="SELECT * FRO... party_details" />
               </folding>
             </state>
           </provider>
@@ -31,36 +199,9 @@
       <file leaf-file-name="sql_query.sql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql/sql_query.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+            <state relative-caret-position="102">
+              <caret line="6" column="29" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/planner/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="53" column="45" lean-forward="true" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
-              <folding>
-                <marker date="1521375594974" expanded="true" signature="985:1073" ph="SELECT itena... itenary" />
-                <marker date="1521375594974" expanded="true" signature="1383:1465" ph="INSERT INTO itenary... " />
-                <marker date="1521375594974" expanded="true" signature="1665:1714" ph="DELETE FROM trip... " />
-                <marker date="1521375594974" expanded="true" signature="1787:1903" ph="INSERT INTO trip... " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../phpMyAdmin/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-              <folding>
-                <marker date="1514037016000" expanded="true" signature="4453:4480" ph="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -68,28 +209,8 @@
       <file leaf-file-name="data.sql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql/data.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1088">
-              <caret line="64" column="28" lean-forward="false" selection-start-line="64" selection-start-column="28" selection-end-line="64" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="navigation.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../phpMyAdmin/navigation.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="function.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/function/function.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="9" lean-forward="false" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+            <state relative-caret-position="57">
+              <caret line="43" column="16" lean-forward="true" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -106,6 +227,7 @@
       <find>$_SESSION</find>
       <find>$conn</find>
       <find>PENDING</find>
+      <find>form</find>
     </findStrings>
     <replaceStrings>
       <replace>,12),</replace>
@@ -139,14 +261,14 @@
         <option value="$PROJECT_DIR$/login/login.php" />
         <option value="$PROJECT_DIR$/function/define.php" />
         <option value="$PROJECT_DIR$/function/function.php" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/login/index.php" />
         <option value="$PROJECT_DIR$/package-lock.json" />
         <option value="$PROJECT_DIR$/sql/sql_query.sql" />
         <option value="$PROJECT_DIR$/sql/data.sql" />
         <option value="$PROJECT_DIR$/planner/Trip.php" />
-        <option value="$PROJECT_DIR$/createTrip/index.php" />
         <option value="$PROJECT_DIR$/planner/index.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/createTrip/index.php" />
       </list>
     </option>
   </component>
@@ -155,9 +277,6 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="NodeModulesDirectoryManager">
-    <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="PhpServers">
     <servers>
@@ -228,7 +347,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Fiverr_Travel" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Kanola" />
     <property name="settings.editor.selected.configurable" value="configurable.group.language" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
   </component>
@@ -290,11 +409,12 @@
       <workItem from="1521281751820" duration="6566000" />
       <workItem from="1521344531710" duration="16186000" />
       <workItem from="1521375176537" duration="868000" />
+      <workItem from="1521377279305" duration="7250000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39391000" />
+    <option name="totallyTimeSpent" value="46641000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -303,32 +423,21 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14372164" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32715008" sideWeight="0.5060514" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32715008" sideWeight="0.49394855" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4064081" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08094435" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.53794265" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14145234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -389,12 +498,37 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="40" />
+      <option name="time" value="59" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>$_POST</expression-string>
+        <language-id>PHP</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>$conn-&gt;query($queryDelete)</expression-string>
+        <language-id>PHP</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>$_POST['party_id']</expression-string>
+        <language-id>PHP</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>isset($_POST['party_id'])</expression-string>
+        <language-id>PHP</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>isset($_POST['lead_name'])</expression-string>
+        <language-id>PHP</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>$insertQuery</expression-string>
         <language-id>PHP</language-id>
@@ -412,31 +546,6 @@
       </expression>
       <expression>
         <expression-string>$_SESSION</expression-string>
-        <language-id>PHP</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>$row[0][&quot;itenary_id&quot;]</expression-string>
-        <language-id>PHP</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>$result</expression-string>
-        <language-id>PHP</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>$_SESSION['trips']</expression-string>
-        <language-id>PHP</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>$trip</expression-string>
-        <language-id>PHP</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>$trips</expression-string>
         <language-id>PHP</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -710,18 +819,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/contact.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="45" lean-forward="false" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -729,13 +830,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../phpMyAdmin/sql.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="21" column="56" lean-forward="true" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -755,13 +849,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="4" lean-forward="false" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/createTrip/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="30" column="76" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="76" />
         </state>
       </provider>
     </entry>
@@ -786,14 +873,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sql/sql_query.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../phpMyAdmin/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -801,22 +880,6 @@
           <folding>
             <marker date="1514037016000" expanded="true" signature="4453:4480" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sql/data.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="64" column="28" lean-forward="false" selection-start-line="64" selection-start-column="28" selection-end-line="64" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../phpMyAdmin/navigation.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -828,15 +891,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="19" lean-forward="true" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/planner/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="53" column="45" lean-forward="true" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+        <state relative-caret-position="357">
+          <caret line="24" column="25" lean-forward="false" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="25" />
           <folding>
-            <marker date="1521375594974" expanded="true" signature="985:1073" ph="SELECT itena... itenary" />
-            <marker date="1521375594974" expanded="true" signature="1383:1465" ph="INSERT INTO itenary... " />
-            <marker date="1521375594974" expanded="true" signature="1665:1714" ph="DELETE FROM trip... " />
-            <marker date="1521375594974" expanded="true" signature="1787:1903" ph="INSERT INTO trip... " />
+            <marker date="1521376534190" expanded="true" signature="985:1073" ph="SELECT itena... itenary" />
+            <marker date="1521376534190" expanded="true" signature="1383:1465" ph="INSERT INTO itenary... " />
+            <marker date="1521376534190" expanded="true" signature="1787:1903" ph="INSERT INTO trip... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../phpMyAdmin/navigation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../phpMyAdmin/sql.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/sql_query.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="29" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/data.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="43" column="16" lean-forward="true" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/createTrip/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="148" column="55" lean-forward="true" selection-start-line="148" selection-start-column="55" selection-end-line="148" selection-end-column="55" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1521388186081" expanded="true" signature="808:1056" ph="INSERT INTO party_details... " />
+            <marker date="1521388186081" expanded="true" signature="1209:1353" ph="..." />
+            <marker date="1521388186081" expanded="true" signature="4609:4652" ph="SELECT * FRO... party_details" />
           </folding>
         </state>
       </provider>
