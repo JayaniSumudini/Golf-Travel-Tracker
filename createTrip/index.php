@@ -1,7 +1,9 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
+
 }
 
 if ($_POST) {
@@ -20,7 +22,7 @@ if ($_POST) {
         $query = "INSERT INTO party_details (lead_name,phone_number,email,hotel_address,flight_number,notes,user_id,number_in_party)
               VALUES ('$lead_name','$phone_number','$email','$hotel_address','$flight_number','$notes','$user_id','$number_in_party')";
         if ($conn->query($query)) {
-            $_SESSION['party']=$conn->insert_id;
+            $_SESSION['party'] = $conn->insert_id;
             $_SESSION['trips'] = [];
 
             echo "<script>
@@ -112,17 +114,52 @@ if ($_POST) {
 
 
                     <div class="row row-mt-15em" style="margin-top: 4em;">
-                        <div class="col-md-4  mt-text animate-box" data-animate-effect="fadeInUp">
-                            Enter Some text here for explain the trip planner
+                        <div class="col-md-5  mt-text animate-box" data-animate-effect="fadeInUp" style="margin-top:1em">
+                            <?php
+                            require "../function/function.php";
+                            $conn = connection();
+                            ?>
+                            <h4>Your Existing Trips</h4>
+                            <?php
+                            $query = "SELECT * FROM party_details WHERE user_id =" .$_SESSION['user'];
+                            $result = $conn->query($query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    ?>
+
+                                    <div class="col-md-12" style="border: 1px solid #09C6AB;padding:10px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
+                                       <div class="row">
+                                           <div class="col-sm-9">
+                                               <b>Leader : </b><?php echo($row["lead_name"]); ?><br>
+                                               <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
+                                               <b>Email : </b><?php echo($row["email"]); ?><br>
+                                           </div>
+                                           <div class="col-sm-3 ">
+                                               <a href="#">
+                                                   <input type="button" class="btn btn-sm btn-success btn-block"
+                                                          value="Edit" style="font-size: 12px; padding: 3px;">
+                                               </a>
+                                               <a href="#">
+                                                   <input type="button" class="btn btn-sm btn-danger btn-block"
+                                                          value="Delete" style="font-size: 12px; padding: 3px;">
+                                               </a>
+                                           </div>
+                                       </div>
+                                    </div>
+
+                                    <?php
+                                }
+                            }
+                            ?>
                         </div>
-                        <div class="col-md-7 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+                        <div class="col-md-6 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
                             <div class="form-wrap"
                                  style="box-shadow: none; border: 1px solid #09C6AB; border-top: 5px solid #09C6AB;">
                                 <div class="tab">
                                     <div class="tab-content">
 
                                         <div id="login" class="tab-content-inner active" data-content="signup">
-                                            <h3 style="text-align:center">Basic Details about your trip</h3>
+                                            <h3 style="text-align:center">Create Your New Trip</h3>
 
                                             <form role="form" action="index.php" method="post">
                                                 <div class="row form-group">
