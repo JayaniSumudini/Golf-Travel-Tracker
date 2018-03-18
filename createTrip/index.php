@@ -7,6 +7,8 @@ if (!isset($_SESSION['user'])) {
 }
 
 if (isset($_POST['submit'])) {
+
+    print("<script> alert('save'); </script>");
     require "../function/function.php";
     $conn = connection();
     $lead_name = mysqli_real_escape_string($conn, $_POST['lead_name']);
@@ -149,14 +151,29 @@ if (isset($_POST['submit'])) {
                                                 </form>
                                                 <?php
                                                 if (isset($_POST['delete'])) {
+                                                    print("<script> alert('delete'); </script>");
                                                     $party_id = isset($_POST['party_id']) ? $_POST['party_id'] : "";
                                                     $queryDelete = "DELETE FROM party_details WHERE party_id='$party_id'";
                                                     if ($conn->query($queryDelete)) {
-                                                        print("<script>alert('Party removed');</script>");
+                                                        $_SESSION['party'] = "";
+                                                        $_SESSION['trips'] = [];
+                                                        print("<script>
+                                                                alert('Party removed');
+                                                                 window.location.href='../planner';
+                                                                </script>");
                                                     } else {
                                                         print("<script>alert('Error when remove ! ');</script>");
                                                     }
-                                                    unset($_POST['delete']);
+                                                    $_POST = array();
+                                                }
+
+                                                if (isset($_POST['edit'])) {
+                                                    print("<script> alert('edit'); </script>");
+                                                    $_SESSION['party'] = isset($_POST['party_id']) ? $_POST['party_id'] : "";
+                                                    $_SESSION['trips'] = [];
+                                                    echo "<script>
+                                                            window.location.href='../planner';
+                                                          </script>";
                                                 }
                                                 ?>
                                             </div>
