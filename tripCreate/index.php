@@ -18,6 +18,20 @@ $query = "SELECT itenary_id
 
 $result = mysqli_query($conn, $query);
 $row[] = mysqli_fetch_assoc($result);
+if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
+    $_SESSION['itenary'] = $row[0]["itenary_id"];
+    $itenary_id = $_SESSION['itenary'];
+} else {
+    $status = 'SAVED';
+    $query = "INSERT INTO itenary (party_id,status)
+              VALUES ('$party_id','$status')";
+    if ($conn->query($query)) {
+        $_SESSION['itenary'] = $conn->insert_id;
+        $itenary_id = $_SESSION['itenary'];
+    } else {
+        print("<script>alert('error while create itineary ');</script>");
+    }
+}
 if (isset($_POST['add'])) {
     $trip = new Trip();
     $trip->travel_date = mysqli_real_escape_string($conn, $_POST['travel_date']);
@@ -29,22 +43,6 @@ if (isset($_POST['add'])) {
 }
 
 if (isset($_POST['save'])) {
-
-
-    if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
-        $_SESSION['itenary'] = $row[0]["itenary_id"];
-        $itenary_id = $_SESSION['itenary'];
-    } else {
-        $status = 'SAVED';
-        $query = "INSERT INTO itenary (party_id,status)
-              VALUES ('$party_id','$status')";
-        if ($conn->query($query)) {
-            $_SESSION['itenary'] = $conn->insert_id;
-            $itenary_id = $_SESSION['itenary'];
-        } else {
-            print("<script>alert('error while create itineary ');</script>");
-        }
-    }
     $travel_price = 'null';
     $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id) VALUES";
     foreach ($_SESSION['trips'] as $tripValues) {
@@ -201,7 +199,7 @@ if (isset($_POST['save'])) {
                                                             </thead>
                                                             <tbody>
                                                             <?php
-                                                            $itenary_id = $row[0]["itenary_id"];
+                                                            $itenary_id = $_SESSION['itenary'];
                                                             $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id'";
                                                             $tripList = $conn->query($query);
                                                             if ($tripList->num_rows > 0) {
