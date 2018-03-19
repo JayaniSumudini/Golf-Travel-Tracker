@@ -1,7 +1,34 @@
 <?php
+$passwordErr="";
+$password=$rePassword="";
 
-if ($_POST) {
-    header("Location: ../login/");
+if (isset($_POST['signUp'])) {
+    require "../function/function.php";
+    $conn = connection();
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $rePassword = mysqli_real_escape_string($conn, $_POST['rePassword']);
+    if ($password!= $rePassword)
+    {
+        $passwordErr="*Password does not matched";
+    }else{
+        $query = "SELECT * FROM user_details WHERE user_email='$email'";
+        $result = mysqli_query($conn, $query);
+        $row[] = mysqli_fetch_assoc($result);
+        if ($row[0] == null) {
+            $query = "INSERT INTO user_details (user_email,password)
+                      VALUES ('$email','$password')";
+            if ($conn->query($query)) {
+                header("Location: ../login/");
+            } else {
+                print("<script>alert('error while create user ');</script>");
+            }
+        }else{
+            //already have email want to reset password?
+        }
+
+    }
 }
 
 ?>
@@ -87,32 +114,33 @@ if ($_POST) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="username">Username</label>
-                                                        <input type="text" id="username" class="form-control" name="username">
+                                                        <input type="text" id="username" class="form-control" name="username" required>
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="email">Email</label>
-                                                        <input type="text" id="email" class="form-control" name="email">
+                                                        <input type="text" id="email" class="form-control" name="email" required>
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="password">Password</label>
-                                                        <input type="password" id="password" class="form-control" name="password">
+                                                        <input type="password" id="password" class="form-control" name="password" required>
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
-                                                        <label for="re-password">Repeat Password</label>
-                                                        <input type="password" id="re-password" class="form-control" name="re-password">
+                                                        <label for="rePassword">Repeat Password</label>
+                                                        <input type="password" id="rePassword" class="form-control" name="rePassword" required>
                                                     </div>
+                                                    <span style="color:darkred"><?php echo $passwordErr;?></span>
                                                 </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <input type="submit" class="btn btn-primary btn-block"
-                                                               value="Sign Up" >
+                                                               id="signUp" name="signUp" value="Sign Up" >
                                                     </div>
                                                 </div>
                                             </form>

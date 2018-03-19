@@ -7,8 +7,6 @@ if (!isset($_SESSION['user'])) {
 }
 
 if (isset($_POST['submit'])) {
-
-    print("<script> alert('save'); </script>");
     require "../function/function.php";
     $conn = connection();
     $lead_name = mysqli_real_escape_string($conn, $_POST['lead_name']);
