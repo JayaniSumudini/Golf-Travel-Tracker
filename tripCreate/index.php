@@ -218,12 +218,29 @@ if (isset($_POST['save'])) {
                                                                         <td><?php echo($rowValue["travel_to"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_pessengers"]); ?></td>
                                                                         <td><?php echo($rowValue["travel_price"]); ?></td>
-                                                                        <td><input type="submit"
+                                                                        <td><input type='hidden' name='trip_id'
+                                                                                   value='<?php echo($rowValue["trip_id"]); ?> '>
+                                                                            <input type="submit"
                                                                                    class="btn btn-sm btn-danger btn-block"
                                                                                    id="delete" name="delete"
                                                                                    value="Delete"
                                                                                    style="font-size: 12px; padding: 3px;">
                                                                         </td>
+                                                                        <?php
+                                                                        if (isset($_POST['delete'])) {
+                                                                            $trip_id = isset($_POST['trip_id']) ? $_POST['trip_id'] : "";
+                                                                            $queryDelete = "DELETE FROM trip WHERE trip_id='$trip_id'";
+                                                                            if ($conn->query($queryDelete)) {
+                                                                                print("<script>
+//                                                                                alert('Party removed');
+                                                                                window.location.href='../tripCreate';
+                                                                                </script>");
+                                                                            } else {
+                                                                                print("<script>alert('Error when remove ! ');</script>");
+                                                                            }
+                                                                        }
+
+                                                                        ?>
                                                                     </tr>
 
                                                                     <?php
