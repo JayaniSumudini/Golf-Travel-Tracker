@@ -30,7 +30,6 @@ if (isset($_POST['signUp'])) {
 
     }
 }
-
 ?>
 
 <!DOCTYPE HTML>
@@ -141,6 +140,10 @@ if (isset($_POST['signUp'])) {
                                                     <div class="col-md-12">
                                                         <input type="submit" class="btn btn-primary btn-block"
                                                                id="signUp" name="signUp" value="Sign Up" >
+                                                        <a href="../login/">
+                                                            <input type="button" class="btn btn-primary btn-block"
+                                                                   value="Login">
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </form>
