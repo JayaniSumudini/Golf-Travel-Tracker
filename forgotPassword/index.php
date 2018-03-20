@@ -1,39 +1,12 @@
 <?php
-session_start(); // Includes Login Script
-if (isset($_SESSION['user'])) {
-    header("location: ../partyCreate/");
-}
-
-if ($_POST) {
-    require "../function/function.php";
-    $conn = connection();
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $query = "SELECT * FROM user_details WHERE user_email='$username'";
-    $result = mysqli_query($conn, $query);
-    $row[] = mysqli_fetch_assoc($result);
-
-    if ($row[0]["password"] == $password) {
-        $_SESSION['user'] = $row[0]['user_id'];
-//        header("Location: ../main/");
-    } else print("<script>alert('Username or password is incorrect!');</script>");
-
-    mysqli_free_result($result);
-    mysqli_close($conn);
-
-    if (isset($_SESSION['user']) != "") {
-        header("location: ../partyCreate/");
-    }
-}
+/**
+ * Created by PhpStorm.
+ * User: jayani
+ * Date: 3/20/2018
+ * Time: 10:09 PM
+ */
 ?>
-
-
 <!DOCTYPE HTML>
-<!--
-	Aesthetic by gettemplates.co
-	Twitter: http://twitter.com/gettemplateco
-	URL: http://gettemplates.co
--->
 <html>
 <head>
     <meta charset="utf-8">
@@ -87,6 +60,9 @@ if ($_POST) {
     <script src="../js/respond.min.js"></script>
     <![endif]-->
 
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 </head>
 <body>
 
@@ -108,41 +84,16 @@ if ($_POST) {
                                 <div class="tab">
                                     <div class="tab-content">
 
-                                        <div id="login" class="tab-content-inner active" data-content="signup">
-                                            <h3 style="text-align:center">Login</h3>
-                                            <form role="form" action="index.php" method="post">
-                                                <div class="row form-group">
-                                                    <div class="col-md-12">
-                                                        <label for="login-username">Username</label>
-                                                        <input type="text" id="username" name="username"
-                                                               class="form-control">
-                                                    </div>
+                                        <div id="signup" class="tab-pane fade in active">
+                                            <h3 style="text-align:center">Password Reset</h3>
+                                            <form class="form-signin" method="POST">
+                                                <h2 class="form-signin-heading">Forgot Password</h2>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon icon-mail" id="basic-addon1"></span>
+                                                    <input type="text" name="username" class="form-control" placeholder="Username" required>
                                                 </div>
-                                                <div class="row form-group">
-                                                    <div class="col-md-12">
-                                                        <label for="login-password">Password</label>
-                                                        <input type="password" name="password" id="password"
-                                                               class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-6">
-                                                        <input type="submit" class="btn btn-primary btn-block"
-                                                               value="Login">
-                                                        <!--                                                        <span>-->
-                                                        <?php //echo $error; ?><!--</span>-->
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <a href="../signup/">
-                                                            <input type="button" class="btn btn-primary btn-block"
-                                                                   value="Sign Up">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <a href="../forgotPassword/">Forgot Password</a>
-                                                </div>
+                                                <br />
+                                                <button class="btn btn-primary btn-block" type="submit">Send password reset link</button>
                                             </form>
                                         </div>
 
