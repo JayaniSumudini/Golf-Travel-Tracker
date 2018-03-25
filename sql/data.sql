@@ -7,7 +7,7 @@ VALUES
   (4,'test4@gmail.com','test4'),
   (5,'test5@gmail.com','test5'),
   (6,'test6@gmail.com','test6'),
-  (7,'test7@gmail.com','test7'),*-
+  (7,'test7@gmail.com','test7'),
   (8,'test8@gmail.com','test8'),
   (9,'test9@gmail.com','test9');
 

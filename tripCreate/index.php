@@ -33,8 +33,13 @@ if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
     }
 }
 if (isset($_POST['add'])) {
+    $var1 = $_POST['travel_date'];
+    $date = DateTime::createFromFormat('m/d/Y', $var1);
+    $travel_date = $date->format('Y-m-d');
+
+
     $trip = new Trip();
-    $trip->travel_date = mysqli_real_escape_string($conn, $_POST['travel_date']);
+    $trip->travel_date = mysqli_real_escape_string($conn, $travel_date);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
     $trip->travel_from = mysqli_real_escape_string($conn, $_POST['travel_from']);
     $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
