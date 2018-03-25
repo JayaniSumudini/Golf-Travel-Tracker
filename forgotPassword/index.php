@@ -5,6 +5,53 @@
  * Date: 3/20/2018
  * Time: 10:09 PM
  */
+
+if (isset($_POST['reset']) & !empty($_POST['reset'])) {
+    require "../function/function.php";
+    $conn = connection();
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $query = "SELECT * FROM user_details WHERE user_email = '$email'";
+    $result = mysqli_query($conn, $query);
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        $row[] = mysqli_fetch_assoc($result);
+        $user_id = $row[0]["user_id"];
+        $user_name="Dileepa";
+        $key = substr(base64_encode(crypt('', '')), 0, 32);
+        $url = "http://localhost/web/resetPassword/index.php?token=$key&email=$email";
+        mail($email,"Reset Your Password","Hi $user_name, We got a request to reset your BACK9TOURS password.Please visit this: $url","From:jayanisumudini@gmail.com\r\n");
+
+        $query = "UPDATE user_details SET reset_key = '$key' WHERE user_email = '$email'";
+        $conn -> query($query);
+
+        echo "Please check your email!";
+
+        //// ///        $row[] = mysqli_fetch_assoc($result);
+////        $Login = $row[0]["user_id"];
+////        $query = "UPDATE user_details SET reset_key = '$key' WHERE user_email = '$email'";
+//
+//
+//        $salt = "498#2D83B631%3800EBD!801600D*7E3CC13";
+//
+//        // Create the unique user password reset key
+//        $password = hash('sha512', $salt.$email);
+//
+//        // Create a url which we will direct them to reset their password
+//        $pwrurl = "localhost/web/resetPassword/index.php?q=".$password;
+//
+//        // Mail them their key
+//        $mailbody = "Dear user,\n\nIf this e-mail does not apply to you please ignore it. It appears that you have requested a password reset at our website www.yoursitehere.com\n\nTo reset your password, please click the link below. If you cannot click it, please paste it into your web browser's address bar.\n\n" . $pwrurl . "\n\nThanks,\nThe Administration";
+//        mail($email, "www.yoursitehere.com - Password Reset", $mailbody);
+////        echo "Your password recovery key has been sent to your e-mail address.";
+
+    }else {
+        print("<script>
+                 alert('User name does not exist in database');
+                 window.location.href='../forgotPassword';
+               </script>");
+    }
+
+}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -60,9 +107,9 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
 
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
-<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 </head>
 <body>
 
@@ -90,10 +137,12 @@
                                                 <h2 class="form-signin-heading">Forgot Password</h2>
                                                 <div class="input-group">
                                                     <span class="input-group-addon icon-mail" id="basic-addon1"></span>
-                                                    <input type="text" name="username" class="form-control" placeholder="Username" required>
+                                                    <input type="text" id="email" name="email" class="form-control"
+                                                           placeholder="User Email" required>
                                                 </div>
-                                                <br />
-                                                <button class="btn btn-primary btn-block" type="submit">Send password reset link</button>
+                                                <br/>
+                                                <input class="btn btn-primary btn-block" type="submit" id="reset"
+                                                       name="reset" value="Send password reset link">
                                             </form>
                                         </div>
 

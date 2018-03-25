@@ -2,12 +2,12 @@ INSERT INTO user_details
 (user_id,user_email,password)
 VALUES
   (1,'test1@gmail.com','test1'),
-  (2,'test2@gmail.com','test2'),
+  (2,'msjs.sumudini@gmail.com','test2'),
   (3,'test3@gmail.com','test3'),
   (4,'test4@gmail.com','test4'),
   (5,'test5@gmail.com','test5'),
   (6,'test6@gmail.com','test6'),
-  (7,'test7@gmail.com','test7'),
+  (7,'test7@gmail.com','test7'),*-
   (8,'test8@gmail.com','test8'),
   (9,'test9@gmail.com','test9');
 

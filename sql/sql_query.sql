@@ -13,6 +13,7 @@ create table user_details(
   user_id int not null AUTO_INCREMENT,
   user_email varchar(100) not null,
   password varchar(32) not null,
+  reset_key varchar(100),
   PRIMARY KEY(user_id)
 );
 
