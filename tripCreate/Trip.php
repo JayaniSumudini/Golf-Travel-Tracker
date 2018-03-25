@@ -13,5 +13,6 @@ class Trip
     public $travel_from;
     public $travel_to;
     public $number_of_pessengers;
+    public $travel_price;
 
 }

@@ -37,21 +37,21 @@ if (isset($_POST['add'])) {
     $date = DateTime::createFromFormat('m/d/Y', $var1);
     $travel_date = $date->format('Y-m-d');
 
-
     $trip = new Trip();
     $trip->travel_date = mysqli_real_escape_string($conn, $travel_date);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
     $trip->travel_from = mysqli_real_escape_string($conn, $_POST['travel_from']);
     $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
+    $trip->travel_price = calculate_travel_price($_POST['travel_from'], $_POST['travel_to']);
     array_push($_SESSION['trips'], $trip);
 }
 
 if (isset($_POST['save'])) {
-    $travel_price = 'null';
+//    $travel_price = 'null';
     $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id) VALUES";
     foreach ($_SESSION['trips'] as $tripValues) {
-        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$travel_price,$itenary_id),";
+        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id),";
     }
     $insertQuery .= ";";
     $insertQuery = str_replace(',;', ';', $insertQuery);
@@ -63,6 +63,13 @@ if (isset($_POST['save'])) {
     $_SESSION['trips'] = [];
 }
 
+function calculate_travel_price($travel_from, $travel_to)
+{
+    $travel_price = 0;
+
+
+    return $travel_price;
+}
 
 ?>
 
@@ -91,6 +98,8 @@ if (isset($_POST['save'])) {
     <meta name="twitter:card" content=""/>
 
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+
+    <script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>
 
     <!-- Animate.css -->
     <link rel="stylesheet" href="../css/animate.css">
@@ -143,9 +152,50 @@ if (isset($_POST['save'])) {
 
                                         <div id="login" class="tab-content-inner active" data-content="signup">
                                             <h3 style="text-align:center">Plan your trip</h3>
-
                                             <form role="form" action="index.php" method="post">
                                                 <div class="row form-group">
+                                                    <div class="col-md-5">
+                                                        <span style="-webkit-text-fill-color: red" id="errorSpan"></span>
+                                                        <select required name="travel" onchange='hideselect(this.value)';>
+                                                            <option value="NONE">NONE</option>
+                                                            <option value="RAIL">RAIL TRANSFERS</option>
+                                                            <option value="CITY">CITY TRANSFERS</option>
+                                                            <option value="AIRPORT">AIRPORT TRANSFERS</option>
+                                                            <option value="GOLF">GOLF COURSES</option>
+                                                        </select>
+                                                    </div>
+                                                    <script type="text/javascript">
+                                                        window.onload = function () {
+                                                            setDisable(true);
+                                                        };
+
+                                                        function hideselect(value) {
+                                                            if (value === "NONE" || value === "" || value === null|| value==='un') {
+                                                                setDisable(true);
+                                                                console.log('click');
+                                                            } else {
+                                                                setDisable(false);
+                                                                document.getElementById("errorSpan").textContent="";
+                                                            }
+                                                        }
+
+                                                        function setDisable(booleanValue) {
+                                                            document.getElementById('travel_date').disabled = booleanValue;
+                                                            document.getElementById('travel_time').disabled = booleanValue;
+                                                            document.getElementById('travel_from').disabled = booleanValue;
+                                                            document.getElementById('travel_to').disabled = booleanValue;
+                                                            document.getElementById('number_of_pessengers').disabled = booleanValue;
+                                                            document.getElementById('add').disabled = booleanValue;
+                                                        }
+                                                        $(document).on('click',function(e){
+                                                            if((e.target.id == "travel_date" || e.target.id == "travel_time" ||e.target.id == "travel_from" ||e.target.id == "travel_to" ||e.target.id == "number_of_pessengers" ||e.target.id == "add") && e.target.disabled){
+                                                                // alert("The textbox is clicked.");
+                                                                document.getElementById("errorSpan").textContent="Please Select a your tranfer type first";
+                                                            }
+                                                        });
+                                                    </script>
+                                                </div>
+                                                <div class="row form-group" id="isSelect">
                                                     <div class="col-md-2">
                                                         <label for="login-username">Date</label>
                                                         <input data-provide="datepicker" type="text" id="travel_date"
@@ -289,47 +339,6 @@ if (isset($_POST['save'])) {
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <!---->
-                                                <!--                                                    <div class="row form-group">-->
-                                                <!--                                                        <div class="col-md-12">-->
-                                                <!--                                                            <label for="login-username">Number in Party</label>-->
-                                                <!--                                                            <input type="text" id="login-username" name="number"-->
-                                                <!--                                                                   class="form-control">-->
-                                                <!--                                                        </div>-->
-                                                <!--                                                    </div>-->
-                                                <!---->
-                                                <!--                                                    <div class="row form-group">-->
-                                                <!--                                                        <div class="col-md-12">-->
-                                                <!--                                                            <label for="login-username">Hotel Address</label>-->
-                                                <!--                                                            <input type="text" id="login-username" name="hotel"-->
-                                                <!--                                                                   class="form-control">-->
-                                                <!--                                                        </div>-->
-                                                <!--                                                    </div>-->
-                                                <!---->
-                                                <!--                                                    <div class="row form-group">-->
-                                                <!--                                                        <div class="col-md-12">-->
-                                                <!--                                                            <label for="login-username">Flight Number</label>-->
-                                                <!--                                                            <input type="text" id="login-username" name="flight"-->
-                                                <!--                                                                   class="form-control">-->
-                                                <!--                                                        </div>-->
-                                                <!--                                                    </div>-->
-                                                <!---->
-                                                <!--                                                    <div class="row form-group">-->
-                                                <!--                                                        <div class="col-md-12">-->
-                                                <!--                                                            <label for="login-username">Notes</label>-->
-                                                <!--                                                            <textarea type="text" id="login-username" name="notes" rows="4"-->
-                                                <!--                                                                      class="form-control"></textarea>-->
-                                                <!--                                                        </div>-->
-                                                <!--                                                    </div>-->
-
-
-                                                <!--                                                <div class="row form-group">-->
-                                                <!--                                                    <div class="col-md-12">-->
-                                                <!--                                                        <input type="submit" class="btn btn-primary btn-block"-->
-                                                <!--                                                               value="Itinerary Planner">-->
-                                                <!--                                                    </div>-->
-                                                <!--                                                </div>-->
                                             </form>
 
                                         </div>
@@ -339,8 +348,6 @@ if (isset($_POST['save'])) {
                             </div>
                         </div>
                     </div>
-
-
             </div>
         </div>
     </div>
