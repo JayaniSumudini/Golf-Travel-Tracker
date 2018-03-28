@@ -43,11 +43,15 @@ create table trip(
   trip_id int not null AUTO_INCREMENT,
 	travel_date date not null,
 	travel_time time not null,
-	travel_from int not null,
-	travel_to int not null,
+	travel_from int not null DEFAULT 0,
+	travel_to int not null DEFAULT 0,
 	number_of_pessengers int not null,
 	travel_price decimal(6,2),
 	itenary_id int not null ,
+	number_of_saloon int not null DEFAULT 0,
+	number_of_van int not null DEFAULT 0,
+	number_of_bus int not null DEFAULT 0,
+	number_of_caoch int not null DEFAULT 0,
 	PRIMARY KEY(trip_id),
 	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );

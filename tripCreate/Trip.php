@@ -10,9 +10,13 @@ class Trip
 {
     public $travel_date;
     public $travel_time;
-    public $travel_from;
-    public $travel_to;
+//    public $travel_from;
+//    public $travel_to;
     public $number_of_pessengers;
     public $travel_price;
+    public $number_of_saloon;
+    public $number_of_van;
+    public $number_of_bus;
+    public $number_of_caoch;
 
 }
