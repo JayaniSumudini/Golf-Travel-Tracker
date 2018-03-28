@@ -1,9 +1,11 @@
 <?php
-// instantiate product object
+// instantiate product object -----------------------------------------------------
 include_once 'Trip.php';
 require "../function/function.php";
 $conn = connection();
 session_start();
+
+//check session keys and redirect to right place -----------------------------------------------------
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
 } else if (!isset($_SESSION['party']) || $_SESSION['party'] == "") {
@@ -11,20 +13,19 @@ if (!isset($_SESSION['user'])) {
 } else if (!isset($_SESSION['trips'])) {
     $_SESSION['trips'] = [];
 }
-$party_id = $_SESSION['party'];
-$query = "SELECT itenary_id
-              FROM itenary 
-              WHERE party_id = '$party_id'";
 
+//If comes to edit a iternary get all the saved data to the screen -----------------------------------------------------
+$party_id = $_SESSION['party'];
+$query = "SELECT itenary_id FROM itenary  WHERE party_id = '$party_id'";
 $result = mysqli_query($conn, $query);
 $row[] = mysqli_fetch_assoc($result);
+
 if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
     $_SESSION['itenary'] = $row[0]["itenary_id"];
     $itenary_id = $_SESSION['itenary'];
 } else {
     $status = 'SAVED';
-    $query = "INSERT INTO itenary (party_id,status)
-              VALUES ('$party_id','$status')";
+    $query = "INSERT INTO itenary (party_id,status) VALUES ('$party_id','$status')";
     if ($conn->query($query)) {
         $_SESSION['itenary'] = $conn->insert_id;
         $itenary_id = $_SESSION['itenary'];
@@ -32,11 +33,12 @@ if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
         print("<script>alert('error while create itineary ');</script>");
     }
 }
+
+// Add new row to the plan  -----------------------------------------------------
 if (isset($_POST['add'])) {
     $var1 = $_POST['travel_date'];
     $date = DateTime::createFromFormat('m/d/Y', $var1);
     $travel_date = $date->format('Y-m-d');
-
     $trip = new Trip();
     $trip->travel_date = mysqli_real_escape_string($conn, $travel_date);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
@@ -47,8 +49,8 @@ if (isset($_POST['add'])) {
     array_push($_SESSION['trips'], $trip);
 }
 
+// Saving new iterenary to DB when creating a new one  -----------------------------------------------------
 if (isset($_POST['save'])) {
-//    $travel_price = 'null';
     $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id) VALUES";
     foreach ($_SESSION['trips'] as $tripValues) {
         $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id),";
@@ -196,51 +198,55 @@ function calculate_travel_price($travel_from, $travel_to)
                                                     </script>
                                                 </div> -->
                                                 <div class="row form-group">
-                                                <span style="-webkit-text-fill-color: red" id="errorSpan"></span>
+                                                    <span style="-webkit-text-fill-color: red" id="errorSpan"></span>
                                                 </div>
+                                                <div style="border:solid 1px #09C6AB;border-radius: 5px; padding: 16px;margin-bottom: 20px">
+                                                <h4>Add New Trip to your plan</h4>
                                                 <div class="row form-group" id="isSelect">
-                                                    <div class="col-md-2">
+                                                    <!-- <div class="col-md-2">
                                                         <label for="login-username">Type</label>
-                                                        
-                                                        <select class="form-control" required name="travel" onchange='hideselect(this.value)';>
+
+                                                        <select class="form-control" required name="travel"
+                                                                onchange='hideselect(this.value)' ;>
                                                             <option value="NONE">NONE</option>
                                                             <option value="RAIL">RAIL TRANSFERS</option>
                                                             <option value="CITY">CITY TRANSFERS</option>
                                                             <option value="AIRPORT">AIRPORT TRANSFERS</option>
                                                             <option value="GOLF">GOLF COURSES</option>
                                                         </select>
-                                                    <script type="text/javascript">
-                                                        window.onload = function () {
-                                                            setDisable(true);
-                                                        };
-
-                                                        function hideselect(value) {
-                                                            if (value === "NONE" || value === "" || value === null|| value==='un') {
+                                                        <script type="text/javascript">
+                                                            window.onload = function () {
                                                                 setDisable(true);
-                                                                console.log('click');
-                                                            } else {
-                                                                setDisable(false);
-                                                                document.getElementById("errorSpan").textContent="";
-                                                            }
-                                                        }
+                                                            };
 
-                                                        function setDisable(booleanValue) {
-                                                            document.getElementById('travel_date').disabled = booleanValue;
-                                                            document.getElementById('travel_time').disabled = booleanValue;
-                                                            document.getElementById('travel_from').disabled = booleanValue;
-                                                            document.getElementById('travel_to').disabled = booleanValue;
-                                                            document.getElementById('number_of_pessengers').disabled = booleanValue;
-                                                            document.getElementById('add').disabled = booleanValue;
-                                                        }
-                                                        $(document).on('click',function(e){
-                                                            if((e.target.id == "travel_date" || e.target.id == "travel_time" ||e.target.id == "travel_from" ||e.target.id == "travel_to" ||e.target.id == "number_of_pessengers" ||e.target.id == "add") && e.target.disabled){
-                                                                // alert("The textbox is clicked.");
-                                                                document.getElementById("errorSpan").textContent="Please Select a your tranfer type first";
+                                                            function hideselect(value) {
+                                                                if (value === "NONE" || value === "" || value === null || value === 'un') {
+                                                                    setDisable(true);
+                                                                    console.log('click');
+                                                                } else {
+                                                                    setDisable(false);
+                                                                    document.getElementById("errorSpan").textContent = "";
+                                                                }
                                                             }
-                                                        });
-                                                    </script>
-                                                    </div> 
-                                                    
+
+                                                            function setDisable(booleanValue) {
+                                                                document.getElementById('travel_date').disabled = booleanValue;
+                                                                document.getElementById('travel_time').disabled = booleanValue;
+                                                                document.getElementById('travel_from').disabled = booleanValue;
+                                                                document.getElementById('travel_to').disabled = booleanValue;
+                                                                document.getElementById('number_of_pessengers').disabled = booleanValue;
+                                                                document.getElementById('add').disabled = booleanValue;
+                                                            }
+
+                                                            $(document).on('click', function (e) {
+                                                                if ((e.target.id == "travel_date" || e.target.id == "travel_time" || e.target.id == "travel_from" || e.target.id == "travel_to" || e.target.id == "number_of_pessengers" || e.target.id == "add") && e.target.disabled) {
+                                                                    // alert("The textbox is clicked.");
+                                                                    document.getElementById("errorSpan").textContent = "Please Select a your tranfer type first";
+                                                                }
+                                                            });
+                                                        </script>
+                                                    </div> -->
+
                                                     <div class="col-md-2">
                                                         <label for="login-username">Date</label>
                                                         <input data-provide="datepicker" type="text" id="travel_date"
@@ -256,30 +262,88 @@ function calculate_travel_price($travel_from, $travel_to)
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="login-username">From</label>
-                                                        <input type="text" id="travel_from" name="travel_from"
-                                                               class="form-control">
+                                                        <label for="login-username">From/To</label>
+                                                        <select class="form-control" required name="travel" >
+                                                            <option value="NONE">Select</option>
+                                                            <option value="FROM_ST">From St Andrews</option>
+                                                            <option value="TO_ST">To St Andrews</option>
+                                                        </select>
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="login-username">To</label>
-                                                        <input type="text" id="travel_to" name="travel_to"
-                                                               class="form-control">
+                                                        <label for="login-username">Place From/To</label>
+                                                        <select class="form-control" required name="travel" >
+                                                            <option value="NONE">Select</option>
+                                                            <option value="FROM_ST">Places from DB</option>
+                                                        </select>
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="login-username">Number</label>
-                                                        <input type="number" id="number_of_pessengers"
+                                                        <label for="login-username">Distance</label>
+                                                        <input type="number" id="number_of_pessengers" disabled
                                                                name="number_of_pessengers"
                                                                class="form-control">
                                                     </div>
 
-                                                    
+                                                    <div class="col-md-2">
+                                                        <label for="login-username">Travel Time</label>
+                                                        <input type="number" id="number_of_pessengers" disabled
+                                                               name="number_of_pessengers"
+                                                               class="form-control">
+                                                    </div>
+
+
                                                 </div>
-                                                <div class="row">
+
+                                                <div class="row form-group" id="isSelect">
+                                                    <div class="col-md-2">
+                                                        <label for="login-username">Saloon (4 pax)</label>
+                                                        <input type="text" id="travel_time"
+                                                               name="travel_time"
+                                                               class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="login-username">Van (8 pax)</label>
+                                                        <input type="text" id="travel_time"
+                                                               name="travel_time"
+                                                               class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="login-username">Mini Bus (12 pax)</label>
+                                                        <input type="text" id="travel_time"
+                                                               name="travel_time"
+                                                               class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="login-username">Caoch (16 pax)</label>
+                                                        <input type="text" id="travel_time"
+                                                               name="travel_time"
+                                                               class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="login-username">Price</label>
+                                                        <input type="number" id="number_of_pessengers" disabled
+                                                               name="number_of_pessengers"
+                                                               class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="login-username"></label>
                                                         <input type="submit" id="add" name="add"
-                                                               class="btn btn-primary" value="Add" style="float: right">
+                                                           class="btn btn-sm btn-primary " value="Add" style="float: right;margin-top: 30px;">
+                                                    </div>
+
+
                                                 </div>
+</div>
+                                                <!-- <div class="row">
+                                                    <input type="submit" id="add" name="add"
+                                                           class="btn btn-primary" value="Add" style="float: right">
+                                                </div> -->
 
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
@@ -291,7 +355,11 @@ function calculate_travel_price($travel_from, $travel_to)
                                                                 <th>Flight No</th>
                                                                 <th>From</th>
                                                                 <th>To</th>
-                                                                <th>Number Of passengers</th>
+                                                                <th>Passengers</th>
+                                                                <th>Saloon</th>
+                                                                <th>Van</th>
+                                                                <th>Mini Bus</th>
+                                                                <th>Caoch</th>
                                                                 <th>Price</th>
                                                             </tr>
                                                             </thead>
@@ -315,13 +383,22 @@ function calculate_travel_price($travel_from, $travel_to)
                                                                         <td><?php echo($rowValue["travel_from"]); ?></td>
                                                                         <td><?php echo($rowValue["travel_to"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_pessengers"]); ?></td>
+                                                                        <td><?php echo($rowValue["number_of_saloon"]); ?></td>
+                                                                        <td><?php echo($rowValue["number_of_van"]); ?></td>
+                                                                        <td><?php echo($rowValue["number_of_bus"]); ?></td>
+                                                                        <td><?php echo($rowValue["number_of_caoch"]); ?></td>
                                                                         <td><?php echo($rowValue["travel_price"]); ?></td>
                                                                         <td><input type='hidden' name='trip_id'
                                                                                    value='<?php echo($rowValue["trip_id"]); ?> '>
                                                                             <input type="submit"
-                                                                                   class="btn btn-sm btn-danger btn-block"
+                                                                                   class="btn btn-sm btn-danger"
                                                                                    id="delete" name="delete"
                                                                                    value="Delete"
+                                                                                   style="font-size: 12px; padding: 3px;">
+                                                                             <input type="submit"
+                                                                                   class="btn btn-sm "
+                                                                                   id="edit_trip" name="edit_trip"
+                                                                                   value="edit_trip"
                                                                                    style="font-size: 12px; padding: 3px;">
                                                                         </td>
                                                                         <?php
@@ -346,7 +423,7 @@ function calculate_travel_price($travel_from, $travel_to)
                                                             }
                                                             ?>
                                                             <tr style="font-weight: 800;">
-                                                                <td colspan="6">Total Price For Trip</td>
+                                                                <td colspan="10">Total Price For Trip</td>
                                                                 <td>120</td>
                                                             </tr>
                                                             </tbody>
