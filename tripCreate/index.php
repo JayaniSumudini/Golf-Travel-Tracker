@@ -42,8 +42,8 @@ if (isset($_POST['add'])) {
     $trip = new Trip();
     $trip->travel_date = mysqli_real_escape_string($conn, $travel_date);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
-//    $trip->travel_from = mysqli_real_escape_string($conn, $_POST['travel_from']);
-//    $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
+    $trip->travel_from = mysqli_real_escape_string($conn, $_POST['travel_from']);
+    $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
     $trip->travel_price = calculate_travel_price(0, 0);
     $trip->number_of_saloon = mysqli_real_escape_string($conn, $_POST['number_of_saloon']);
@@ -55,9 +55,9 @@ if (isset($_POST['add'])) {
 
 // Saving new iterenary to DB when creating a new one  -----------------------------------------------------
 if (isset($_POST['save'])) {
-    $insertQuery = "INSERT INTO trip (travel_date,travel_time,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch) VALUES";
+    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch) VALUES";
     foreach ($_SESSION['trips'] as $tripValues) {
-        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->number_of_saloon,$tripValues->number_of_van,$tripValues->number_of_bus,$tripValues->number_of_caoch),";
+        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->number_of_saloon,$tripValues->number_of_van,$tripValues->number_of_bus,$tripValues->number_of_caoch),";
     }
     $insertQuery .= ";";
     $insertQuery = str_replace(',;', ';', $insertQuery);
@@ -265,22 +265,20 @@ function calculate_travel_price($travel_from, $travel_to)
                                                                class="form-control">
                                                     </div>
 
-<!--                                                    <div class="col-md-2">-->
-<!--                                                        <label for="login-username">From/To</label>-->
-<!--                                                        <select class="form-control" required name="travel" >-->
-<!--                                                            <option value="0">Select</option>-->
-<!--                                                            <option value="1">From St Andrews</option>-->
-<!--                                                            <option value="2">To St Andrews</option>-->
-<!--                                                        </select>-->
-<!--                                                    </div>-->
+                                                    <div class="col-md-2">
+                                                        <label for="login-username">From/To</label>
+                                                        <select class="form-control" required name="travel_from" >
+                                                            <option value="0">From St Andrews</option>
+                                                            <option value="1">To St Andrews</option>
+                                                        </select>
+                                                    </div>
 
-<!--                                                    <div class="col-md-2">-->
-<!--                                                        <label for="login-username">Place From/To</label>-->
-<!--                                                        <select class="form-control" required name="travel" >-->
-<!--                                                            <option value="0">Select</option>-->
-<!--                                                            <option value="1">Places from DB</option>-->
-<!--                                                        </select>-->
-<!--                                                    </div>-->
+                                                    <div class="col-md-2">
+                                                        <label for="login-username">Place From/To</label>
+                                                        <select class="form-control" required name="travel_to" >
+                                                            <option value="1">Places from DB</option>
+                                                        </select>
+                                                    </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Distance</label>
@@ -363,8 +361,8 @@ function calculate_travel_price($travel_from, $travel_to)
                                                                 <th>Date</th>
                                                                 <th>Time</th>
                                                                 <th>Flight No</th>
-<!--                                                                <th>From</th>-->
-<!--                                                                <th>To</th>-->
+                                                                <th>From</th>
+                                                                <th>To</th>
                                                                 <th>Passengers</th>
                                                                 <th>Saloon</th>
                                                                 <th>Van</th>
@@ -390,8 +388,8 @@ function calculate_travel_price($travel_from, $travel_to)
                                                                             $rowflight[] = mysqli_fetch_assoc($flight_number);
                                                                             echo($rowflight[0]["flight_number"]);
                                                                             ?></td>
-<!--                                                                        <td>--><?php //echo($rowValue["travel_from"]); ?><!--</td>-->
-<!--                                                                        <td>--><?php //echo($rowValue["travel_to"]); ?><!--</td>-->
+                                                                        <td><?php echo($rowValue["travel_from"]); ?></td>
+                                                                        <td><?php echo($rowValue["travel_to"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_pessengers"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_saloon"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_van"]); ?></td>
