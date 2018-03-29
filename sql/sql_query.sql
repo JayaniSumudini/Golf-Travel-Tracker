@@ -43,8 +43,8 @@ create table trip(
   trip_id int not null AUTO_INCREMENT,
 	travel_date date not null,
 	travel_time time not null,
-	travel_from int not null DEFAULT 0,
-	travel_to int not null DEFAULT 0,
+	travel_from_to int not null DEFAULT 0,
+	place_from_to int not null DEFAULT 0,
 	number_of_pessengers int not null,
 	travel_price decimal(6,2),
 	itenary_id int not null ,
@@ -65,8 +65,8 @@ create table destinations(
 
 create table pricing(
 	price_id int not null AUTO_INCREMENT,
-	travel_from int not null,
-	travel_to int not null,
+	travel_from_to int not null,
+	place_from_to int not null,
 	miles decimal not null,
 	price_per_mile decimal(6,2) not null,
 	PRIMARY KEY(price_id)

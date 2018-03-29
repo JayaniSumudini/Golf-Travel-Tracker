@@ -42,8 +42,8 @@ if (isset($_POST['add'])) {
     $trip = new Trip();
     $trip->travel_date = mysqli_real_escape_string($conn, $travel_date);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
-    $trip->travel_from = mysqli_real_escape_string($conn, $_POST['travel_from']);
-    $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
+    $trip->travel_from_to = mysqli_real_escape_string($conn, $_POST['travel_from_to']);
+    $trip->place_from_to = mysqli_real_escape_string($conn, $_POST['place_from_to']);
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
     $trip->travel_price = calculate_travel_price(0, 0);
     $trip->number_of_saloon = mysqli_real_escape_string($conn, $_POST['number_of_saloon']);
@@ -55,9 +55,9 @@ if (isset($_POST['add'])) {
 
 // Saving new iterenary to DB when creating a new one  -----------------------------------------------------
 if (isset($_POST['save'])) {
-    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch) VALUES";
+    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from_to,place_from_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch) VALUES";
     foreach ($_SESSION['trips'] as $tripValues) {
-        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->number_of_saloon,$tripValues->number_of_van,$tripValues->number_of_bus,$tripValues->number_of_caoch),";
+        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from_to,$tripValues->place_from_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->number_of_saloon,$tripValues->number_of_van,$tripValues->number_of_bus,$tripValues->number_of_caoch),";
     }
     $insertQuery .= ";";
     $insertQuery = str_replace(',;', ';', $insertQuery);
@@ -69,7 +69,7 @@ if (isset($_POST['save'])) {
     $_SESSION['trips'] = [];
 }
 
-function calculate_travel_price($travel_from, $travel_to)
+function calculate_travel_price($travel_from_to, $travel_to)
 {
     $travel_price = 0;
 
@@ -188,13 +188,13 @@ function calculate_travel_price($travel_from, $travel_to)
                                                         function setDisable(booleanValue) {
                                                             document.getElementById('travel_date').disabled = booleanValue;
                                                             document.getElementById('travel_time').disabled = booleanValue;
-                                                            document.getElementById('travel_from').disabled = booleanValue;
-                                                            document.getElementById('travel_to').disabled = booleanValue;
+                                                            document.getElementById('travel_from_to').disabled = booleanValue;
+                                                            document.getElementById('place_from_to').disabled = booleanValue;
                                                             document.getElementById('number_of_pessengers').disabled = booleanValue;
                                                             document.getElementById('add').disabled = booleanValue;
                                                         }
                                                         $(document).on('click',function(e){
-                                                            if((e.target.id == "travel_date" || e.target.id == "travel_time" ||e.target.id == "travel_from" ||e.target.id == "travel_to" ||e.target.id == "number_of_pessengers" ||e.target.id == "add") && e.target.disabled){
+                                                            if((e.target.id == "travel_date" || e.target.id == "travel_time" ||e.target.id == "travel_from_to" ||e.target.id == "place_from_to" ||e.target.id == "number_of_pessengers" ||e.target.id == "add") && e.target.disabled){
                                                                 // alert("The textbox is clicked.");
                                                                 document.getElementById("errorSpan").textContent="Please Select a your tranfer type first";
                                                             }
@@ -236,14 +236,14 @@ function calculate_travel_price($travel_from, $travel_to)
                                                             function setDisable(booleanValue) {
                                                                 document.getElementById('travel_date').disabled = booleanValue;
                                                                 document.getElementById('travel_time').disabled = booleanValue;
-                                                                document.getElementById('travel_from').disabled = booleanValue;
-                                                                document.getElementById('travel_to').disabled = booleanValue;
+                                                                document.getElementById('travel_from_to').disabled = booleanValue;
+                                                                document.getElementById('place_from_to').disabled = booleanValue;
                                                                 document.getElementById('number_of_pessengers').disabled = booleanValue;
                                                                 document.getElementById('add').disabled = booleanValue;
                                                             }
 
                                                             $(document).on('click', function (e) {
-                                                                if ((e.target.id == "travel_date" || e.target.id == "travel_time" || e.target.id == "travel_from" || e.target.id == "travel_to" || e.target.id == "number_of_pessengers" || e.target.id == "add") && e.target.disabled) {
+                                                                if ((e.target.id == "travel_date" || e.target.id == "travel_time" || e.target.id == "travel_from_to" || e.target.id == "place_from_to" || e.target.id == "number_of_pessengers" || e.target.id == "add") && e.target.disabled) {
                                                                     // alert("The textbox is clicked.");
                                                                     document.getElementById("errorSpan").textContent = "Please Select a your tranfer type first";
                                                                 }
@@ -267,7 +267,7 @@ function calculate_travel_price($travel_from, $travel_to)
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">From/To</label>
-                                                        <select class="form-control" required name="travel_from" >
+                                                        <select class="form-control" required name="travel_from_to" >
                                                             <option value="0">From St Andrews</option>
                                                             <option value="1">To St Andrews</option>
                                                         </select>
@@ -275,7 +275,7 @@ function calculate_travel_price($travel_from, $travel_to)
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Place From/To</label>
-                                                        <select class="form-control" required name="travel_to" >
+                                                        <select class="form-control" required name="place_from_to" >
                                                             <option value="1">Places from DB</option>
                                                         </select>
                                                     </div>
@@ -388,26 +388,31 @@ function calculate_travel_price($travel_from, $travel_to)
                                                                             $rowflight[] = mysqli_fetch_assoc($flight_number);
                                                                             echo($rowflight[0]["flight_number"]);
                                                                             ?></td>
-                                                                        <td><?php echo($rowValue["travel_from"]); ?></td>
-                                                                        <td><?php echo($rowValue["travel_to"]); ?></td>
+                                                                        <td><?php echo($rowValue["travel_from_to"]); ?></td>
+                                                                        <td><?php echo($rowValue["place_from_to"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_pessengers"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_saloon"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_van"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_bus"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_caoch"]); ?></td>
                                                                         <td><?php echo($rowValue["travel_price"]); ?></td>
-                                                                        <td><input type='hidden' name='trip_id'
-                                                                                   value='<?php echo($rowValue["trip_id"]); ?> '>
-                                                                            <input type="submit"
-                                                                                   class="btn btn-sm btn-danger"
-                                                                                   id="delete" name="delete"
-                                                                                   value="Delete"
-                                                                                   style="font-size: 12px; padding: 3px;">
-                                                                             <input type="submit"
-                                                                                   class="btn btn-sm "
-                                                                                   id="edit_trip" name="edit_trip"
-                                                                                   value="edit_trip"
-                                                                                   style="font-size: 12px; padding: 3px;">
+                                                                        <td>
+                                                                            <form method="post" action="">
+                                                                                <input type='hidden' name='trip_id'
+                                                                                       value='<?php echo($rowValue["trip_id"]); ?> '>
+                                                                                <input type="submit"
+                                                                                       class="btn btn-sm btn-danger"
+                                                                                       id="delete" name="delete"
+                                                                                       value="Delete"
+                                                                                       style="font-size: 12px; padding: 3px;">
+                                                                                <input type="submit"
+                                                                                       class="btn btn-sm "
+                                                                                       id="edit_trip" name="edit_trip"
+                                                                                       value="edit_trip"
+                                                                                       style="font-size: 12px; padding: 3px;">
+                                                                            </form>
+
+
                                                                         </td>
                                                                         <?php
                                                                         if (isset($_POST['delete'])) {

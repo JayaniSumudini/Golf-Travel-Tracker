@@ -42,7 +42,7 @@ VALUES
   (10,10,'NEW');
 
 INSERT INTO trip
-  (trip_id,travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch)
+  (trip_id,travel_date,travel_time,travel_from_to,place_from_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch)
 VALUES
   (1,'2012-05-06','03:12:11',1,3,13,null,1,3,0,0,2),
   (2,'2017-06-04','11:23:10',5,7,13,null,2,4,0,1,2),
@@ -73,7 +73,7 @@ VALUES
  (13,'destinations13','GOLF');
 
 INSERT INTO pricing
- (price_id,travel_from,travel_to,miles,price_per_mile)
+ (price_id,travel_from_to,place_from_to,miles,price_per_mile)
 VALUES
  (1,1,3,12,34),
  (2,5,7,12,56),
