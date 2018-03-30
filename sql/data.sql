@@ -58,19 +58,24 @@ VALUES
 INSERT INTO destinations
  (destination_id,destination_name,destination_type)
 VALUES
- (1,'destinations1','RAIL'),
- (2,'destinations2','RAIL'),
- (3,'destinations3','RAIL'),
- (4,'destinations4','CITY'),
- (5,'destinations5','CITY'),
- (6,'destinations6','CITY'),
- (7,'destinations7','AIRPORT'),
- (8,'destinations8','AIRPORT'),
- (9,'destinations9','AIRPORT'),
- (10,'destinations10','GOLF'),
- (11,'destinations11','GOLF'),
- (12,'destinations12','GOLF'),
- (13,'destinations13','GOLF');
+ (1,'St Andrews','TRAVEL'),
+ (2,'Eden Club House','PLACE'),
+ (3,'Links Club House','PLACE'),
+ (4,'Castle Course','PLACE'),
+ (5,'Kings Barns','PLACE'),
+ (6,'Crail Golf','PLACE'),
+ (7,'Carnoustie','PLACE'),
+ (8,'Glen Eagles','PLACE'),
+ (9,'North Berwick','PLACE'),
+ (10,'Dundee AP','PLACE'),
+ (11,'Edinburgh AP','PLACE'),
+ (12,'Glasgow AP','PLACE'),
+ (13,'Aberdeen AP','PLACE'),
+ (14,'Dundee','PLACE'),
+ (15,'Perth','PLACE'),
+ (16,'Edinburgh','PLACE'),
+ (17,'Glasgow','PLACE'),
+ (18,'Aberdeen','PLACE');
 
 INSERT INTO pricing
  (price_id,travel_from_to,place_from_to,miles,price_per_mile)

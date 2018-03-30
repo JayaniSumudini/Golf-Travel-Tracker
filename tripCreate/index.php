@@ -5,6 +5,13 @@ require "../function/function.php";
 $conn = connection();
 session_start();
 
+
+
+$query = "SELECT * FROM destinations  WHERE destination_type = 'PLACE'";
+$places_result = mysqli_query($conn, $query);
+$places[] = mysqli_fetch_assoc($places_result);
+
+
 //check session keys and redirect to right place -----------------------------------------------------
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
@@ -42,7 +49,11 @@ if (isset($_POST['add'])) {
     $trip = new Trip();
     $trip->travel_date = mysqli_real_escape_string($conn, $travel_date);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
-    $trip->travel_from_to = mysqli_real_escape_string($conn, $_POST['travel_from_to']);
+
+    //remove first character
+    $var2 = $_POST['travel_from_to'];
+    $travel_from_to = substr($var2, 1);
+    $trip->travel_from_to = mysqli_real_escape_string($conn, $travel_from_to);
     $trip->place_from_to = mysqli_real_escape_string($conn, $_POST['place_from_to']);
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
     $trip->travel_price = calculate_travel_price(0, 0);
@@ -267,16 +278,36 @@ function calculate_travel_price($travel_from_to, $travel_to)
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">From/To</label>
-                                                        <select class="form-control" required name="travel_from_to" >
-                                                            <option value="0">From St Andrews</option>
-                                                            <option value="1">To St Andrews</option>
+                                                        <select class="form-control" required name="travel_from_to">
+                                                        <?php
+                                                        $query = "SELECT * FROM destinations  WHERE destination_type = 'TRAVEL'";
+                                                        $travelList = $conn->query($query);
+                                                        if ($travelList->num_rows > 0) {
+                                                            while ($rowValue = $travelList->fetch_assoc()) {
+                                                                ?>
+                                                                    <option value="T<?php echo($rowValue["destination_id"]); ?>">To <?php echo($rowValue["destination_name"]); ?></option>
+                                                                    <option value="F<?php echo($rowValue["destination_id"]); ?>">From <?php echo($rowValue["destination_name"]); ?></option>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Place From/To</label>
                                                         <select class="form-control" required name="place_from_to" >
-                                                            <option value="1">Places from DB</option>
+                                                        <?php
+                                                        $query = "SELECT * FROM destinations  WHERE destination_type = 'PLACE'";
+                                                        $placeList = $conn->query($query);
+                                                        if ($placeList->num_rows > 0) {
+                                                            while ($rowValue = $placeList->fetch_assoc()) {
+                                                                ?>
+                                                                    <option value="<?php echo($rowValue["destination_id"]); ?>"><?php echo($rowValue["destination_name"]); ?></option>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
                                                         </select>
                                                     </div>
 
@@ -385,11 +416,28 @@ function calculate_travel_price($travel_from_to, $travel_to)
                                                                         <td><?php
                                                                             $query = "SELECT flight_number FROM party_details WHERE party_id='$party_id'";
                                                                             $flight_number = mysqli_query($conn, $query);
-                                                                            $rowflight[] = mysqli_fetch_assoc($flight_number);
-                                                                            echo($rowflight[0]["flight_number"]);
+                                                                            $flight_numbers[] = mysqli_fetch_assoc($flight_number);
+                                                                            echo($flight_numbers[0]["flight_number"]);
                                                                             ?></td>
-                                                                        <td><?php echo($rowValue["travel_from_to"]); ?></td>
-                                                                        <td><?php echo($rowValue["place_from_to"]); ?></td>
+                                                                        <td>
+                                                                            <?php
+                                                                                $destination_id1 = $rowValue["travel_from_to"];
+                                                                                $query1 = "SELECT destination_name FROM destinations WHERE destination_id = '$destination_id1'";
+                                                                                $destination_name1 = mysqli_query($conn, $query1);
+                                                                                $destination_names1[] = mysqli_fetch_assoc($destination_name1);
+                                                                                echo($destination_names1[0]["destination_name"]);
+                                                                                $destination_names1 = null;
+                                                                             ?></td>
+
+<!--                                                                        <td>--><?php //echo($rowValue["place_from_to"]); ?><!--</td>-->
+                                                                        <td><?php
+                                                                            $destination_id2 = $rowValue["place_from_to"];
+                                                                            $query2 = "SELECT destination_name FROM destinations WHERE destination_id = '$destination_id2'";
+                                                                            $destination_name2 = mysqli_query($conn, $query2);
+                                                                            $destination_names2[] = mysqli_fetch_assoc($destination_name2);
+                                                                            echo($destination_names2[0]["destination_name"]);
+                                                                            $destination_names2 = null;
+                                                                            ?></td>
                                                                         <td><?php echo($rowValue["number_of_pessengers"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_saloon"]); ?></td>
                                                                         <td><?php echo($rowValue["number_of_van"]); ?></td>

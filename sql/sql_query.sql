@@ -59,7 +59,7 @@ create table trip(
 create table destinations(
 	destination_id int not null AUTO_INCREMENT,
 	destination_name varchar(50) not null,
-	destination_type enum ('RAIL','CITY','AIRPORT','GOLF') not null,
+	destination_type enum ('TRAVEL','PLACE') not null,
 	PRIMARY KEY(destination_id)
 );
 
