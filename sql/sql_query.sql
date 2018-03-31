@@ -39,6 +39,19 @@ create table itenary(
   FOREIGN KEY(party_id)REFERENCES party_details(party_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+create table destinations(
+	destination_id int not null AUTO_INCREMENT,
+	destination_name varchar(50) not null,
+	destination_type enum ('TRAVEL' , 'PLACE') not null,
+	distance decimal not null,
+	travel_time varchar(100) not null,
+	saloon_price decimal(6,2) not null,
+	van_price decimal(6,2) not null,
+	mini_bus_price decimal(6,2) not null,
+	coach_price decimal(6,2) not null,
+	PRIMARY KEY(destination_id)
+);
+
 create table trip(
   trip_id int not null AUTO_INCREMENT,
 	travel_date date not null,
@@ -53,22 +66,9 @@ create table trip(
 	number_of_bus int not null DEFAULT 0,
 	number_of_caoch int not null DEFAULT 0,
 	PRIMARY KEY(trip_id),
-	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(travel_from_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(place_from_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table destinations(
-	destination_id int not null AUTO_INCREMENT,
-	destination_name varchar(50) not null,
-	destination_type enum ('TRAVEL','PLACE') not null,
-	PRIMARY KEY(destination_id)
-);
-
-create table pricing(
-	price_id int not null AUTO_INCREMENT,
-	travel_from_to int not null,
-	place_from_to int not null,
-	miles decimal not null,
-	price_per_mile decimal(6,2) not null,
-	PRIMARY KEY(price_id)
-);
 

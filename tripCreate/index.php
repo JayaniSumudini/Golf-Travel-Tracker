@@ -43,24 +43,17 @@ if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
 
 // Add new row to the plan  -----------------------------------------------------
 if (isset($_POST['add'])) {
-    $var1 = $_POST['travel_date'];
-    $date = DateTime::createFromFormat('m/d/Y', $var1);
-    $travel_date = $date->format('Y-m-d');
     $trip = new Trip();
-    $trip->travel_date = mysqli_real_escape_string($conn, $travel_date);
+    $trip->travel_date = convert_date_format($_POST['travel_date']);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
-
-    //remove first character
-    $var2 = $_POST['travel_from_to'];
-    $travel_from_to = substr($var2, 1);
-    $trip->travel_from_to = mysqli_real_escape_string($conn, $travel_from_to);
+    $trip->travel_from_to = remove_first_character($_POST['travel_from_to']);
     $trip->place_from_to = mysqli_real_escape_string($conn, $_POST['place_from_to']);
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
-    $trip->travel_price = calculate_travel_price(0, 0);
     $trip->number_of_saloon = mysqli_real_escape_string($conn, $_POST['number_of_saloon']);
     $trip->number_of_van = mysqli_real_escape_string($conn, $_POST['number_of_van']);
     $trip->number_of_bus = mysqli_real_escape_string($conn, $_POST['number_of_bus']);
     $trip->number_of_caoch = mysqli_real_escape_string($conn, $_POST['number_of_caoch']);
+    $trip->travel_price = calculate_travel_price($_POST['place_from_to'],$_POST['number_of_saloon'],$_POST['number_of_van'],$_POST['number_of_bus'],$_POST['number_of_caoch'],$conn);
     array_push($_SESSION['trips'], $trip);
 }
 
@@ -80,12 +73,26 @@ if (isset($_POST['save'])) {
     $_SESSION['trips'] = [];
 }
 
-function calculate_travel_price($travel_from_to, $travel_to)
+function calculate_travel_price($place_from_to,$number_of_saloon,$number_of_van,$number_of_bus,$number_of_caoch,$conn)
 {
     $travel_price = 0;
-
+    $query = "SELECT * FROM destinations  WHERE destination_id = '$place_from_to'";
+    $result = mysqli_query($conn, $query);
+    $row[] = mysqli_fetch_assoc($result);
+    $travel_price = $travel_price + ($row[0]["saloon_price"]*$number_of_saloon);
+    $travel_price = $travel_price + ($row[0]["van_price"]*$number_of_van);
+    $travel_price = $travel_price + ($row[0]["mini_bus_price"]*$number_of_bus);
+    $travel_price = $travel_price + ($row[0]["coach_price"]*$number_of_caoch);
 
     return $travel_price;
+}
+function convert_date_format($travel_date){
+    $date = DateTime::createFromFormat('m/d/Y', $travel_date);
+    return $date->format('Y-m-d');
+}
+
+function remove_first_character($variable){
+    return substr($variable, 1);
 }
 
 ?>
@@ -364,7 +371,7 @@ function calculate_travel_price($travel_from_to, $travel_to)
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="login-username">Price</label>
+                                                        <label for="login-username">Price(£)</label>
                                                         <input type="number" id="travel_price" disabled
                                                                name="travel_price"
                                                                class="form-control">
@@ -399,7 +406,7 @@ function calculate_travel_price($travel_from_to, $travel_to)
                                                                 <th>Van</th>
                                                                 <th>Mini Bus</th>
                                                                 <th>Caoch</th>
-                                                                <th>Price</th>
+                                                                <th>Price(£)</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
