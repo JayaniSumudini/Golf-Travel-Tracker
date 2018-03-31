@@ -171,6 +171,14 @@ function remove_first_character($variable){
 </head>
 <body>
 
+<!---------------------------------------------------------------------------------------------------------------->
+<nav class="navbar navbar-inverse" style="border-radius: 0px;border: none;">
+    <?php
+    require "../navbar/index.php";
+    ?>
+</nav>
+<!---------------------------------------------------------------------------------------------------------------->
+
 <header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner"
         style="background: #fff">
     <div class="gtco-container">
