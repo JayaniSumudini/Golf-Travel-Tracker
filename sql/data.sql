@@ -32,14 +32,14 @@ INSERT INTO itenary
 VALUES
   (1,1,'NEW',120),
   (2,2,'NEW',60),
-  (3,3,'NEW',1450),
-  (4,4,'NEW',80),
-  (5,5,'NEW',20),
+  (3,3,'SUBMITED',1450),
+  (4,4,'SUBMITED',80),
+  (5,5,'SAVE',20),
   (6,6,'NEW',90),
-  (7,7,'NEW',150),
-  (8,8,'NEW',500),
-  (9,9,'NEW',290),
-  (10,10,'NEW',420);
+  (7,7,'ACCEPTED',150),
+  (8,8,'ACCEPTED',500),
+  (9,9,'SUBMITED',290),
+  (10,10,'ADMIN_CHANGED',420);
 
 INSERT INTO destinations
  (destination_id,destination_name,destination_type,distance,travel_time,saloon_price,van_price,mini_bus_price,coach_price)
