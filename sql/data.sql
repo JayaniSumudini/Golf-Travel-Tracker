@@ -28,18 +28,18 @@ VALUES
 
 
 INSERT INTO itenary
-  (itenary_id,party_id,status)
+  (itenary_id,party_id,status,total_price)
 VALUES
-  (1,1,'NEW'),
-  (2,2,'NEW'),
-  (3,3,'NEW'),
-  (4,4,'NEW'),
-  (5,5,'NEW'),
-  (6,6,'NEW'),
-  (7,7,'NEW'),
-  (8,8,'NEW'),
-  (9,9,'NEW'),
-  (10,10,'NEW');
+  (1,1,'NEW',120),
+  (2,2,'NEW',60),
+  (3,3,'NEW',1450),
+  (4,4,'NEW',80),
+  (5,5,'NEW',20),
+  (6,6,'NEW',90),
+  (7,7,'NEW',150),
+  (8,8,'NEW',500),
+  (9,9,'NEW',290),
+  (10,10,'NEW',420);
 
 INSERT INTO destinations
  (destination_id,destination_name,destination_type,distance,travel_time,saloon_price,van_price,mini_bus_price,coach_price)

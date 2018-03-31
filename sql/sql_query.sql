@@ -35,6 +35,7 @@ create table itenary(
   itenary_id int not null AUTO_INCREMENT,
   party_id int not null,
   status enum ('NEW','SAVE','SUBMITED','ACCEPTED','ADMIN_CHANGED','TO_BE_ACCEPTANCE') not null DEFAULT 'NEW',
+  total_price decimal(6,2) not null default 0.0,
   PRIMARY KEY(itenary_id),
   FOREIGN KEY(party_id)REFERENCES party_details(party_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );

@@ -59,8 +59,15 @@ if (isset($_POST['add'])) {
 
 // Saving new iterenary to DB when creating a new one  -----------------------------------------------------
 if (isset($_POST['save'])) {
+    $query = "SELECT total_price FROM itenary WHERE itenary_id='$itenary_id'";
+    $var1 = mysqli_query($conn, $query);
+    $total_prices[] = mysqli_fetch_assoc($var1);
+    $total_price = $total_prices[0]["total_price"];
+
+
     $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from_to,place_from_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch) VALUES";
     foreach ($_SESSION['trips'] as $tripValues) {
+        $total_price = $total_price + $tripValues->travel_price;
         $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from_to,$tripValues->place_from_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->number_of_saloon,$tripValues->number_of_van,$tripValues->number_of_bus,$tripValues->number_of_caoch),";
     }
     $insertQuery .= ";";
@@ -69,6 +76,13 @@ if (isset($_POST['save'])) {
         print("<script>alert('New records created successfully');</script>");
     } else {
         print("<script>alert('error while insert data');</script>");
+    }
+
+    $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
+    if ($conn->query($updateQuery)) {
+        $total_prices=null;
+    }else{
+
     }
     $_SESSION['trips'] = [];
 }
@@ -471,7 +485,25 @@ function remove_first_character($variable){
                                                                         </td>
                                                                         <?php
                                                                         if (isset($_POST['delete'])) {
+                                                                            $query = "SELECT total_price FROM itenary WHERE itenary_id='$itenary_id'";
+                                                                            $var = mysqli_query($conn, $query);
+                                                                            $total_prices[] = mysqli_fetch_assoc($var);
+                                                                            $total_price = $total_prices[0]["total_price"];
+
                                                                             $trip_id = isset($_POST['trip_id']) ? $_POST['trip_id'] : "";
+                                                                            $query = "SELECT travel_price FROM trip WHERE trip_id='$trip_id'";
+                                                                            $var = mysqli_query($conn, $query);
+                                                                            $travel_prices[] = mysqli_fetch_assoc($var);
+                                                                            $travel_price = $travel_prices[0]["travel_price"];
+
+                                                                            $total_price = $total_price - $travel_price;
+
+                                                                            $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
+                                                                            if ($conn->query($updateQuery)) {
+                                                                                $total_prices=null;
+                                                                            }else{
+
+                                                                            }
                                                                             $queryDelete = "DELETE FROM trip WHERE trip_id='$trip_id'";
                                                                             if ($conn->query($queryDelete)) {
                                                                                 print("<script>
@@ -481,6 +513,7 @@ function remove_first_character($variable){
                                                                             } else {
                                                                                 print("<script>alert('Error when remove ! ');</script>");
                                                                             }
+                                                                            $_POST = array();
                                                                         }
 
                                                                         ?>
@@ -492,7 +525,13 @@ function remove_first_character($variable){
                                                             ?>
                                                             <tr style="font-weight: 800;">
                                                                 <td colspan="10">Total Price For Trip</td>
-                                                                <td>120</td>
+                                                                <td><?php
+                                                                    $query = "SELECT total_price FROM itenary WHERE itenary_id='$itenary_id'";
+                                                                    $total_price = mysqli_query($conn, $query);
+                                                                    $total_prices[] = mysqli_fetch_assoc($total_price);
+                                                                    echo($total_prices[0]["total_price"]);
+                                                                    $total_prices=null;
+                                                                    ?></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
