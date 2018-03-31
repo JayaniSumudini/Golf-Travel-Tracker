@@ -32,7 +32,8 @@ if (isset($_POST['submit'])) {
             print("<script>alert('error while registering you');</script>");
         }
     } else {
-        echo "<script>alert('Email can not be null!');</script>";
+        echo "<script>alert('Email can not be null!');
+                window.location.href='../partyCreate';</script>";
     }
 
     mysqli_close($conn);
@@ -101,6 +102,14 @@ if (isset($_POST['submit'])) {
 
 </head>
 <body>
+
+<!---------------------------------------------------------------------------------------------------------------->
+<nav class="navbar navbar-inverse" style="border-radius: 0px;border: none;">
+    <?php
+    require "../navbar/index.php";
+    ?>
+</nav>
+<!---------------------------------------------------------------------------------------------------------------->
 
 <header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner"
         style="background: #fff">

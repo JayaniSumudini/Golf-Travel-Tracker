@@ -1,29 +1,41 @@
 <?php
-session_start(); // Includes Login Script
+
+session_start();
 if (isset($_SESSION['user'])) {
     header("location: ../partyCreate/");
 }
+
+$errorRequired = "";
+$errorUserError = "";
 
 if ($_POST) {
     require "../function/function.php";
     $conn = connection();
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $query = "SELECT * FROM user_details WHERE user_email='$username'";
-    $result = mysqli_query($conn, $query);
-    $row[] = mysqli_fetch_assoc($result);
 
-    if ($row[0]["password"] == $password) {
-        $_SESSION['user'] = $row[0]['user_id'];
-//        header("Location: ../main/");
-    } else print("<script>alert('Username or password is incorrect!');</script>");
 
-    mysqli_free_result($result);
-    mysqli_close($conn);
+    if (empty($username) || empty($password)) {
+        $errorRequired = "Fill the required fields";
+    } else {
+        $query = "SELECT * FROM user_details WHERE user_email='$username'";
+        $result = mysqli_query($conn, $query);
+        $row[] = mysqli_fetch_assoc($result);
 
-    if (isset($_SESSION['user']) != "") {
-        header("location: ../partyCreate/");
+        if ($row[0]["password"] == $password) {
+            $_SESSION['user'] = $row[0]['user_id'];
+        } else {
+            $errorUserError = "Username or password is incorrect!";
+        }
+
+        mysqli_free_result($result);
+        mysqli_close($conn);
+
+        if (isset($_SESSION['user']) != "") {
+            header("location: ../partyCreate/");
+        }
     }
+
 }
 ?>
 
@@ -126,12 +138,15 @@ if ($_POST) {
                                                     </div>
                                                 </div>
 
+                                                <span class="error-text"
+                                                      style="color: #f54c53;font-size: 13px;"><?php echo $errorRequired ?></span>
+                                                <span class="error-text"
+                                                      style="color: #f54c53;font-size: 13px;"><?php echo $errorUserError ?></span>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-6">
                                                         <input type="submit" class="btn btn-primary btn-block"
                                                                value="Login">
-                                                        <!--                                                        <span>-->
-                                                        <?php //echo $error; ?><!--</span>-->
                                                     </div>
                                                     <div class="col-md-6">
                                                         <a href="../signup/">
