@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
 <!--            <li class="active"><a href="#">-- Create Your Party <span class="sr-only">(current)</span></a></li>-->
-                            <li><a href="/web/admin/dashboard/">dashboard</a></li>
+                            <li><a href="/web/admin/">dashboard</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="../logout/logout.php?logout">Log Out</a></li>
