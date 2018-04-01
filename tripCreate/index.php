@@ -340,19 +340,19 @@ function remove_first_character($variable){
                                                         </select>
                                                     </div>
 
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Distance</label>
-                                                        <input type="number" id="distance" disabled
-                                                               name="distance"
-                                                               class="form-control">
-                                                    </div>
+<!--                                                    <div class="col-md-2">-->
+<!--                                                        <label for="login-username">Distance</label>-->
+<!--                                                        <input type="number" id="distance" disabled-->
+<!--                                                               name="distance"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
 
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Travel Time</label>
-                                                        <input type="number" id="travel_time" disabled
-                                                               name="travel_time"
-                                                               class="form-control">
-                                                    </div>
+<!--                                                    <div class="col-md-2">-->
+<!--                                                        <label for="login-username">Travel Time</label>-->
+<!--                                                        <input type="number" id="travel_time" disabled-->
+<!--                                                               name="travel_time"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Number of pessengers</label>
@@ -392,12 +392,12 @@ function remove_first_character($variable){
                                                                class="form-control">
                                                     </div>
 
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Price(£)</label>
-                                                        <input type="number" id="travel_price" disabled
-                                                               name="travel_price"
-                                                               class="form-control">
-                                                    </div>
+<!--                                                    <div class="col-md-2">-->
+<!--                                                        <label for="login-username">Price(£)</label>-->
+<!--                                                        <input type="number" id="travel_price" disabled-->
+<!--                                                               name="travel_price"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
 
                                                     <div class="col-md-2">
                                                         <label for="login-username"></label>
@@ -405,6 +405,12 @@ function remove_first_character($variable){
                                                            class="btn btn-sm btn-primary " value="Add" style="float: right;margin-top: 30px;">
                                                     </div>
 
+                                                    <div class="col-md-2">
+                                                        <input type="button" id="added_count" name="added_count"
+                                                               class="btn btn-md btn-info" value="<?php
+                                                                echo(sizeof($_SESSION['trips']));
+                                                                echo(" Trips added");?>" style="float: right;margin-top: 30px;">
+                                                    </div>
 
                                                 </div>
 </div>
