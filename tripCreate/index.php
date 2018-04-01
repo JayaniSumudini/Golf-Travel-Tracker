@@ -293,14 +293,14 @@ function remove_first_character($variable){
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Date</label>
-                                                        <input data-provide="datepicker" type="text" id="travel_date"
+                                                        <input data-provide="datepicker" type="text" id="travel_date" required
                                                                name="travel_date"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Time</label>
-                                                        <input type="text" id="travel_time"
+                                                        <input type="text" id="travel_time" required
                                                                name="travel_time"
                                                                class="form-control">
                                                     </div>
@@ -356,7 +356,7 @@ function remove_first_character($variable){
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Number of pessengers</label>
-                                                        <input type="number" id="number_of_pessengers"
+                                                        <input type="number" id="number_of_pessengers" required
                                                                name="number_of_pessengers"
                                                                class="form-control">
                                                     </div>
@@ -366,28 +366,28 @@ function remove_first_character($variable){
                                                 <div class="row form-group" id="isSelect">
                                                     <div class="col-md-2">
                                                         <label for="login-username">Saloon (4 pax)</label>
-                                                        <input type="number" id="number_of_saloon"
+                                                        <input type="number" id="number_of_saloon" required
                                                                name="number_of_saloon"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Van (8 pax)</label>
-                                                        <input type="number" id="number_of_van"
+                                                        <input type="number" id="number_of_van" required
                                                                name="number_of_van"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Mini Bus (12 pax)</label>
-                                                        <input type="number" id="number_of_bus"
+                                                        <input type="number" id="number_of_bus" required
                                                                name="number_of_bus"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Caoch (16 pax)</label>
-                                                        <input type="number" id="number_of_caoch"
+                                                        <input type="number" id="number_of_caoch" required
                                                                name="number_of_caoch"
                                                                class="form-control">
                                                     </div>

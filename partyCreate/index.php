@@ -205,7 +205,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Lead Name</label>
-                                                        <input type="text" id="lead_name" name="lead_name"
+                                                        <input type="text" id="lead_name" name="lead_name" required
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -213,7 +213,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Phone Number</label>
-                                                        <input type="text" id="phone_number" name="phone_number"
+                                                        <input type="text" id="phone_number" name="phone_number" required
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -221,7 +221,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Email</label>
-                                                        <input type="text" id="email" name="email"
+                                                        <input type="text" id="email" name="email" required
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -229,7 +229,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Number in Party</label>
-                                                        <input type="text" id="number_in_party" name="number_in_party"
+                                                        <input type="text" id="number_in_party" name="number_in_party" required
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -245,7 +245,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Flight Number</label>
-                                                        <input type="text" id="flight_number" name="flight_number"
+                                                        <input type="text" id="flight_number" name="flight_number" required
                                                                class="form-control">
                                                     </div>
                                                 </div>
