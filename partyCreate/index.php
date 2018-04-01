@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+$register_error = "";
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
 }
@@ -25,15 +25,13 @@ if (isset($_POST['submit'])) {
             $_SESSION['trips'] = [];
 
             echo "<script>
-                    alert('Succefully saved your details!');
                     window.location.href='../tripCreate';
                   </script>";
         } else {
-            print("<script>alert('error while registering you');</script>");
+            $register_error = "error while registering you";
         }
     } else {
-        echo "<script>alert('Email can not be null!');
-                window.location.href='../partyCreate';</script>";
+        echo "<script>window.location.href='../partyCreate';</script>";
     }
 
     mysqli_close($conn);
@@ -174,7 +172,6 @@ if (isset($_POST['submit'])) {
                                                 }
 
                                                 if (isset($_POST['edit'])) {
-                                                    print("<script> alert('edit'); </script>");
                                                     $_SESSION['party'] = isset($_POST['party_id']) ? $_POST['party_id'] : "";
                                                     $_SESSION['trips'] = [];
                                                     echo "<script>
@@ -205,6 +202,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Lead Name</label>
+                                                        <span style="font-weight: bold;color: red">*</span>
                                                         <input type="text" id="lead_name" name="lead_name" required
                                                                class="form-control">
                                                     </div>
@@ -213,6 +211,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Phone Number</label>
+                                                        <span style="font-weight: bold;color: red">*</span>
                                                         <input type="number" id="phone_number" name="phone_number" required
                                                                class="form-control">
                                                     </div>
@@ -221,6 +220,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Email</label>
+                                                        <span style="font-weight: bold;color: red">*</span>
                                                         <input type="email" id="email" name="email" required
                                                                class="form-control">
                                                     </div>
@@ -229,6 +229,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Number in Party</label>
+                                                        <span style="font-weight: bold;color: red">*</span>
                                                         <input type="number" id="number_in_party" name="number_in_party" required
                                                                class="form-control">
                                                     </div>
@@ -245,6 +246,7 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Flight Number</label>
+                                                        <span style="font-weight: bold;color: red">*</span>
                                                         <input type="text" id="flight_number" name="flight_number" required
                                                                class="form-control">
                                                     </div>
@@ -258,8 +260,8 @@ if (isset($_POST['submit'])) {
                                                     </div>
                                                 </div>
 
-
                                                 <div class="row form-group">
+                                                    <span style="font-weight: bold;color: red"><?php echo($register_error);?></span>
                                                     <div class="col-md-12">
                                                         <input type="submit" class="btn btn-primary btn-block"
                                                                id="submit" name="submit"

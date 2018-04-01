@@ -5,7 +5,7 @@ require "../function/function.php";
 $conn = connection();
 session_start();
 
-
+$save_error = $itineary_error = $delete_error =  "";
 
 $query = "SELECT * FROM destinations  WHERE destination_type = 'PLACE'";
 $places_result = mysqli_query($conn, $query);
@@ -37,7 +37,7 @@ if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
         $_SESSION['itenary'] = $conn->insert_id;
         $itenary_id = $_SESSION['itenary'];
     } else {
-        print("<script>alert('error while create itineary ');</script>");
+        $itineary_error = "error while create itineary";
     }
 }
 
@@ -73,9 +73,9 @@ if (isset($_POST['save'])) {
     $insertQuery .= ";";
     $insertQuery = str_replace(',;', ';', $insertQuery);
     if ($conn->query($insertQuery)) {
-        print("<script>alert('New records created successfully');</script>");
+//        print("<script>alert('New records created successfully');</script>");
     } else {
-        print("<script>alert('error while insert data');</script>");
+        $save_error = "error while insert data";
     }
 
     $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
@@ -246,6 +246,7 @@ function remove_first_character($variable){
                                                 </div>
                                                 <div style="border:solid 1px #09C6AB;border-radius: 5px; padding: 16px;margin-bottom: 20px">
                                                 <h4>Add New Trip to your plan</h4>
+                                                    <span style="font-weight: bold;color: red"><?php echo($itineary_error);?></span>
                                                 <div class="row form-group" id="isSelect">
                                                     <!-- <div class="col-md-2">
                                                         <label for="login-username">Type</label>
@@ -293,21 +294,24 @@ function remove_first_character($variable){
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Date</label>
-                                                        <input data-provide="datepicker" type="text" id="travel_date" required
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <input data-provide="datepicker" type="text" id="travel_date"
                                                                name="travel_date"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Time</label>
-                                                        <input type="text" id="travel_time" required
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <input type="text" id="travel_time"
                                                                name="travel_time"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">From/To</label>
-                                                        <select class="form-control" required name="travel_from_to">
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <select class="form-control" name="travel_from_to">
                                                         <?php
                                                         $query = "SELECT * FROM destinations  WHERE destination_type = 'TRAVEL'";
                                                         $travelList = $conn->query($query);
@@ -325,7 +329,8 @@ function remove_first_character($variable){
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Place From/To</label>
-                                                        <select class="form-control" required name="place_from_to" >
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <select class="form-control" name="place_from_to" >
                                                         <?php
                                                         $query = "SELECT * FROM destinations  WHERE destination_type = 'PLACE'";
                                                         $placeList = $conn->query($query);
@@ -356,7 +361,8 @@ function remove_first_character($variable){
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Number of pessengers</label>
-                                                        <input type="number" id="number_of_pessengers" required
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <input type="number" id="number_of_pessengers"
                                                                name="number_of_pessengers"
                                                                class="form-control">
                                                     </div>
@@ -366,28 +372,32 @@ function remove_first_character($variable){
                                                 <div class="row form-group" id="isSelect">
                                                     <div class="col-md-2">
                                                         <label for="login-username">Saloon (4 pax)</label>
-                                                        <input type="number" id="number_of_saloon" required
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <input type="number" id="number_of_saloon"
                                                                name="number_of_saloon"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Van (8 pax)</label>
-                                                        <input type="number" id="number_of_van" required
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <input type="number" id="number_of_van"
                                                                name="number_of_van"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Mini Bus (12 pax)</label>
-                                                        <input type="number" id="number_of_bus" required
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <input type="number" id="number_of_bus"
                                                                name="number_of_bus"
                                                                class="form-control">
                                                     </div>
 
                                                     <div class="col-md-2">
                                                         <label for="login-username">Caoch (16 pax)</label>
-                                                        <input type="number" id="number_of_caoch" required
+                                                        <span style="font-weight: bold;color: red">*</span>
+                                                        <input type="number" id="number_of_caoch"
                                                                name="number_of_caoch"
                                                                class="form-control">
                                                     </div>
@@ -488,6 +498,7 @@ function remove_first_character($variable){
                                                                                        id="delete" name="delete"
                                                                                        value="Delete"
                                                                                        style="font-size: 12px; padding: 3px;">
+                                                                                <span style="font-weight: bold;color: red"><?php echo($delete_error);?></span>
                                                                                 <input type="submit"
                                                                                        class="btn btn-sm "
                                                                                        id="edit_trip" name="edit_trip"
@@ -525,7 +536,7 @@ function remove_first_character($variable){
                                                                                 window.location.href='../tripCreate';
                                                                                 </script>");
                                                                             } else {
-                                                                                print("<script>alert('Error when remove ! ');</script>");
+                                                                                $delete_error = "Error when remove ! ";
                                                                             }
                                                                             $_POST = array();
                                                                         }
@@ -575,6 +586,8 @@ function remove_first_character($variable){
                                                             <input type="submit" class="btn btn-primary btn-block"
                                                                    id="save" name="save"
                                                                    value="save">
+                                                            <span style="font-weight: bold;color: red"><?php echo($save_error);?></span>
+
                                                         </div>
                                                         <div class="col-md-6">
                                                         </div>
