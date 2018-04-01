@@ -162,7 +162,7 @@ if (isset($_POST['submit'])) {
                                                         $_SESSION['party'] = "";
                                                         $_SESSION['trips'] = [];
                                                         print("<script>
-                                                                alert('Party removed');
+//                                                                alert('Party removed');
                                                                  window.location.href='../tripCreate';
                                                                 </script>");
                                                     } else {

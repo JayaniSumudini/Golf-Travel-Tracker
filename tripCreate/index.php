@@ -303,7 +303,7 @@ function remove_first_character($variable){
                                                     <div class="col-md-2">
                                                         <label for="login-username">Time</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="text" id="travel_time"
+                                                        <input type="time" id="travel_time"
                                                                name="travel_time"
                                                                class="form-control">
                                                     </div>
