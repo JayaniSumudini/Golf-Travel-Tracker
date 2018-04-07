@@ -25,6 +25,7 @@ if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
     $itenary_id = $_SESSION['itenary'];
 } else {
     $status = 'SAVED';
+    $create_date_and_time =
     $query = "INSERT INTO itenary (party_id,status) VALUES ('$party_id','$status')";
     if ($conn->query($query)) {
         $_SESSION['itenary'] = $conn->insert_id;

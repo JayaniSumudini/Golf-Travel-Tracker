@@ -18,8 +18,8 @@ if (isset($_POST['submit'])) {
     $user_id = $_SESSION['user'];
 
     if ($email != "" || $email != null) {
-        $query = "INSERT INTO party_details (lead_name,phone_number,email,hotel_address,flight_number,notes,user_id,number_in_party)
-              VALUES ('$lead_name','$phone_number','$email','$hotel_address','$flight_number','$notes','$user_id','$number_in_party')";
+        $query = "INSERT INTO party_details (lead_name,phone_number,email,hotel_address,flight_number,notes,user_id,number_in_party,create_date_and_time)
+              VALUES ('$lead_name','$phone_number','$email','$hotel_address','$flight_number','$notes','$user_id','$number_in_party',NOW())";
         if ($conn->query($query)) {
             $_SESSION['party'] = $conn->insert_id;
             $_SESSION['trips'] = [];
@@ -141,6 +141,7 @@ if (isset($_POST['submit'])) {
                                                 <b>Leader : </b><?php echo($row["lead_name"]); ?><br>
                                                 <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
                                                 <b>Email : </b><?php echo($row["email"]); ?><br>
+                                                <b>Part created time : </b><?php echo($row["create_date_and_time"]); ?><br>
                                             </div>
                                             <div class="col-sm-3 ">
                                                 <form role="form" action='index.php' method='POST'>

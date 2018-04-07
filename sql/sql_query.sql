@@ -28,6 +28,7 @@ create table party_details(
 	number_in_party varchar(100),
 	user_id int not null,
 	PRIMARY KEY(party_id),
+  create_date_and_time DATETIME not null,
 	FOREIGN KEY(user_id)REFERENCES user_details(user_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
