@@ -5,12 +5,7 @@ require "../function/function.php";
 $conn = connection();
 session_start();
 
-$save_error = $itineary_error = $delete_error = $dropdown_from_error =  $dropdown_to_error = "" ;
-
-//$query = "SELECT * FROM destinations  WHERE destination_type = 'PLACE'";
-//$places_result = mysqli_query($conn, $query);
-//$places[] = mysqli_fetch_assoc($places_result);
-
+$save_error = $itineary_error = $delete_error = $dropdown_from_error = $dropdown_to_error = $car_type_error = "";
 
 //check session keys and redirect to right place -----------------------------------------------------
 if (!isset($_SESSION['user'])) {
@@ -46,20 +41,17 @@ if (isset($_POST['add'])) {
     $trip = new Trip();
     $trip->travel_date = convert_date_format($_POST['travel_date']);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
-    $trip->travel_from = mysqli_real_escape_string($conn,$_POST['travel_from']);
+    $trip->travel_from = mysqli_real_escape_string($conn, $_POST['travel_from']);
     $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
-    $trip->number_of_saloon = mysqli_real_escape_string($conn, $_POST['number_of_saloon']);
-    $trip->number_of_van = mysqli_real_escape_string($conn, $_POST['number_of_van']);
-    $trip->number_of_bus = mysqli_real_escape_string($conn, $_POST['number_of_bus']);
-    $trip->number_of_caoch = mysqli_real_escape_string($conn, $_POST['number_of_caoch']);
-    $trip->travel_price = calculate_travel_price($_POST['travel_to'],$_POST['number_of_saloon'],$_POST['number_of_van'],$_POST['number_of_bus'],$_POST['number_of_caoch'],$conn);
+    $trip->car_type_id = mysqli_real_escape_string($conn, $_POST['car']);
+    $trip->travel_price = calculate_travel_price($_POST['travel_from'], $_POST['travel_to'], $_POST['car'], $conn);
 
-    if($trip->travel_from=="None"){
+    if ($trip->travel_from == "None") {
         $dropdown_from_error = "Please select place";
-    }else if($trip->travel_to =="None"){
+    } elseif ($trip->travel_to == "None") {
         $dropdown_to_error = "Please select place";
-    }else{
+    } else {
         array_push($_SESSION['trips'], $trip);
     }
 
@@ -73,49 +65,53 @@ if (isset($_POST['save'])) {
     $total_price = $total_prices[0]["total_price"];
 
 
-    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch) VALUES";
+    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,car_type_id) VALUES";
     foreach ($_SESSION['trips'] as $tripValues) {
         $total_price = $total_price + $tripValues->travel_price;
-        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->number_of_saloon,$tripValues->number_of_van,$tripValues->number_of_bus,$tripValues->number_of_caoch),";
+        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->car_type_id),";
     }
     $insertQuery .= ";";
     $insertQuery = str_replace(',;', ';', $insertQuery);
     if ($conn->query($insertQuery)) {
-//        print("<script>alert('New records created successfully');</script>");
     } else {
         $save_error = "error while insert data";
     }
 
     $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
     if ($conn->query($updateQuery)) {
-        $total_prices=null;
-    }else{
+        $total_prices = null;
+    } else {
 
     }
     $_SESSION['trips'] = [];
 }
 
-function calculate_travel_price($travel_to,$number_of_saloon,$number_of_van,$number_of_bus,$number_of_caoch,$conn)
+function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
 {
     $travel_price = 0;
-    $query = "SELECT * FROM destinations  WHERE destination_id = '$travel_to'";
+    $query = "SELECT * FROM price WHERE travel_from='$travel_from' and travel_to='$travel_to'";
     $result = mysqli_query($conn, $query);
     $row[] = mysqli_fetch_assoc($result);
-    $travel_price = $travel_price + ($row[0]["saloon_price"]*$number_of_saloon);
-    $travel_price = $travel_price + ($row[0]["van_price"]*$number_of_van);
-    $travel_price = $travel_price + ($row[0]["mini_bus_price"]*$number_of_bus);
-    $travel_price = $travel_price + ($row[0]["coach_price"]*$number_of_caoch);
+    if ($car_type == 1) {
+        $travel_price = $travel_price + $row[0]["saloon_price"];
+    } elseif ($car_type == 2) {
+        $travel_price = $travel_price + $row[0]["van_price"];
+    } elseif ($car_type == 3) {
+        $travel_price = $travel_price + $row[0]["mini_bus_price"];
+    } elseif ($car_type == 4) {
+        $travel_price = $travel_price + $row[0]["coach_price"];
+    } else {
+        $car_type_error = "Please Select car type";
+    }
 
     return $travel_price;
 }
-function convert_date_format($travel_date){
+
+function convert_date_format($travel_date)
+{
     $date = DateTime::createFromFormat('m/d/Y', $travel_date);
     return $date->format('Y-m-d');
 }
-
-//function remove_first_character($variable){
-//    return substr($variable, 1);
-//}
 
 ?>
 
@@ -207,265 +203,125 @@ function convert_date_format($travel_date){
                                         <div id="login" class="tab-content-inner active" data-content="signup">
                                             <h3 style="text-align:center">Plan your trip</h3>
                                             <form role="form" action="index.php" method="post">
-                                                <!-- <div class="row form-group">
-                                                    <div class="col-md-5">
-                                                        <span style="-webkit-text-fill-color: red" id="errorSpan"></span>
-                                                        <select class="form-control" required name="travel" onchange='hideselect(this.value)';>
-                                                            <option value="NONE">NONE</option>
-                                                            <option value="RAIL">RAIL TRANSFERS</option>
-                                                            <option value="CITY">CITY TRANSFERS</option>
-                                                            <option value="AIRPORT">AIRPORT TRANSFERS</option>
-                                                            <option value="GOLF">GOLF COURSES</option>
-                                                        </select>
-                                                    </div>
-                                                    <script type="text/javascript">
-                                                        window.onload = function () {
-                                                            setDisable(true);
-                                                        };
-
-                                                        function hideselect(value) {
-                                                            if (value === "NONE" || value === "" || value === null|| value==='un') {
-                                                                setDisable(true);
-                                                                console.log('click');
-                                                            } else {
-                                                                setDisable(false);
-                                                                document.getElementById("errorSpan").textContent="";
-                                                            }
-                                                        }
-
-                                                        function setDisable(booleanValue) {
-                                                            document.getElementById('travel_date').disabled = booleanValue;
-                                                            document.getElementById('travel_time').disabled = booleanValue;
-                                                            document.getElementById('travel_from').disabled = booleanValue;
-                                                            document.getElementById('travel_to').disabled = booleanValue;
-                                                            document.getElementById('number_of_pessengers').disabled = booleanValue;
-                                                            document.getElementById('add').disabled = booleanValue;
-                                                        }
-                                                        $(document).on('click',function(e){
-                                                            if((e.target.id == "travel_date" || e.target.id == "travel_time" ||e.target.id == "travel_from" ||e.target.id == "travel_to" ||e.target.id == "number_of_pessengers" ||e.target.id == "add") && e.target.disabled){
-                                                                // alert("The textbox is clicked.");
-                                                                document.getElementById("errorSpan").textContent="Please Select a your tranfer type first";
-                                                            }
-                                                        });
-                                                    </script>
-                                                </div> -->
                                                 <div class="row form-group">
                                                     <span style="-webkit-text-fill-color: red" id="errorSpan"></span>
                                                 </div>
                                                 <div style="border:solid 1px #09C6AB;border-radius: 5px; padding: 16px;margin-bottom: 20px">
-                                                <h4>Add New Trip to your plan</h4>
-                                                    <span style="font-weight: bold;color: red"><?php echo($itineary_error);?></span>
-                                                <div class="row form-group" id="isSelect">
-                                                    <!-- <div class="col-md-2">
-                                                        <label for="login-username">Type</label>
+                                                    <h4>Add New Trip to your plan</h4>
+                                                    <span style="font-weight: bold;color: red"><?php echo($itineary_error); ?></span>
+                                                    <div class="row form-group" id="isSelect">
+                                                        <div class="col-md-2">
+                                                            <label for="login-username">Date</label>
+                                                            <span style="font-weight: bold;color: red">*</span>
+                                                            <input data-provide="datepicker" type="text"
+                                                                   id="travel_date"
+                                                                   name="travel_date"
+                                                                   class="form-control">
+                                                        </div>
 
-                                                        <select class="form-control" required name="travel"
-                                                                onchange='hideselect(this.value)' ;>
-                                                            <option value="NONE">NONE</option>
-                                                            <option value="RAIL">RAIL TRANSFERS</option>
-                                                            <option value="CITY">CITY TRANSFERS</option>
-                                                            <option value="AIRPORT">AIRPORT TRANSFERS</option>
-                                                            <option value="GOLF">GOLF COURSES</option>
-                                                        </select>
-                                                        <script type="text/javascript">
-                                                            window.onload = function () {
-                                                                setDisable(true);
-                                                            };
+                                                        <div class="col-md-2">
+                                                            <label for="login-username">Time</label>
+                                                            <span style="font-weight: bold;color: red">*</span>
+                                                            <input type="time" id="travel_time"
+                                                                   name="travel_time"
+                                                                   class="form-control">
+                                                        </div>
 
-                                                            function hideselect(value) {
-                                                                if (value === "NONE" || value === "" || value === null || value === 'un') {
-                                                                    setDisable(true);
-                                                                    console.log('click');
-                                                                } else {
-                                                                    setDisable(false);
-                                                                    document.getElementById("errorSpan").textContent = "";
-                                                                }
-                                                            }
-
-                                                            function setDisable(booleanValue) {
-                                                                document.getElementById('travel_date').disabled = booleanValue;
-                                                                document.getElementById('travel_time').disabled = booleanValue;
-                                                                document.getElementById('travel_from').disabled = booleanValue;
-                                                                document.getElementById('travel_to').disabled = booleanValue;
-                                                                document.getElementById('number_of_pessengers').disabled = booleanValue;
-                                                                document.getElementById('add').disabled = booleanValue;
-                                                            }
-
-                                                            $(document).on('click', function (e) {
-                                                                if ((e.target.id == "travel_date" || e.target.id == "travel_time" || e.target.id == "travel_from" || e.target.id == "travel_to" || e.target.id == "number_of_pessengers" || e.target.id == "add") && e.target.disabled) {
-                                                                    // alert("The textbox is clicked.");
-                                                                    document.getElementById("errorSpan").textContent = "Please Select a your tranfer type first";
-                                                                }
-                                                            });
-                                                        </script>
-                                                    </div> -->
-
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Date</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <input data-provide="datepicker" type="text" id="travel_date"
-                                                               name="travel_date"
-                                                               class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Time</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="time" id="travel_time"
-                                                               name="travel_time"
-                                                               class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">From</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <select class="form-control" name="travel_from">
-                                                            <option>None</option>
-                                                        <?php
-                                                        $query = "SELECT destination_id,destination_name FROM destinations";
-                                                        $travelList = $conn->query($query);
-                                                        if ($travelList->num_rows > 0) {
-                                                            while ($rowValue = $travelList->fetch_assoc()) {
-                                                                ?>
-                                                                    <option value="<?php echo($rowValue["destination_id"]); ?>">From <?php echo($rowValue["destination_name"]); ?></option>
-<!--                                                                    <option value="F--><?php //echo($rowValue["destination_id"]); ?><!--">From --><?php //echo($rowValue["destination_name"]); ?><!--</option>-->
+                                                        <div class="col-md-2">
+                                                            <label for="login-username">From</label>
+                                                            <span style="font-weight: bold;color: red">*</span>
+                                                            <select class="form-control" name="travel_from">
+                                                                <option>None</option>
                                                                 <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                        </select>
-                                                        <span style="font-weight: bold;color: red"><?php echo($dropdown_from_error);?></span>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">To</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <select class="form-control" name="travel_to" >
-<!--                                                            <option>None</option>-->
-                                                        <?php
-                                                        $query = "SELECT destination_id,destination_name FROM destinations";
-                                                        $placeList = $conn->query($query);
-                                                        if ($placeList->num_rows > 0) {
-                                                            while ($rowValue = $placeList->fetch_assoc()) {
-                                                                ?>
-                                                                    <option value="<?php echo($rowValue["destination_id"]); ?>">To <?php echo($rowValue["destination_name"]); ?></option>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                        </select>
-                                                        <span style="font-weight: bold;color: red"><?php echo($dropdown_to_error);?></span>
-<!--                                                        <select name="dropdown1">-->
-<!--                                                            <option></option>-->
-<!--                                                            <option value="1">Test 1</option>-->
-<!--                                                            <option value="2">Test 2</option>-->
-<!--                                                            <option value="3">Test 3</option>-->
-<!--                                                        </select>-->
-<!---->
-<!--                                                        <select name="dropdown2">-->
-<!--                                                            <option></option>-->
-<!--                                                            <option value="1">Test 1</option>-->
-<!--                                                            <option value="2">Test 2</option>-->
-<!--                                                            <option value="3">Test 3</option>-->
-<!--                                                        </select>-->
-
-                                                        <script>
-                                                            var $dropdown1 = $("select[name='travel_from']");
-                                                            var $dropdown2 = $("select[name='travel_to']");
-
-                                                            $dropdown1.change(function() {
-                                                                $dropdown2.empty().append($dropdown1.find('option').clone());
-                                                                var selectedItem = $(this).val();
-                                                                if (selectedItem) {
-                                                                    $dropdown2.find('option[value="' + selectedItem + '"]').remove();
+                                                                $query = "SELECT destination_id,destination_name FROM destinations";
+                                                                $travelList = $conn->query($query);
+                                                                if ($travelList->num_rows > 0) {
+                                                                    while ($rowValue = $travelList->fetch_assoc()) {
+                                                                        ?>
+                                                                        <option value="<?php echo($rowValue["destination_id"]); ?>">
+                                                                            From <?php echo($rowValue["destination_name"]); ?></option>
+                                                                        <?php
+                                                                    }
                                                                 }
-                                                            });
-                                                        </script>
+                                                                ?>
+                                                            </select>
+                                                            <span style="font-weight: bold;color: red"><?php echo($dropdown_from_error); ?></span>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <label for="login-username">To</label>
+                                                            <span style="font-weight: bold;color: red">*</span>
+                                                            <select class="form-control" name="travel_to">
+                                                                <?php
+                                                                $query = "SELECT destination_id,destination_name FROM destinations";
+                                                                $placeList = $conn->query($query);
+                                                                if ($placeList->num_rows > 0) {
+                                                                    while ($rowValue = $placeList->fetch_assoc()) {
+                                                                        ?>
+                                                                        <option value="<?php echo($rowValue["destination_id"]); ?>">
+                                                                            To <?php echo($rowValue["destination_name"]); ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <span style="font-weight: bold;color: red"><?php echo($dropdown_to_error); ?></span>
+
+                                                            <script>
+                                                                var $dropdown1 = $("select[name='travel_from']");
+                                                                var $dropdown2 = $("select[name='travel_to']");
+
+                                                                $dropdown1.change(function () {
+                                                                    $dropdown2.empty().append($dropdown1.find('option').clone());
+                                                                    var selectedItem = $(this).val();
+                                                                    if (selectedItem) {
+                                                                        $dropdown2.find('option[value="' + selectedItem + '"]').remove();
+                                                                    }
+                                                                });
+                                                            </script>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label for="login-username">Number of pessengers</label>
+                                                            <span style="font-weight: bold;color: red">*</span>
+                                                            <input type="number" id="number_of_pessengers"
+                                                                   name="number_of_pessengers"
+                                                                   class="form-control">
+                                                        </div>
+
                                                     </div>
 
-<!--                                                    <div class="col-md-2">-->
-<!--                                                        <label for="login-username">Distance</label>-->
-<!--                                                        <input type="number" id="distance" disabled-->
-<!--                                                               name="distance"-->
-<!--                                                               class="form-control">-->
-<!--                                                    </div>-->
+                                                    <div class="row form-group" id="isSelect">
+                                                        <div class="col-md-2">
+                                                            <label for="login-username">Car</label>
+                                                            <span style="font-weight: bold;color: red">*</span>
+                                                            <select class="form-control" name="car">
+                                                                <option>None</option>
+                                                                <option value="1">4 seater saloon</option>
+                                                                <option value="2">8 seater mini van</option>
+                                                                <option value="3">12 seater bus</option>
+                                                                <option value="4">16 seater coach</option>
+                                                            </select>
+                                                            <span style="font-weight: bold;color: red"><?php echo($car_type_error); ?></span>
+                                                        </div>
 
-<!--                                                    <div class="col-md-2">-->
-<!--                                                        <label for="login-username">Travel Time</label>-->
-<!--                                                        <input type="number" id="travel_time" disabled-->
-<!--                                                               name="travel_time"-->
-<!--                                                               class="form-control">-->
-<!--                                                    </div>-->
+                                                        <div class="col-md-2">
+                                                            <label for="login-username"></label>
+                                                            <input type="submit" id="add" name="add"
+                                                                   class="btn btn-sm btn-primary " value="Add"
+                                                                   style="float: right;margin-top: 30px;">
+                                                        </div>
 
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Number of pessengers</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="number" id="number_of_pessengers"
-                                                               name="number_of_pessengers"
-                                                               class="form-control">
+                                                        <div class="col-md-2">
+                                                            <input type="button" id="added_count" name="added_count"
+                                                                   class="btn btn-md btn-info" value="<?php
+                                                            echo(sizeof($_SESSION['trips']));
+                                                            echo(" Trips added"); ?>"
+                                                                   style="float: right;margin-top: 30px;">
+                                                        </div>
+
                                                     </div>
-
                                                 </div>
 
-                                                <div class="row form-group" id="isSelect">
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Saloon (4 pax)</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="number" id="number_of_saloon"
-                                                               name="number_of_saloon"
-                                                               class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Van (8 pax)</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="number" id="number_of_van"
-                                                               name="number_of_van"
-                                                               class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Mini Bus (12 pax)</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="number" id="number_of_bus"
-                                                               name="number_of_bus"
-                                                               class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="login-username">Caoch (16 pax)</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="number" id="number_of_caoch"
-                                                               name="number_of_caoch"
-                                                               class="form-control">
-                                                    </div>
-
-<!--                                                    <div class="col-md-2">-->
-<!--                                                        <label for="login-username">Price(£)</label>-->
-<!--                                                        <input type="number" id="travel_price" disabled-->
-<!--                                                               name="travel_price"-->
-<!--                                                               class="form-control">-->
-<!--                                                    </div>-->
-
-                                                    <div class="col-md-2">
-                                                        <label for="login-username"></label>
-                                                        <input type="submit" id="add" name="add"
-                                                           class="btn btn-sm btn-primary " value="Add" style="float: right;margin-top: 30px;">
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <input type="button" id="added_count" name="added_count"
-                                                               class="btn btn-md btn-info" value="<?php
-                                                                echo(sizeof($_SESSION['trips']));
-                                                                echo(" Trips added");?>" style="float: right;margin-top: 30px;">
-                                                    </div>
-
-                                                </div>
-</div>
-                                                <!-- <div class="row">
-                                                    <input type="submit" id="add" name="add"
-                                                           class="btn btn-primary" value="Add" style="float: right">
-                                                </div> -->
 
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
@@ -474,14 +330,11 @@ function convert_date_format($travel_date){
                                                             <tr style="font-weight: 800;">
                                                                 <th>Date</th>
                                                                 <th>Time</th>
-                                                                <th>Flight No</th>
                                                                 <th>From</th>
+                                                                <th>Flight No</th>
                                                                 <th>To</th>
                                                                 <th>Passengers</th>
-                                                                <th>Saloon</th>
-                                                                <th>Van</th>
-                                                                <th>Mini Bus</th>
-                                                                <th>Caoch</th>
+                                                                <th>Vehicle type</th>
                                                                 <th>Price(£)</th>
                                                             </tr>
                                                             </thead>
@@ -496,23 +349,21 @@ function convert_date_format($travel_date){
                                                                     <tr>
                                                                         <td><?php echo($rowValue["travel_date"]); ?></td>
                                                                         <td><?php echo($rowValue["travel_time"]); ?></td>
+                                                                        <td>
+                                                                            <?php
+                                                                            $destination_id1 = $rowValue["travel_from"];
+                                                                            $query1 = "SELECT destination_name FROM destinations WHERE destination_id = '$destination_id1'";
+                                                                            $destination_name1 = mysqli_query($conn, $query1);
+                                                                            $destination_names1[] = mysqli_fetch_assoc($destination_name1);
+                                                                            echo($destination_names1[0]["destination_name"]);
+                                                                            $destination_names1 = null;
+                                                                            ?></td>
                                                                         <td><?php
                                                                             $query = "SELECT flight_number FROM party_details WHERE party_id='$party_id'";
                                                                             $flight_number = mysqli_query($conn, $query);
                                                                             $flight_numbers[] = mysqli_fetch_assoc($flight_number);
                                                                             echo($flight_numbers[0]["flight_number"]);
                                                                             ?></td>
-                                                                        <td>
-                                                                            <?php
-                                                                                $destination_id1 = $rowValue["travel_from"];
-                                                                                $query1 = "SELECT destination_name FROM destinations WHERE destination_id = '$destination_id1'";
-                                                                                $destination_name1 = mysqli_query($conn, $query1);
-                                                                                $destination_names1[] = mysqli_fetch_assoc($destination_name1);
-                                                                                echo($destination_names1[0]["destination_name"]);
-                                                                                $destination_names1 = null;
-                                                                             ?></td>
-
-<!--                                                                        <td>--><?php //echo($rowValue["travel_to"]); ?><!--</td>-->
                                                                         <td><?php
                                                                             $destination_id2 = $rowValue["travel_to"];
                                                                             $query2 = "SELECT destination_name FROM destinations WHERE destination_id = '$destination_id2'";
@@ -522,10 +373,26 @@ function convert_date_format($travel_date){
                                                                             $destination_names2 = null;
                                                                             ?></td>
                                                                         <td><?php echo($rowValue["number_of_pessengers"]); ?></td>
-                                                                        <td><?php echo($rowValue["number_of_saloon"]); ?></td>
-                                                                        <td><?php echo($rowValue["number_of_van"]); ?></td>
-                                                                        <td><?php echo($rowValue["number_of_bus"]); ?></td>
-                                                                        <td><?php echo($rowValue["number_of_caoch"]); ?></td>
+                                                                        <!--                                                                        <td>-->
+                                                                        <?php //echo($rowValue["number_of_saloon"]); ?><!--</td>-->
+                                                                        <!--                                                                        <td>-->
+                                                                        <?php //echo($rowValue["number_of_van"]); ?><!--</td>-->
+                                                                        <!--                                                                        <td>-->
+                                                                        <?php //echo($rowValue["number_of_bus"]); ?><!--</td>-->
+                                                                        <!--                                                                        <td>-->
+                                                                        <?php //echo($rowValue["number_of_caoch"]); ?><!--</td>-->
+                                                                        <td><?php if ($rowValue["car_type_id"] == 1) {
+                                                                                echo("4 seater saloon");
+                                                                            } elseif ($rowValue["car_type_id"] == 2) {
+                                                                                echo("8 seater mini van");
+                                                                            } elseif ($rowValue["car_type_id"] == 3) {
+                                                                                echo("12 seater bus");
+                                                                            } elseif ($rowValue["car_type_id"] == 4) {
+                                                                                echo("16 seater coach");
+                                                                            } else {
+                                                                                echo("");
+                                                                            }
+                                                                            ?></td>
                                                                         <td><?php echo($rowValue["travel_price"]); ?></td>
                                                                         <td>
                                                                             <form method="post" action="">
@@ -536,7 +403,7 @@ function convert_date_format($travel_date){
                                                                                        id="delete" name="delete"
                                                                                        value="Delete"
                                                                                        style="font-size: 12px; padding: 3px;">
-                                                                                <span style="font-weight: bold;color: red"><?php echo($delete_error);?></span>
+                                                                                <span style="font-weight: bold;color: red"><?php echo($delete_error); ?></span>
                                                                                 <input type="submit"
                                                                                        class="btn btn-sm "
                                                                                        id="edit_trip" name="edit_trip"
@@ -563,8 +430,8 @@ function convert_date_format($travel_date){
 
                                                                             $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
                                                                             if ($conn->query($updateQuery)) {
-                                                                                $total_prices=null;
-                                                                            }else{
+                                                                                $total_prices = null;
+                                                                            } else {
 
                                                                             }
                                                                             $queryDelete = "DELETE FROM trip WHERE trip_id='$trip_id'";
@@ -593,7 +460,7 @@ function convert_date_format($travel_date){
                                                                     $total_price = mysqli_query($conn, $query);
                                                                     $total_prices[] = mysqli_fetch_assoc($total_price);
                                                                     echo($total_prices[0]["total_price"]);
-                                                                    $total_prices=null;
+                                                                    $total_prices = null;
                                                                     ?></td>
                                                             </tr>
                                                             </tbody>
@@ -624,7 +491,7 @@ function convert_date_format($travel_date){
                                                             <input type="submit" class="btn btn-primary btn-block"
                                                                    id="save" name="save"
                                                                    value="save">
-                                                            <span style="font-weight: bold;color: red"><?php echo($save_error);?></span>
+                                                            <span style="font-weight: bold;color: red"><?php echo($save_error); ?></span>
 
                                                         </div>
                                                         <div class="col-md-6">

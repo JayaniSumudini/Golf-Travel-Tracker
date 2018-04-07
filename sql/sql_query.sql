@@ -7,7 +7,7 @@ drop table if exists party_details;
 drop table if exists itenary;
 drop table if exists trip;
 drop table if exists destinations;
-drop table if exists pricing;
+drop table if exists price;
 
 create table user_details(
   user_id int not null AUTO_INCREMENT,
@@ -43,13 +43,6 @@ create table itenary(
 create table destinations(
 	destination_id int not null AUTO_INCREMENT,
 	destination_name varchar(50) not null,
--- 	destination_type enum ('TRAVEL' , 'PLACE') not null,
-	distance decimal not null,
-	travel_time varchar(100) not null,
-	saloon_price decimal(6,2) not null,
-	van_price decimal(6,2) not null,
-	mini_bus_price decimal(6,2) not null,
-	coach_price decimal(6,2) not null,
 	PRIMARY KEY(destination_id)
 );
 
@@ -62,14 +55,26 @@ create table trip(
 	number_of_pessengers int not null,
 	travel_price decimal(6,2),
 	itenary_id int not null ,
-	number_of_saloon int not null DEFAULT 0,
-	number_of_van int not null DEFAULT 0,
-	number_of_bus int not null DEFAULT 0,
-	number_of_caoch int not null DEFAULT 0,
+	car_type_id int not null default 1,
 	PRIMARY KEY(trip_id),
 	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(travel_from) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(travel_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table price(
+ price_id int not null AUTO_INCREMENT,
+ travel_from int not null DEFAULT 0,
+ travel_to int not null DEFAULT 0,
+ distance decimal not null,
+ travel_time varchar(100) not null,
+ saloon_price decimal(6,2) not null,
+ van_price decimal(6,2) not null,
+ bus_price decimal(6,2) not null,
+ coach_price decimal(6,2) not null,
+ PRIMARY KEY(price_id),
+ FOREIGN KEY(travel_from) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
+ FOREIGN KEY(travel_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

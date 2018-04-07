@@ -42,40 +42,62 @@ VALUES
   (10,10,'ADMIN_CHANGED',420);
 
 INSERT INTO destinations
- (destination_id,destination_name,distance,travel_time,saloon_price,van_price,mini_bus_price,coach_price)
+ (destination_id,destination_name)
 VALUES
- (1,'St Andrews',0.0,'0 mins',0,0,0,0),
- (2,'Eden Club House',1.6,'5 mins',5,5,0,0),
- (3,'Links Club House',1.6,'5 mins',5,5,0,0),
- (4,'Castle Course',4.5,'8 mins',10,10,0,0),
- (5,'Kings Barns',7.5,'20 mins',20,25,0,0),
- (6,'Crail Golf',12,'30 mins',25,30,0,0),
- (7,'Carnoustie',25,'60 mins',50,55,0,0),
- (8,'Glen Eagles',52,'1 hour 20mins',80,90,0,0),
- (9,'North Berwick',85,'1 hour  50 mins',120,140,0,0),
- (10,'Dundee AP',14.5,'30 mins',30,35,0,0),
- (11,'Edinburgh AP',50,'1 hour 15 mins',80,90,0,0),
- (12,'Glasgow AP',82,'1 hours  50 mins',120,140,0,0),
- (13,'Aberdeen AP',83,'2 hours',120,140,0,0),
- (14,'Prestwick AP',115,'2 hours 20 mins',150,170,0,0),
- (15,'Dundee',14,'30 mins',25,30,0,0),
- (16,'Perth',35,'60 mins',60,70,0,0),
- (17,'Edinburgh',60,'1 hour 30 mins',90,100,0,0),
- (18,'Glasgow',74,'1 hour 40 mins',110,120,0,0),
- (19,'Aberdeen',79,'1 hour 50 mins',110,130,0,0);
+ (1,'St Andrews'),
+ (2,'Eden Club House'),
+ (3,'Links Club House'),
+ (4,'Castle Course'),
+ (5,'Kings Barns'),
+ (6,'Crail Golf'),
+ (7,'Carnoustie'),
+ (8,'Glen Eagles'),
+ (9,'North Berwick'),
+ (10,'Dundee AP'),
+ (11,'Edinburgh AP'),
+ (12,'Glasgow AP'),
+ (13,'Aberdeen AP'),
+ (14,'Prestwick AP'),
+ (15,'Dundee'),
+ (16,'Perth'),
+ (17,'Edinburgh'),
+ (18,'Glasgow'),
+ (19,'Aberdeen');
 
 
 INSERT INTO trip
-  (trip_id,travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch)
+  (trip_id,travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,car_type_id)
 VALUES
-  (1,'2012-05-06','03:12:11',1,3,13,0,1,3,0,0,2),
-  (2,'2017-06-04','11:23:10',1,7,13,0,2,4,0,1,2),
-  (3,'2018-01-06','11:12:11',1,1,13,0,3,5,0,0,0),
-  (4,'2011-05-01','03:10:11',1,2,13,0,4,4,1,0,1),
-  (5,'2014-06-04','11:12:10',1,8,13,0,4,1,0,2,1),
-  (6,'2010-05-01','11:23:10',1,9,13,0,6,0,0,2,0),
-  (7,'2003-06-01','03:30:11',1,4,13,0,7,3,0,0,0),
-  (8,'2013-06-05','11:10:11',1,5,13,0,8,3,0,2,0),
-  (9,'2014-04-06','11:12:10',1,6,13,0,9,3,1,2,0),
-  (10,'2015-01-01','03:23:11',1,7,13,0,10,1,1,0,0);
+  (1,'2012-05-06','03:12:11',1,3,13,0,1,3),
+  (2,'2017-06-04','11:23:10',1,7,13,0,2,4),
+  (3,'2018-01-06','11:12:11',1,1,13,0,3,1),
+  (4,'2011-05-01','03:10:11',1,2,13,0,4,2),
+  (5,'2014-06-04','11:12:10',1,8,13,0,4,1),
+  (6,'2010-05-01','11:23:10',1,9,13,0,6,4),
+  (7,'2003-06-01','03:30:11',1,4,13,0,7,3),
+  (8,'2013-06-05','11:10:11',1,5,13,0,8,2),
+  (9,'2014-04-06','11:12:10',1,6,13,0,9,1),
+  (10,'2015-01-01','03:23:11',1,7,13,0,10,1);
 
+INSERT INTO price
+(price_id,travel_from,travel_to,distance,travel_time,saloon_price,van_price,bus_price,coach_price)
+VALUES
+ (1,1,1,0.0,'0 mins',0,0,0,0),
+ (2,1,2,1.6,'5 mins',5,5,0,0),
+ (3,1,3,1.6,'5 mins',5,5,0,0),
+ (4,1,4,4.5,'8 mins',10,10,0,0),
+ (5,1,5,7.5,'20 mins',20,25,0,0),
+ (6,1,6,12,'30 mins',25,30,0,0),
+ (7,1,7,25,'60 mins',50,55,0,0),
+ (8,1,8,52,'1 hour 20 mins',80,90,0,0),
+ (9,1,9,85,'1 hour  50 mins',120,140,0,0),
+ (10,1,10,14.5,'30 mins',30,35,0,0),
+ (11,1,11,50,'1 hour 15 mins',80,90,0,0),
+ (12,1,12,82,'1 hours  50 mins',120,140,0,0),
+ (13,1,13,83,'2 hours',120,140,0,0),
+ (14,1,14,115,'2 hours 20 mins',150,170,0,0),
+ (15,1,15,14,'30 mins',25,30,0,0),
+ (16,1,16,35,'60 mins',60,70,0,0),
+ (17,1,17,60,'1 hour 30 mins',90,100,0,0),
+ (18,1,18,74,'1 hour 40 mins',110,120,0,0),
+ (19,1,19,79,'1 hour 50 mins',110,130,0,0);

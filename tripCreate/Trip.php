@@ -14,9 +14,6 @@ class Trip
     public $travel_to;
     public $number_of_pessengers;
     public $travel_price;
-    public $number_of_saloon;
-    public $number_of_van;
-    public $number_of_bus;
-    public $number_of_caoch;
+    public $car_type_id;
 
 }
