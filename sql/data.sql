@@ -42,31 +42,31 @@ VALUES
   (10,10,'ADMIN_CHANGED',420);
 
 INSERT INTO destinations
- (destination_id,destination_name,destination_type,distance,travel_time,saloon_price,van_price,mini_bus_price,coach_price)
+ (destination_id,destination_name,distance,travel_time,saloon_price,van_price,mini_bus_price,coach_price)
 VALUES
- (1,'St Andrews','TRAVEL',0.0,'0 mins',0,0,0,0),
- (2,'Eden Club House','PLACE',1.6,'5 mins',5,5,0,0),
- (3,'Links Club House','PLACE',1.6,'5 mins',5,5,0,0),
- (4,'Castle Course','PLACE',4.5,'8 mins',10,10,0,0),
- (5,'Kings Barns','PLACE',7.5,'20 mins',20,25,0,0),
- (6,'Crail Golf','PLACE',12,'30 mins',25,30,0,0),
- (7,'Carnoustie','PLACE',25,'60 mins',50,55,0,0),
- (8,'Glen Eagles','PLACE',52,'1 hour 20mins',80,90,0,0),
- (9,'North Berwick','PLACE',85,'1 hour  50 mins',120,140,0,0),
- (10,'Dundee AP','PLACE',14.5,'30 mins',30,35,0,0),
- (11,'Edinburgh AP','PLACE',50,'1 hour 15 mins',80,90,0,0),
- (12,'Glasgow AP','PLACE',82,'1 hours  50 mins',120,140,0,0),
- (13,'Aberdeen AP','PLACE',83,'2 hours',120,140,0,0),
- (14,'Prestwick AP','PLACE',115,'2 hours 20 mins',150,170,0,0),
- (15,'Dundee','PLACE',14,'30 mins',25,30,0,0),
- (16,'Perth','PLACE',35,'60 mins',60,70,0,0),
- (17,'Edinburgh','PLACE',60,'1 hour 30 mins',90,100,0,0),
- (18,'Glasgow','PLACE',74,'1 hour 40 mins',110,120,0,0),
- (19,'Aberdeen','PLACE',79,'1 hour 50 mins',110,130,0,0);
+ (1,'St Andrews',0.0,'0 mins',0,0,0,0),
+ (2,'Eden Club House',1.6,'5 mins',5,5,0,0),
+ (3,'Links Club House',1.6,'5 mins',5,5,0,0),
+ (4,'Castle Course',4.5,'8 mins',10,10,0,0),
+ (5,'Kings Barns',7.5,'20 mins',20,25,0,0),
+ (6,'Crail Golf',12,'30 mins',25,30,0,0),
+ (7,'Carnoustie',25,'60 mins',50,55,0,0),
+ (8,'Glen Eagles',52,'1 hour 20mins',80,90,0,0),
+ (9,'North Berwick',85,'1 hour  50 mins',120,140,0,0),
+ (10,'Dundee AP',14.5,'30 mins',30,35,0,0),
+ (11,'Edinburgh AP',50,'1 hour 15 mins',80,90,0,0),
+ (12,'Glasgow AP',82,'1 hours  50 mins',120,140,0,0),
+ (13,'Aberdeen AP',83,'2 hours',120,140,0,0),
+ (14,'Prestwick AP',115,'2 hours 20 mins',150,170,0,0),
+ (15,'Dundee',14,'30 mins',25,30,0,0),
+ (16,'Perth',35,'60 mins',60,70,0,0),
+ (17,'Edinburgh',60,'1 hour 30 mins',90,100,0,0),
+ (18,'Glasgow',74,'1 hour 40 mins',110,120,0,0),
+ (19,'Aberdeen',79,'1 hour 50 mins',110,130,0,0);
 
 
 INSERT INTO trip
-  (trip_id,travel_date,travel_time,travel_from_to,place_from_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch)
+  (trip_id,travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch)
 VALUES
   (1,'2012-05-06','03:12:11',1,3,13,0,1,3,0,0,2),
   (2,'2017-06-04','11:23:10',1,7,13,0,2,4,0,1,2),

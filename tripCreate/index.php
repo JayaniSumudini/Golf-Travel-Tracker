@@ -5,11 +5,11 @@ require "../function/function.php";
 $conn = connection();
 session_start();
 
-$save_error = $itineary_error = $delete_error =  "";
+$save_error = $itineary_error = $delete_error = $dropdown_from_error =  $dropdown_to_error = "" ;
 
-$query = "SELECT * FROM destinations  WHERE destination_type = 'PLACE'";
-$places_result = mysqli_query($conn, $query);
-$places[] = mysqli_fetch_assoc($places_result);
+//$query = "SELECT * FROM destinations  WHERE destination_type = 'PLACE'";
+//$places_result = mysqli_query($conn, $query);
+//$places[] = mysqli_fetch_assoc($places_result);
 
 
 //check session keys and redirect to right place -----------------------------------------------------
@@ -46,15 +46,23 @@ if (isset($_POST['add'])) {
     $trip = new Trip();
     $trip->travel_date = convert_date_format($_POST['travel_date']);
     $trip->travel_time = mysqli_real_escape_string($conn, $_POST['travel_time']);
-    $trip->travel_from_to = remove_first_character($_POST['travel_from_to']);
-    $trip->place_from_to = mysqli_real_escape_string($conn, $_POST['place_from_to']);
+    $trip->travel_from = mysqli_real_escape_string($conn,$_POST['travel_from']);
+    $trip->travel_to = mysqli_real_escape_string($conn, $_POST['travel_to']);
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
     $trip->number_of_saloon = mysqli_real_escape_string($conn, $_POST['number_of_saloon']);
     $trip->number_of_van = mysqli_real_escape_string($conn, $_POST['number_of_van']);
     $trip->number_of_bus = mysqli_real_escape_string($conn, $_POST['number_of_bus']);
     $trip->number_of_caoch = mysqli_real_escape_string($conn, $_POST['number_of_caoch']);
-    $trip->travel_price = calculate_travel_price($_POST['place_from_to'],$_POST['number_of_saloon'],$_POST['number_of_van'],$_POST['number_of_bus'],$_POST['number_of_caoch'],$conn);
-    array_push($_SESSION['trips'], $trip);
+    $trip->travel_price = calculate_travel_price($_POST['travel_to'],$_POST['number_of_saloon'],$_POST['number_of_van'],$_POST['number_of_bus'],$_POST['number_of_caoch'],$conn);
+
+    if($trip->travel_from=="None"){
+        $dropdown_from_error = "Please select place";
+    }else if($trip->travel_to =="None"){
+        $dropdown_to_error = "Please select place";
+    }else{
+        array_push($_SESSION['trips'], $trip);
+    }
+
 }
 
 // Saving new iterenary to DB when creating a new one  -----------------------------------------------------
@@ -65,10 +73,10 @@ if (isset($_POST['save'])) {
     $total_price = $total_prices[0]["total_price"];
 
 
-    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from_to,place_from_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch) VALUES";
+    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,number_of_saloon,number_of_van,number_of_bus,number_of_caoch) VALUES";
     foreach ($_SESSION['trips'] as $tripValues) {
         $total_price = $total_price + $tripValues->travel_price;
-        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from_to,$tripValues->place_from_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->number_of_saloon,$tripValues->number_of_van,$tripValues->number_of_bus,$tripValues->number_of_caoch),";
+        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->number_of_saloon,$tripValues->number_of_van,$tripValues->number_of_bus,$tripValues->number_of_caoch),";
     }
     $insertQuery .= ";";
     $insertQuery = str_replace(',;', ';', $insertQuery);
@@ -87,10 +95,10 @@ if (isset($_POST['save'])) {
     $_SESSION['trips'] = [];
 }
 
-function calculate_travel_price($place_from_to,$number_of_saloon,$number_of_van,$number_of_bus,$number_of_caoch,$conn)
+function calculate_travel_price($travel_to,$number_of_saloon,$number_of_van,$number_of_bus,$number_of_caoch,$conn)
 {
     $travel_price = 0;
-    $query = "SELECT * FROM destinations  WHERE destination_id = '$place_from_to'";
+    $query = "SELECT * FROM destinations  WHERE destination_id = '$travel_to'";
     $result = mysqli_query($conn, $query);
     $row[] = mysqli_fetch_assoc($result);
     $travel_price = $travel_price + ($row[0]["saloon_price"]*$number_of_saloon);
@@ -105,9 +113,9 @@ function convert_date_format($travel_date){
     return $date->format('Y-m-d');
 }
 
-function remove_first_character($variable){
-    return substr($variable, 1);
-}
+//function remove_first_character($variable){
+//    return substr($variable, 1);
+//}
 
 ?>
 
@@ -228,13 +236,13 @@ function remove_first_character($variable){
                                                         function setDisable(booleanValue) {
                                                             document.getElementById('travel_date').disabled = booleanValue;
                                                             document.getElementById('travel_time').disabled = booleanValue;
-                                                            document.getElementById('travel_from_to').disabled = booleanValue;
-                                                            document.getElementById('place_from_to').disabled = booleanValue;
+                                                            document.getElementById('travel_from').disabled = booleanValue;
+                                                            document.getElementById('travel_to').disabled = booleanValue;
                                                             document.getElementById('number_of_pessengers').disabled = booleanValue;
                                                             document.getElementById('add').disabled = booleanValue;
                                                         }
                                                         $(document).on('click',function(e){
-                                                            if((e.target.id == "travel_date" || e.target.id == "travel_time" ||e.target.id == "travel_from_to" ||e.target.id == "place_from_to" ||e.target.id == "number_of_pessengers" ||e.target.id == "add") && e.target.disabled){
+                                                            if((e.target.id == "travel_date" || e.target.id == "travel_time" ||e.target.id == "travel_from" ||e.target.id == "travel_to" ||e.target.id == "number_of_pessengers" ||e.target.id == "add") && e.target.disabled){
                                                                 // alert("The textbox is clicked.");
                                                                 document.getElementById("errorSpan").textContent="Please Select a your tranfer type first";
                                                             }
@@ -277,14 +285,14 @@ function remove_first_character($variable){
                                                             function setDisable(booleanValue) {
                                                                 document.getElementById('travel_date').disabled = booleanValue;
                                                                 document.getElementById('travel_time').disabled = booleanValue;
-                                                                document.getElementById('travel_from_to').disabled = booleanValue;
-                                                                document.getElementById('place_from_to').disabled = booleanValue;
+                                                                document.getElementById('travel_from').disabled = booleanValue;
+                                                                document.getElementById('travel_to').disabled = booleanValue;
                                                                 document.getElementById('number_of_pessengers').disabled = booleanValue;
                                                                 document.getElementById('add').disabled = booleanValue;
                                                             }
 
                                                             $(document).on('click', function (e) {
-                                                                if ((e.target.id == "travel_date" || e.target.id == "travel_time" || e.target.id == "travel_from_to" || e.target.id == "place_from_to" || e.target.id == "number_of_pessengers" || e.target.id == "add") && e.target.disabled) {
+                                                                if ((e.target.id == "travel_date" || e.target.id == "travel_time" || e.target.id == "travel_from" || e.target.id == "travel_to" || e.target.id == "number_of_pessengers" || e.target.id == "add") && e.target.disabled) {
                                                                     // alert("The textbox is clicked.");
                                                                     document.getElementById("errorSpan").textContent = "Please Select a your tranfer type first";
                                                                 }
@@ -309,40 +317,70 @@ function remove_first_character($variable){
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="login-username">From/To</label>
+                                                        <label for="login-username">From</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <select class="form-control" name="travel_from_to">
+                                                        <select class="form-control" name="travel_from">
+                                                            <option>None</option>
                                                         <?php
-                                                        $query = "SELECT * FROM destinations  WHERE destination_type = 'TRAVEL'";
+                                                        $query = "SELECT destination_id,destination_name FROM destinations";
                                                         $travelList = $conn->query($query);
                                                         if ($travelList->num_rows > 0) {
                                                             while ($rowValue = $travelList->fetch_assoc()) {
                                                                 ?>
-                                                                    <option value="T<?php echo($rowValue["destination_id"]); ?>">To <?php echo($rowValue["destination_name"]); ?></option>
-                                                                    <option value="F<?php echo($rowValue["destination_id"]); ?>">From <?php echo($rowValue["destination_name"]); ?></option>
+                                                                    <option value="<?php echo($rowValue["destination_id"]); ?>">From <?php echo($rowValue["destination_name"]); ?></option>
+<!--                                                                    <option value="F--><?php //echo($rowValue["destination_id"]); ?><!--">From --><?php //echo($rowValue["destination_name"]); ?><!--</option>-->
                                                                 <?php
                                                             }
                                                         }
                                                         ?>
                                                         </select>
+                                                        <span style="font-weight: bold;color: red"><?php echo($dropdown_from_error);?></span>
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label for="login-username">Place From/To</label>
+                                                        <label for="login-username">To</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <select class="form-control" name="place_from_to" >
+                                                        <select class="form-control" name="travel_to" >
+<!--                                                            <option>None</option>-->
                                                         <?php
-                                                        $query = "SELECT * FROM destinations  WHERE destination_type = 'PLACE'";
+                                                        $query = "SELECT destination_id,destination_name FROM destinations";
                                                         $placeList = $conn->query($query);
                                                         if ($placeList->num_rows > 0) {
                                                             while ($rowValue = $placeList->fetch_assoc()) {
                                                                 ?>
-                                                                    <option value="<?php echo($rowValue["destination_id"]); ?>"><?php echo($rowValue["destination_name"]); ?></option>
+                                                                    <option value="<?php echo($rowValue["destination_id"]); ?>">To <?php echo($rowValue["destination_name"]); ?></option>
                                                                 <?php
                                                             }
                                                         }
                                                         ?>
                                                         </select>
+                                                        <span style="font-weight: bold;color: red"><?php echo($dropdown_to_error);?></span>
+<!--                                                        <select name="dropdown1">-->
+<!--                                                            <option></option>-->
+<!--                                                            <option value="1">Test 1</option>-->
+<!--                                                            <option value="2">Test 2</option>-->
+<!--                                                            <option value="3">Test 3</option>-->
+<!--                                                        </select>-->
+<!---->
+<!--                                                        <select name="dropdown2">-->
+<!--                                                            <option></option>-->
+<!--                                                            <option value="1">Test 1</option>-->
+<!--                                                            <option value="2">Test 2</option>-->
+<!--                                                            <option value="3">Test 3</option>-->
+<!--                                                        </select>-->
+
+                                                        <script>
+                                                            var $dropdown1 = $("select[name='travel_from']");
+                                                            var $dropdown2 = $("select[name='travel_to']");
+
+                                                            $dropdown1.change(function() {
+                                                                $dropdown2.empty().append($dropdown1.find('option').clone());
+                                                                var selectedItem = $(this).val();
+                                                                if (selectedItem) {
+                                                                    $dropdown2.find('option[value="' + selectedItem + '"]').remove();
+                                                                }
+                                                            });
+                                                        </script>
                                                     </div>
 
 <!--                                                    <div class="col-md-2">-->
@@ -466,7 +504,7 @@ function remove_first_character($variable){
                                                                             ?></td>
                                                                         <td>
                                                                             <?php
-                                                                                $destination_id1 = $rowValue["travel_from_to"];
+                                                                                $destination_id1 = $rowValue["travel_from"];
                                                                                 $query1 = "SELECT destination_name FROM destinations WHERE destination_id = '$destination_id1'";
                                                                                 $destination_name1 = mysqli_query($conn, $query1);
                                                                                 $destination_names1[] = mysqli_fetch_assoc($destination_name1);
@@ -474,9 +512,9 @@ function remove_first_character($variable){
                                                                                 $destination_names1 = null;
                                                                              ?></td>
 
-<!--                                                                        <td>--><?php //echo($rowValue["place_from_to"]); ?><!--</td>-->
+<!--                                                                        <td>--><?php //echo($rowValue["travel_to"]); ?><!--</td>-->
                                                                         <td><?php
-                                                                            $destination_id2 = $rowValue["place_from_to"];
+                                                                            $destination_id2 = $rowValue["travel_to"];
                                                                             $query2 = "SELECT destination_name FROM destinations WHERE destination_id = '$destination_id2'";
                                                                             $destination_name2 = mysqli_query($conn, $query2);
                                                                             $destination_names2[] = mysqli_fetch_assoc($destination_name2);

@@ -43,7 +43,7 @@ create table itenary(
 create table destinations(
 	destination_id int not null AUTO_INCREMENT,
 	destination_name varchar(50) not null,
-	destination_type enum ('TRAVEL' , 'PLACE') not null,
+-- 	destination_type enum ('TRAVEL' , 'PLACE') not null,
 	distance decimal not null,
 	travel_time varchar(100) not null,
 	saloon_price decimal(6,2) not null,
@@ -57,8 +57,8 @@ create table trip(
   trip_id int not null AUTO_INCREMENT,
 	travel_date date not null,
 	travel_time time not null,
-	travel_from_to int not null DEFAULT 0,
-	place_from_to int not null DEFAULT 0,
+	travel_from int not null DEFAULT 0,
+	travel_to int not null DEFAULT 0,
 	number_of_pessengers int not null,
 	travel_price decimal(6,2),
 	itenary_id int not null ,
@@ -68,8 +68,8 @@ create table trip(
 	number_of_caoch int not null DEFAULT 0,
 	PRIMARY KEY(trip_id),
 	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(travel_from_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(place_from_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY(travel_from) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(travel_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
