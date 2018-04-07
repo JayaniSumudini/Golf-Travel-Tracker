@@ -15,5 +15,6 @@ class Trip
     public $number_of_pessengers;
     public $travel_price;
     public $car_type_id;
+    public $trip_status;
 
 }

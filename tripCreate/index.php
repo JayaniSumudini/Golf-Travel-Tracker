@@ -5,15 +5,13 @@ require "../function/function.php";
 $conn = connection();
 session_start();
 
-$save_error = $itineary_error = $delete_error = $dropdown_from_error = $dropdown_to_error = $car_type_error = "";
+$save_error = $itineary_error = $delete_error = $dropdown_from_error = $dropdown_to_error = $car_type_error = $added_error= "";
 
 //check session keys and redirect to right place -----------------------------------------------------
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
 } else if (!isset($_SESSION['party']) || $_SESSION['party'] == "") {
     header("location: ../partyCreate/");
-} else if (!isset($_SESSION['trips'])) {
-    $_SESSION['trips'] = [];
 }
 
 //If comes to edit a iternary get all the saved data to the screen -----------------------------------------------------
@@ -46,44 +44,44 @@ if (isset($_POST['add'])) {
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
     $trip->car_type_id = mysqli_real_escape_string($conn, $_POST['car']);
     $trip->travel_price = calculate_travel_price($_POST['travel_from'], $_POST['travel_to'], $_POST['car'], $conn);
+    $trip->trip_status = 'Added';
 
     if ($trip->travel_from == "None") {
         $dropdown_from_error = "Please select place";
     } elseif ($trip->travel_to == "None") {
         $dropdown_to_error = "Please select place";
     } else {
-        array_push($_SESSION['trips'], $trip);
+        $query = "SELECT total_price FROM itenary WHERE itenary_id='$itenary_id'";
+        $var1 = mysqli_query($conn, $query);
+        $total_prices[] = mysqli_fetch_assoc($var1);
+        $total_price = $total_prices[0]["total_price"];
+        $total_price = $total_price + $trip->travel_price;
+        $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,car_type_id,trip_status) 
+                        VALUES ('$trip->travel_date','$trip->travel_time',$trip->travel_from,$trip->travel_to,$trip->number_of_pessengers,$trip->travel_price,$itenary_id,$trip->car_type_id,'$trip->trip_status')";
+        if ($conn->query($insertQuery)) {
+        } else {
+            $added_error = "error while insert data";
+        }
+        $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
+        if ($conn->query($updateQuery)) {
+            $total_prices = null;
+        } else {
+
+        }
+
     }
 
 }
 
 // Saving new iterenary to DB when creating a new one  -----------------------------------------------------
 if (isset($_POST['save'])) {
-    $query = "SELECT total_price FROM itenary WHERE itenary_id='$itenary_id'";
-    $var1 = mysqli_query($conn, $query);
-    $total_prices[] = mysqli_fetch_assoc($var1);
-    $total_price = $total_prices[0]["total_price"];
 
-
-    $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,car_type_id) VALUES";
-    foreach ($_SESSION['trips'] as $tripValues) {
-        $total_price = $total_price + $tripValues->travel_price;
-        $insertQuery .= "('$tripValues->travel_date','$tripValues->travel_time',$tripValues->travel_from,$tripValues->travel_to,$tripValues->number_of_pessengers,$tripValues->travel_price,$itenary_id,$tripValues->car_type_id),";
-    }
-    $insertQuery .= ";";
-    $insertQuery = str_replace(',;', ';', $insertQuery);
-    if ($conn->query($insertQuery)) {
-    } else {
-        $save_error = "error while insert data";
-    }
-
-    $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
+    $updateQuery = "UPDATE trip SET trip_status = 'Saved' WHERE itenary_id='$itenary_id' AND trip_status='Added'";
     if ($conn->query($updateQuery)) {
         $total_prices = null;
     } else {
 
     }
-    $_SESSION['trips'] = [];
 }
 
 function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
@@ -239,7 +237,7 @@ function convert_date_format($travel_date)
                                                                     while ($rowValue = $travelList->fetch_assoc()) {
                                                                         ?>
                                                                         <option value="<?php echo($rowValue["destination_id"]); ?>">
-                                                                            From <?php echo($rowValue["destination_name"]); ?></option>
+                                                                            <?php echo($rowValue["destination_name"]); ?></option>
                                                                         <?php
                                                                     }
                                                                 }
@@ -259,7 +257,7 @@ function convert_date_format($travel_date)
                                                                     while ($rowValue = $placeList->fetch_assoc()) {
                                                                         ?>
                                                                         <option value="<?php echo($rowValue["destination_id"]); ?>">
-                                                                            To <?php echo($rowValue["destination_name"]); ?></option>
+                                                                            <?php echo($rowValue["destination_name"]); ?></option>
                                                                         <?php
                                                                     }
                                                                 }
@@ -287,10 +285,6 @@ function convert_date_format($travel_date)
                                                                    name="number_of_pessengers"
                                                                    class="form-control">
                                                         </div>
-
-                                                    </div>
-
-                                                    <div class="row form-group" id="isSelect">
                                                         <div class="col-md-2">
                                                             <label for="login-username">Car</label>
                                                             <span style="font-weight: bold;color: red">*</span>
@@ -303,6 +297,8 @@ function convert_date_format($travel_date)
                                                             </select>
                                                             <span style="font-weight: bold;color: red"><?php echo($car_type_error); ?></span>
                                                         </div>
+                                                    </div>
+                                                    <div class="row form-group" id="isSelect">
 
                                                         <div class="col-md-2">
                                                             <label for="login-username"></label>
@@ -311,11 +307,14 @@ function convert_date_format($travel_date)
                                                                    style="float: right;margin-top: 30px;">
                                                         </div>
 
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-5">
                                                             <input type="button" id="added_count" name="added_count"
                                                                    class="btn btn-md btn-info" value="<?php
-                                                            echo(sizeof($_SESSION['trips']));
-                                                            echo(" Trips added"); ?>"
+                                                            $query1 = "SELECT * FROM trip WHERE trip_status = 'Added'";
+                                                            $addList = $conn->query($query1);
+                                                            echo("You have to SAVE ");
+                                                            echo($addList->num_rows);
+                                                            echo(" number of Trips."); ?>"
                                                                    style="float: right;margin-top: 30px;">
                                                         </div>
 
@@ -336,6 +335,7 @@ function convert_date_format($travel_date)
                                                                 <th>Passengers</th>
                                                                 <th>Vehicle type</th>
                                                                 <th>Price(£)</th>
+                                                                <th>status</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -394,6 +394,7 @@ function convert_date_format($travel_date)
                                                                             }
                                                                             ?></td>
                                                                         <td><?php echo($rowValue["travel_price"]); ?></td>
+                                                                        <td><?php echo($rowValue["trip_status"]); ?></td>
                                                                         <td>
                                                                             <form method="post" action="">
                                                                                 <input type='hidden' name='trip_id'
@@ -453,6 +454,7 @@ function convert_date_format($travel_date)
                                                                 }
                                                             }
                                                             ?>
+                                                            </tbody>
                                                             <tr style="font-weight: 800;">
                                                                 <td colspan="10">Total Price For Trip</td>
                                                                 <td><?php

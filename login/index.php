@@ -125,7 +125,7 @@ if ($_POST) {
                                             <form role="form" action="index.php" method="post">
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
-                                                        <label for="login-username">Username</label>
+                                                        <label for="login-username">User Email</label>
                                                         <input type="text" id="username" name="username"
                                                                class="form-control">
                                                     </div>
