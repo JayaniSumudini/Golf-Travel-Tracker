@@ -138,10 +138,10 @@ if (isset($_POST['submit'])) {
                                         <div class="row">
 
                                             <div class="col-sm-9">
-                                                <b>Leader : </b><?php echo($row["lead_name"]); ?><br>
+                                                <b>Leader Name : </b><?php echo($row["lead_name"]); ?><br>
                                                 <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
                                                 <b>Email : </b><?php echo($row["email"]); ?><br>
-                                                <b>Part created time : </b><?php echo($row["create_date_and_time"]); ?><br>
+                                                <b>Part Created Time : </b><?php echo($row["create_date_and_time"]); ?><br>
                                             </div>
                                             <div class="col-sm-3 ">
                                                 <form role="form" action='index.php' method='POST'>
@@ -230,7 +230,6 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Number in Party</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
                                                         <input type="number" id="number_in_party" name="number_in_party"
                                                                class="form-control">
                                                     </div>
@@ -247,7 +246,6 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Flight Number</label>
-                                                        <span style="font-weight: bold;color: red">*</span>
                                                         <input type="text" id="flight_number" name="flight_number"
                                                                class="form-control">
                                                     </div>

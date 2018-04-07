@@ -25,7 +25,7 @@ if ($_POST) {
         if ($row[0]["password"] == $password) {
             $_SESSION['user'] = $row[0]['user_id'];
         } else {
-            $errorUserError = "Username or password is incorrect!";
+            $errorUserError = "User email or password is incorrect!";
         }
 
         mysqli_free_result($result);

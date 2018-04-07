@@ -28,7 +28,7 @@ VALUES
 
 
 INSERT INTO itenary
-  (itenary_id,party_id,status,total_price,)
+  (itenary_id,party_id,status,total_price)
 VALUES
   (1,1,'NEW',120),
   (2,2,'NEW',60),
