@@ -341,7 +341,7 @@ function convert_date_format($travel_date)
                                                             <tbody>
                                                             <?php
                                                             $itenary_id = $_SESSION['itenary'];
-                                                            $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id'";
+                                                            $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id' ORDER BY travel_date,travel_time ";
                                                             $tripList = $conn->query($query);
                                                             if ($tripList->num_rows > 0) {
                                                                 while ($rowValue = $tripList->fetch_assoc()) {
