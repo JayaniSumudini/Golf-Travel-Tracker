@@ -396,7 +396,14 @@ function convert_date_format($travel_date)
                                                                             }
                                                                             ?></td>
                                                                         <td><?php echo($rowValue["travel_price"]); ?></td>
-                                                                        <td><?php echo($rowValue["trip_status"]); ?></td>
+                                                                        <td><?php
+                                                                            if($rowValue["trip_status"] == 'Added'){
+                                                                                echo '<span style="color:red;">';echo($rowValue["trip_status"]); echo '</span>';
+                                                                            }elseif ($rowValue["trip_status"] == 'Saved'){
+                                                                                echo '<span style="color:darkblue;">';echo($rowValue["trip_status"]); echo '</span>';
+                                                                            }
+                                                                            ?>
+                                                                        </td>
                                                                         <td>
                                                                             <form method="post" action="">
                                                                                 <input type='hidden' name='trip_id'
