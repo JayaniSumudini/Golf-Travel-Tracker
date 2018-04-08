@@ -20,15 +20,15 @@ create table user_details(
 create table party_details(
 	party_id int not null AUTO_INCREMENT,
 	lead_name varchar(100),
-	phone_number int,
+	phone_number varchar(20),
 	email varchar(100) not null,
 	hotel_address varchar(200),
 	flight_number varchar(200) not null,
 	notes varchar(250),
 	number_in_party varchar(100),
 	user_id int not null,
+	create_date_and_time DATETIME not null,
 	PRIMARY KEY(party_id),
-  create_date_and_time DATETIME not null,
 	FOREIGN KEY(user_id)REFERENCES user_details(user_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
