@@ -7,10 +7,10 @@ if (!isset($_SESSION['user'])) {
     header("Location:../login");
 }
 
-if (!isset($_SESSION['edit'])) {
+if (!isset($_SESSION['editParty'])) {
     header("Location:../partyCreate");
 }else{
-    $edit_row = $_SESSION['edit'];
+    $edit_row = $_SESSION['editParty'];
     $party_id = $edit_row['party_id'];
 }
 
@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
                   WHERE party_id='$party_id'";
 
         if ($conn->query($query)) {
-            $_SESSION['edit'] = null;
+            $_SESSION['editParty'] = null;
             echo "<script>
                      window.location.href='../partyCreate';
                   </script>";
@@ -44,6 +44,11 @@ if (isset($_POST['submit'])) {
     mysqli_close($conn);
 }
 
+if (isset($_POST['cancel'])) {
+    echo "<script>
+             window.location.href='../partyCreate';
+          </script>";
+}
 ?>
 
 
@@ -185,8 +190,8 @@ if (isset($_POST['submit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Notes</label>
-                                                        <textarea type="text" id="notes" name="notes" rows="4" value="<?php echo($edit_row['notes'])?>"
-                                                                  class="form-control"></textarea>
+                                                        <textarea type="text" id="notes" name="notes" rows="4"
+                                                                  class="form-control"><?php echo($edit_row['notes'])?></textarea>
                                                     </div>
                                                 </div>
 
@@ -196,6 +201,10 @@ if (isset($_POST['submit'])) {
                                                         <input type="submit" class="btn btn-primary btn-block"
                                                                id="submit" name="submit"
                                                                value="Save Changes">
+                                                        <input type="submit" class="btn btn-primary btn-block"
+                                                               id="cancel" name="cancel"
+                                                               value="Cancel Changes">
+
                                                     </div>
                                                 </div>
                                             </form>

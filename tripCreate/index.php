@@ -5,7 +5,8 @@ require "../function/function.php";
 $conn = connection();
 session_start();
 
-$save_error = $itineary_error = $delete_error = $dropdown_from_error = $dropdown_to_error = $car_type_error = $added_error= "";
+
+$save_error = $itineary_error = $delete_error = $dropdown_from_error = $dropdown_to_error = $car_type_error = $added_error = "";
 
 //check session keys and redirect to right place -----------------------------------------------------
 if (!isset($_SESSION['user'])) {
@@ -60,18 +61,18 @@ if (isset($_POST['add'])) {
         $insertQuery = "INSERT INTO trip (travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,car_type_id,trip_status) 
                         VALUES ('$trip->travel_date','$trip->travel_time',$trip->travel_from,$trip->travel_to,$trip->number_of_pessengers,$trip->travel_price,$itenary_id,$trip->car_type_id,'$trip->trip_status')";
         if ($conn->query($insertQuery)) {
+            $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
+            if ($conn->query($updateQuery)) {
+                $total_prices = null;
+            }
         } else {
             $added_error = "error while insert data";
         }
-        $updateQuery = "UPDATE itenary SET total_price = $total_price WHERE itenary_id='$itenary_id'";
-        if ($conn->query($updateQuery)) {
-            $total_prices = null;
-        } else {
 
-        }
 
     }
-
+    header("location: index.php");
+    exit;
 }
 
 // Saving new iterenary to DB when creating a new one  -----------------------------------------------------
@@ -311,7 +312,7 @@ function convert_date_format($travel_date)
                                                         <div class="col-md-5">
                                                             <input type="button" id="added_count" name="added_count"
                                                                    class="btn btn-md btn-info" value="<?php
-                                                            $query1 = "SELECT * FROM trip WHERE trip_status = 'Added'";
+                                                            $query1 = "SELECT * FROM trip WHERE trip_status = 'Added' and itenary_id = $itenary_id";
                                                             $addList = $conn->query($query1);
                                                             echo("You have to SAVE ");
                                                             echo($addList->num_rows);
@@ -446,6 +447,18 @@ function convert_date_format($travel_date)
                                                                                 $delete_error = "Error when remove ! ";
                                                                             }
                                                                             $_POST = array();
+                                                                        }
+
+
+                                                                        if (isset($_POST['edit_trip'])) {
+                                                                            $trip_id2 = isset($_POST['trip_id']) ? $_POST['trip_id'] : "";
+                                                                            $query2 = "SELECT * FROM trip WHERE trip_id='$trip_id2'";
+                                                                            $result2 = $conn->query($query2);
+                                                                            $row2 = $result2->fetch_assoc();
+                                                                            $_SESSION['editTrip'] = $row2;
+                                                                            print("<script>
+                                                                                window.location.href='../tripEdit';
+                                                                                    </script>");
                                                                         }
 
                                                                         ?>

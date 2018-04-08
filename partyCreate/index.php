@@ -1,6 +1,7 @@
 <?php
 session_start();
 $register_error = "";
+//$_POST = array();
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
 }
@@ -25,8 +26,8 @@ if (isset($_POST['submit'])) {
             $_SESSION['trips'] = [];
 
             echo "<script>
-                                                    window.location.href='../tripCreate';
-                                                  </script>";
+                    window.location.href='../tripCreate';
+                  </script>";
         } else {
             $register_error = "error while registering you";
         }
@@ -132,7 +133,6 @@ if (isset($_POST['submit'])) {
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
                                     ?>
-
                                     <div class="col-md-12"
                                          style="border: 1px solid #09C6AB;padding:10px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
                                         <div class="row">
@@ -154,6 +154,9 @@ if (isset($_POST['submit'])) {
                                                     <input type="submit" class="btn btn-sm btn-danger btn-block"
                                                            id="delete" name="delete"
                                                            value="Delete" style="font-size: 12px; padding: 3px;">
+                                                    <input type="submit" class="btn btn-sm btn-info btn-block"
+                                                           id="view" name="view"
+                                                           value="Plan Trip" style="font-size: 12px; padding: 3px;">
                                                 </form>
                                                 <?php
                                                 if (isset($_POST['delete'])) {
@@ -178,10 +181,18 @@ if (isset($_POST['submit'])) {
                                                     $query1 = "SELECT * FROM party_details WHERE party_id='$party_id1'";
                                                     $result1 = $conn->query($query1);
                                                     $row1 = $result1->fetch_assoc();
-                                                    $_SESSION['edit'] = $row1;
+                                                    $_SESSION['editParty'] = $row1;
                                                     print("<script>
                                                              window.location.href='../partyEdit';
                                                            </script>");
+                                                }
+
+                                                if (isset($_POST['view'])) {
+                                                    $_SESSION['party'] = isset($_POST['party_id']) ? $_POST['party_id'] : "";
+                                                    $_SESSION['trips'] = [];
+                                                    echo "<script>
+                                                             window.location.href='../tripCreate';
+                                                           </script>";
                                                 }
                                                 ?>
                                             </div>
