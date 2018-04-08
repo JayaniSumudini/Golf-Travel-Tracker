@@ -2,32 +2,53 @@
 session_start();
 $register_error = "";
 $edit_row = [];
+$party_id ="";
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
 }
 
 if (!isset($_SESSION['edit'])) {
     header("Location:../partyCreate");
-//    require "../function/function.php";
-//    $conn = connection();
 }else{
     $edit_row = $_SESSION['edit'];
-//    echo "<script>
-//
-//        $(\"input[name=lead_name]\").val(".$edit_row['lead_name'].");
-//
-//        </script>
-//        ";
+    $party_id = $edit_row['party_id'];
 }
+
+if (isset($_POST['submit'])) {
+    require "../function/function.php";
+    $conn = connection();
+    $lead_name = mysqli_real_escape_string($conn, $_POST['lead_name']);
+    $phone_number = mysqli_real_escape_string($conn, $_POST['phone_number']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $number_in_party = mysqli_real_escape_string($conn, $_POST['number_in_party']);
+    $hotel_address = mysqli_real_escape_string($conn, $_POST['hotel_address']);
+    $flight_number = mysqli_real_escape_string($conn, $_POST['flight_number']);
+    $notes = mysqli_real_escape_string($conn, $_POST['notes']);
+
+    if ($email != "" || $email != null) {
+        $query = "UPDATE party_details SET lead_name='$lead_name',phone_number='$phone_number',email='$email',hotel_address='$hotel_address',flight_number='$flight_number',notes='$notes',number_in_party=$number_in_party,create_date_and_time=NOW()
+                  WHERE party_id='$party_id'";
+
+        if ($conn->query($query)) {
+            $_SESSION['edit'] = null;
+            echo "<script>
+                     window.location.href='../partyCreate';
+                  </script>";
+        } else {
+            $register_error = "error while edit data";
+        }
+    } else {
+        echo "<script>window.location.href='../partyEdit';</script>";
+    }
+
+    mysqli_close($conn);
+}
+
 ?>
 
 
 <!DOCTYPE HTML>
-<!--
-    Aesthetic by gettemplates.co
-    Twitter: http://twitter.com/gettemplateco
-    URL: http://gettemplates.co
--->
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -99,7 +120,7 @@ if (!isset($_SESSION['edit'])) {
             <div class="col-md-12 col-md-offset-0 text-left">
                 <ul class="nav nav-tabs">
                     <div class="row row-mt-15em" style="margin-top: 4em;">
-                        <div class="col-md-6 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+                        <div class="col-md-6 col-md-push-3 animate-box" data-animate-effect="fadeInRight">
                             <div class="form-wrap"
                                  style="box-shadow: none; border: 1px solid #09C6AB; border-top: 5px solid #09C6AB;">
                                 <div class="tab">
@@ -113,7 +134,7 @@ if (!isset($_SESSION['edit'])) {
                                                     <div class="col-md-12">
                                                         <label for="login-username">Lead Name</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="text" id="lead_name" name="lead_name" required placeholder="<?php echo($edit_row['lead_name'])?>"
+                                                        <input type="text" id="lead_name" name="lead_name" required value="<?php echo($edit_row['lead_name'])?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -122,7 +143,7 @@ if (!isset($_SESSION['edit'])) {
                                                     <div class="col-md-12">
                                                         <label for="login-username">Phone Number</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="text" id="phone_number" name="phone_number" placeholder="<?php echo($edit_row['phone_number'])?>"
+                                                        <input type="text" id="phone_number" name="phone_number" value="<?php echo($edit_row['phone_number'])?>"
                                                                required
                                                                class="form-control">
                                                     </div>
@@ -132,7 +153,7 @@ if (!isset($_SESSION['edit'])) {
                                                     <div class="col-md-12">
                                                         <label for="login-username">Email</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="email" id="email" name="email" required placeholder="<?php echo($edit_row['email'])?>"
+                                                        <input type="email" id="email" name="email" required value="<?php echo($edit_row['email'])?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -140,7 +161,7 @@ if (!isset($_SESSION['edit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Number in Party</label>
-                                                        <input type="number" id="number_in_party" name="number_in_party" placeholder="<?php echo($edit_row['number_in_party'])?>"
+                                                        <input type="number" id="number_in_party" name="number_in_party" value="<?php echo($edit_row['number_in_party'])?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -148,7 +169,7 @@ if (!isset($_SESSION['edit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Hotel Address</label>
-                                                        <input type="text" id="hotel_address" name="hotel_address" placeholder="<?php echo($edit_row['hotel_address'])?>"
+                                                        <input type="text" id="hotel_address" name="hotel_address" value="<?php echo($edit_row['hotel_address'])?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -156,7 +177,7 @@ if (!isset($_SESSION['edit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Flight Number</label>
-                                                        <input type="text" id="flight_number" name="flight_number" placeholder="<?php echo($edit_row['flight_number'])?>"
+                                                        <input type="text" id="flight_number" name="flight_number" value="<?php echo($edit_row['flight_number'])?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -164,7 +185,7 @@ if (!isset($_SESSION['edit'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Notes</label>
-                                                        <textarea type="text" id="notes" name="notes" rows="4" placeholder="<?php echo($edit_row['notes'])?>"
+                                                        <textarea type="text" id="notes" name="notes" rows="4" value="<?php echo($edit_row['notes'])?>"
                                                                   class="form-control"></textarea>
                                                     </div>
                                                 </div>
