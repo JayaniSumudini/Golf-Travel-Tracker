@@ -338,7 +338,7 @@ function convert_date_format($travel_date)
 
 
                                                 <div class="row form-group">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12" style="overflow-x:auto; width: 100%">
                                                         <table class="table table-bordered">
                                                             <thead>
                                                             <tr style="font-weight: 800;">
