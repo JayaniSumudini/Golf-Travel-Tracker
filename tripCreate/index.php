@@ -89,22 +89,31 @@ if (isset($_POST['save'])) {
 function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
 {
     $travel_price = 0;
-    $query = "SELECT * FROM price WHERE travel_from='$travel_from' and travel_to='$travel_to'";
+
+    if($travel_from <= $travel_to){
+        $query = "select * from distance where travel_from='$travel_from' and travel_to='$travel_to'";
+    }else{
+        $query = "select * from distance where travel_from='$travel_to' and travel_to='$travel_from'";
+    }
     $result = mysqli_query($conn, $query);
     $row[] = mysqli_fetch_assoc($result);
+
     if ($car_type == 1) {
-        $travel_price = $travel_price + $row[0]["saloon_price"];
+        $travel_price = 1.8 * $row[0]["distance"];
     } elseif ($car_type == 2) {
-        $travel_price = $travel_price + $row[0]["van_price"];
+        $travel_price = 2 * $row[0]["distance"];
     } elseif ($car_type == 3) {
-        $travel_price = $travel_price + $row[0]["mini_bus_price"];
-    } elseif ($car_type == 4) {
-        $travel_price = $travel_price + $row[0]["coach_price"];
+        $travel_price = 2.1 * $row[0]["distance"];
     } else {
-        $car_type_error = "Please Select car type";
+        $car_type_error = "please select car type";
     }
 
-    return $travel_price;
+    $cost = 0;
+    $cost= $travel_price;
+    if($travel_price < 10){
+        $cost = 10;
+    }
+    return $cost;
 }
 
 function convert_date_format($travel_date)
@@ -292,10 +301,14 @@ function convert_date_format($travel_date)
                                                             <span style="font-weight: bold;color: red">*</span>
                                                             <select class="form-control" name="car">
                                                                 <option>None</option>
-                                                                <option value="1">4 seater saloon</option>
-                                                                <option value="2">8 seater mini van</option>
-                                                                <option value="3">12 seater bus</option>
-                                                                <option value="4">16 seater coach</option>
+<!--                                                                <option value="1">4 seater saloon</option>-->
+<!--                                                                <option value="2">8 seater mini van</option>-->
+<!--                                                                <option value="3">12 seater bus</option>-->
+<!--                                                                <option value="4">16 seater coach</option>-->
+                                                                <option value="1">Saloon (2 seats)</option>
+                                                                <option value="2">Van (6 seats)</option>
+                                                                <option value="3">Van + Traier (8 seats)</option>
+<!--                                                                <option value="4">16 seater coach</option>-->
                                                             </select>
                                                             <span style="font-weight: bold;color: red"><?php echo($car_type_error); ?></span>
                                                         </div>
@@ -384,13 +397,11 @@ function convert_date_format($travel_date)
                                                                         <!--                                                                        <td>-->
                                                                         <?php //echo($rowValue["number_of_caoch"]); ?><!--</td>-->
                                                                         <td><?php if ($rowValue["car_type_id"] == 1) {
-                                                                                echo("4 seater saloon");
+                                                                                echo("Saloon");
                                                                             } elseif ($rowValue["car_type_id"] == 2) {
-                                                                                echo("8 seater mini van");
+                                                                                echo("Van");
                                                                             } elseif ($rowValue["car_type_id"] == 3) {
-                                                                                echo("12 seater bus");
-                                                                            } elseif ($rowValue["car_type_id"] == 4) {
-                                                                                echo("16 seater coach");
+                                                                                echo("Van + Traier");
                                                                             } else {
                                                                                 echo("");
                                                                             }
