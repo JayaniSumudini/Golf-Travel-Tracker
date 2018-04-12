@@ -3,6 +3,7 @@ create database golf_travel_route;
 
 use golf_travel_route;
 
+drop table if exists user_details;
 drop table if exists party_details;
 drop table if exists itenary;
 drop table if exists trip;

@@ -90,9 +90,9 @@ function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
 {
     $travel_price = 0;
 
-    if($travel_from <= $travel_to){
+    if ($travel_from <= $travel_to) {
         $query = "select * from distance where travel_from='$travel_from' and travel_to='$travel_to'";
-    }else{
+    } else {
         $query = "select * from distance where travel_from='$travel_to' and travel_to='$travel_from'";
     }
     $result = mysqli_query($conn, $query);
@@ -109,8 +109,8 @@ function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
     }
 
     $cost = 0;
-    $cost= $travel_price;
-    if($travel_price < 10){
+    $cost = $travel_price;
+    if ($travel_price < 10) {
         $cost = 10;
     }
     return $cost;
@@ -120,6 +120,95 @@ function convert_date_format($travel_date)
 {
     $date = DateTime::createFromFormat('m/d/Y', $travel_date);
     return $date->format('Y-m-d');
+}
+
+if (isset($_POST['print'])) {
+    require('../fpdf181/fpdf.php');
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 9);
+    $query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='golf_travel_route' AND `TABLE_NAME`='trip'";
+    $result1 = mysqli_query($conn, $query1);
+//    $header[] = mysqli_fetch_assoc($result1);
+    $column_names = [];
+    while ($header = mysqli_fetch_assoc($result1)) {
+        array_push($column_names,$header);
+    }
+    if ($column_names > 0) {
+        foreach ($column_names as $heading) {
+            foreach ($heading as $column_heading)
+                if($column_heading != "trip_id" && $column_heading != "itenary_id" && $column_heading != "trip_status"){
+                    if($column_heading == "number_of_pessengers"){
+                        $column_heading = "No. pessengers";
+                    }
+                    if($column_heading == "travel_date"){
+                        $column_heading = "Travel date";
+                    }
+                    if($column_heading == "travel_time"){
+                        $column_heading = "Travel time";
+                    }
+                    if($column_heading == "travel_from"){
+                        $column_heading = "From";
+                    }
+                    if($column_heading == "travel_to"){
+                        $column_heading = "To";
+                    }
+                    if ($column_heading == "travel_price") {
+                        $column_heading = "Cost ( £ )";
+                    }
+                    if ($column_heading == "car_type_id") {
+                        $column_heading = "Car type";
+                    }
+//                    $cellWidth = $pdf->GetStringWidth($column_heading);
+                    $pdf->Cell(28, 10, $column_heading, 1,0,'C');
+                }
+
+        }
+    }
+//code for print data
+    $query2 = "SELECT * from trip WHERE trip_status = 'Saved' and itenary_id = '$itenary_id' ORDER BY travel_date,travel_time";
+    $result2 = mysqli_query($conn, $query2);
+    $results = [];
+    while ($header1 = mysqli_fetch_assoc($result2)) {
+        array_push($results,$header1);
+    }
+
+    if ($results > 0) {
+        foreach ($results as $row) {
+            $pdf->SetFont('Arial', '', 12);
+            $pdf->Ln();
+            $pdf->Cell(28, 10, $row['travel_date'], 1,0,'C');
+            $pdf->Cell(28, 10, $row['travel_time'], 1,0,'C');
+
+            $from = $row['travel_from'];
+            $from_query = "SELECT destination_name FROM destinations WHERE destination_id = '$from'";
+            $result_from = mysqli_query($conn, $from_query);
+            $from_names[] = mysqli_fetch_assoc($result_from);
+            $pdf->Cell(28, 10, $from_names[0]["destination_name"], 1,0,'C');
+
+            $to = $row['travel_to'];
+            $to_query = "SELECT destination_name FROM destinations WHERE destination_id = '$to'";
+            $result_to = mysqli_query($conn, $to_query);
+            $to_names[] = mysqli_fetch_assoc($result_to);
+            $pdf->Cell(28, 10, $to_names[0]["destination_name"], 1,0,'C');
+
+            $pdf->Cell(28, 10, $row['number_of_pessengers'], 1,0,'C');
+            $pdf->Cell(28, 10, $row['travel_price'], 1,0,'C');
+
+            $car_id= $row['car_type_id'];
+
+            $car_type= null;
+            if($car_id == 1){
+                $car_type = "Saloon";
+            }elseif ($car_id== 2){
+                $car_type = "Van";
+            }else{
+                $car_type="Van + Traier";
+            }
+            $pdf->Cell(28, 10,$car_type, 1,0,'C');
+        }
+    }
+    $pdf->Output();
 }
 
 ?>
@@ -301,14 +390,9 @@ function convert_date_format($travel_date)
                                                             <span style="font-weight: bold;color: red">*</span>
                                                             <select class="form-control" name="car">
                                                                 <option>None</option>
-<!--                                                                <option value="1">4 seater saloon</option>-->
-<!--                                                                <option value="2">8 seater mini van</option>-->
-<!--                                                                <option value="3">12 seater bus</option>-->
-<!--                                                                <option value="4">16 seater coach</option>-->
                                                                 <option value="1">Saloon (2 seats)</option>
                                                                 <option value="2">Van (6 seats)</option>
                                                                 <option value="3">Van + Traier (8 seats)</option>
-<!--                                                                <option value="4">16 seater coach</option>-->
                                                             </select>
                                                             <span style="font-weight: bold;color: red"><?php echo($car_type_error); ?></span>
                                                         </div>
@@ -388,14 +472,6 @@ function convert_date_format($travel_date)
                                                                             $destination_names2 = null;
                                                                             ?></td>
                                                                         <td><?php echo($rowValue["number_of_pessengers"]); ?></td>
-                                                                        <!--                                                                        <td>-->
-                                                                        <?php //echo($rowValue["number_of_saloon"]); ?><!--</td>-->
-                                                                        <!--                                                                        <td>-->
-                                                                        <?php //echo($rowValue["number_of_van"]); ?><!--</td>-->
-                                                                        <!--                                                                        <td>-->
-                                                                        <?php //echo($rowValue["number_of_bus"]); ?><!--</td>-->
-                                                                        <!--                                                                        <td>-->
-                                                                        <?php //echo($rowValue["number_of_caoch"]); ?><!--</td>-->
                                                                         <td><?php if ($rowValue["car_type_id"] == 1) {
                                                                                 echo("Saloon");
                                                                             } elseif ($rowValue["car_type_id"] == 2) {
@@ -408,10 +484,14 @@ function convert_date_format($travel_date)
                                                                             ?></td>
                                                                         <td><?php echo($rowValue["travel_price"]); ?></td>
                                                                         <td><?php
-                                                                            if($rowValue["trip_status"] == 'Added'){
-                                                                                echo '<span style="color:red;">';echo($rowValue["trip_status"]); echo '</span>';
-                                                                            }elseif ($rowValue["trip_status"] == 'Saved'){
-                                                                                echo '<span style="color:darkblue;">';echo($rowValue["trip_status"]); echo '</span>';
+                                                                            if ($rowValue["trip_status"] == 'Added') {
+                                                                                echo '<span style="color:red;">';
+                                                                                echo($rowValue["trip_status"]);
+                                                                                echo '</span>';
+                                                                            } elseif ($rowValue["trip_status"] == 'Saved') {
+                                                                                echo '<span style="color:darkblue;">';
+                                                                                echo($rowValue["trip_status"]);
+                                                                                echo '</span>';
                                                                             }
                                                                             ?>
                                                                         </td>
@@ -505,7 +585,7 @@ function convert_date_format($travel_date)
                                                 <div class="row form-group">
                                                     <div class="col-md-6">
                                                         <div class="col-md-6">
-                                                            <input type="button" class="btn btn-primary btn-block"
+                                                            <input type="submit" class="btn btn-primary btn-block"
                                                                    id="print" name="print"
                                                                    value="Print">
                                                         </div>

@@ -11,14 +11,14 @@ $errorUserError = "";
 if ($_POST) {
     require "../function/function.php";
     $conn = connection();
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $user_email = mysqli_real_escape_string($conn, $_POST['user_email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
 
-    if (empty($username) || empty($password)) {
+    if (empty($user_email) || empty($password)) {
         $errorRequired = "Fill the required fields";
     } else {
-        $query = "SELECT * FROM user_details WHERE user_email='$username'";
+        $query = "SELECT * FROM user_details WHERE user_email='$user_email'";
         $result = mysqli_query($conn, $query);
         $row[] = mysqli_fetch_assoc($result);
 
@@ -125,8 +125,8 @@ if ($_POST) {
                                             <form role="form" action="index.php" method="post">
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
-                                                        <label for="login-username">User Email</label>
-                                                        <input type="text" id="username" name="username"
+                                                        <label for="login-user_email">User Email</label>
+                                                        <input type="text" id="user_email" name="user_email"
                                                                class="form-control">
                                                     </div>
                                                 </div>
