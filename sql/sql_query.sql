@@ -55,10 +55,11 @@ create table trip(
 	travel_from int not null DEFAULT 0,
 	travel_to int not null DEFAULT 0,
 	number_of_pessengers int not null,
-	travel_price decimal(6,2),
 	itenary_id int not null ,
 	car_type_id int not null default 1,
 	trip_status enum('Added','Saved') not null default 'Added',
+	travel_price decimal(6,2),
+
 	PRIMARY KEY(trip_id),
 	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(travel_from) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
