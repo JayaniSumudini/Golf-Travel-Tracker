@@ -44,8 +44,8 @@ $pdf->Ln(10);
 
 //table-Trip details
 $pdf->SetFont('Arial', 'B', 9);
-//$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='golf_travel_route' AND `TABLE_NAME`='trip'";
-    $query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='eigendem_golf_travel_route' AND `TABLE_NAME`='trip'";
+$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='golf_travel_route' AND `TABLE_NAME`='trip'";
+//    $query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='eigendem_golf_travel_route' AND `TABLE_NAME`='trip'";
 
 $result1 = mysqli_query($conn, $query1);
 //    $header[] = mysqli_fetch_assoc($result1);
@@ -101,14 +101,14 @@ if ($results > 0) {
         $from = $row['travel_from'];
         $from_query = "SELECT destination_name FROM destinations WHERE destination_id = '$from'";
         $result_from = mysqli_query($conn, $from_query);
-        $from_names[] = mysqli_fetch_assoc($result_from);
-        $pdf->Cell(28, 10, $from_names[0]["destination_name"], 1,0,'C');
+        $from_names = mysqli_fetch_assoc($result_from);
+        $pdf->Cell(28, 10, $from_names["destination_name"], 1,0,'C');
 
         $to = $row['travel_to'];
         $to_query = "SELECT destination_name FROM destinations WHERE destination_id = '$to'";
         $result_to = mysqli_query($conn, $to_query);
-        $to_names[] = mysqli_fetch_assoc($result_to);
-        $pdf->Cell(28, 10, $to_names[0]["destination_name"], 1,0,'C');
+        $to_names = mysqli_fetch_assoc($result_to);
+        $pdf->Cell(28, 10, $to_names["destination_name"], 1,0,'C');
 
         $pdf->Cell(28, 10, $row['number_of_pessengers'], 1,0,'C');
 

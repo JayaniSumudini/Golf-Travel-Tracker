@@ -2,21 +2,18 @@
 
 define("HOST","localhost");
 
-define("DBNAME","eigendem_golf_travel_route");
-define("UNAME","eigendem_root");
-define("PW","Password$3@");
+//define("DBNAME","eigendem_golf_travel_route");
+//define("UNAME","eigendem_root");
+//define("PW","Password$3@");
 
-//define("DBNAME","golf_travel_route");
-//define("UNAME","root");
-//define("PW","");
-
+define("DBNAME","golf_travel_route");
+define("UNAME","root");
+define("PW","");
 
 ///* file path for save new projects */
 //define("ROAD","../roads/");
 //define("BUILDING","../buildings/");
 //define("BRIDGE","../bridges/");
-
-
 
 /* ERROR Massages*/
 define("WRITIING_ERROR" , "writing_error");
