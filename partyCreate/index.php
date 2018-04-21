@@ -14,13 +14,13 @@ if (isset($_POST['submit'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $number_in_party = mysqli_real_escape_string($conn, $_POST['number_in_party']);
     $hotel_address = mysqli_real_escape_string($conn, $_POST['hotel_address']);
-    $flight_number = mysqli_real_escape_string($conn, $_POST['flight_number']);
+//    $flight_number = mysqli_real_escape_string($conn, $_POST['flight_number']);
     $notes = mysqli_real_escape_string($conn, $_POST['notes']);
     $user_id = $_SESSION['user'];
 
     if ($email != "" || $email != null) {
-        $query = "INSERT INTO party_details (lead_name,phone_number,email,hotel_address,flight_number,notes,user_id,number_in_party,create_date_and_time)
-                                              VALUES ('$lead_name','$phone_number','$email','$hotel_address','$flight_number','$notes','$user_id','$number_in_party',NOW())";
+        $query = "INSERT INTO party_details (lead_name,phone_number,email,hotel_address,notes,user_id,number_in_party,create_date_and_time)
+                                              VALUES ('$lead_name','$phone_number','$email','$hotel_address','$notes','$user_id','$number_in_party',NOW())";
         if ($conn->query($query)) {
             $_SESSION['party'] = $conn->insert_id;
             $_SESSION['trips'] = [];
@@ -259,13 +259,13 @@ if (isset($_POST['submit'])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-12">
-                                                        <label for="login-username">Flight Number</label>
-                                                        <input type="text" id="flight_number" name="flight_number"
-                                                               class="form-control">
-                                                    </div>
-                                                </div>
+<!--                                                <div class="row form-group">-->
+<!--                                                    <div class="col-md-12">-->
+<!--                                                        <label for="login-username">Flight Number</label>-->
+<!--                                                        <input type="text" id="flight_number" name="flight_number"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
 
                                                 <div class="row form-group">
                                                     <div class="col-md-12">

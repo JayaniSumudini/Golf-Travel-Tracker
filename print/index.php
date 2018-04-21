@@ -56,7 +56,7 @@ while ($header = mysqli_fetch_assoc($result1)) {
 if ($column_names > 0) {
     foreach ($column_names as $heading) {
         foreach ($heading as $column_heading)
-            if($column_heading != "trip_id" && $column_heading != "itenary_id" && $column_heading != "trip_status"){
+            if($column_heading != "trip_id" && $column_heading != "itenary_id" && $column_heading != "trip_status" && $column_heading != "flight_number"){
                 if($column_heading == "number_of_pessengers"){
                     $column_heading = "No. pessengers";
                 }

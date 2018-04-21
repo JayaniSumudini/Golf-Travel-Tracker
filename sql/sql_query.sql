@@ -24,7 +24,6 @@ create table party_details(
 	phone_number varchar(20),
 	email varchar(100) not null,
 	hotel_address varchar(200),
-	flight_number varchar(200) not null,
 	notes varchar(250),
 	number_in_party varchar(100),
 	user_id int not null,
@@ -59,7 +58,7 @@ create table trip(
 	car_type_id int not null default 1,
 	trip_status enum('Added','Saved') not null default 'Added',
 	travel_price decimal(6,2),
-
+  flight_number varchar(200) not null,
 	PRIMARY KEY(trip_id),
 	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(travel_from) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,

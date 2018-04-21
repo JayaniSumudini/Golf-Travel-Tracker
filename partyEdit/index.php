@@ -22,11 +22,11 @@ if (isset($_POST['submit'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $number_in_party = mysqli_real_escape_string($conn, $_POST['number_in_party']);
     $hotel_address = mysqli_real_escape_string($conn, $_POST['hotel_address']);
-    $flight_number = mysqli_real_escape_string($conn, $_POST['flight_number']);
+//    $flight_number = mysqli_real_escape_string($conn, $_POST['flight_number']);
     $notes = mysqli_real_escape_string($conn, $_POST['notes']);
 
     if ($email != "" || $email != null) {
-        $query = "UPDATE party_details SET lead_name='$lead_name',phone_number='$phone_number',email='$email',hotel_address='$hotel_address',flight_number='$flight_number',notes='$notes',number_in_party=$number_in_party,create_date_and_time=NOW()
+        $query = "UPDATE party_details SET lead_name='$lead_name',phone_number='$phone_number',email='$email',hotel_address='$hotel_address',notes='$notes',number_in_party=$number_in_party,create_date_and_time=NOW()
                   WHERE party_id='$party_id'";
 
         if ($conn->query($query)) {
@@ -179,13 +179,13 @@ if (isset($_POST['cancel'])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-12">
-                                                        <label for="login-username">Flight Number</label>
-                                                        <input type="text" id="flight_number" name="flight_number" value="<?php echo($edit_row['flight_number'])?>"
-                                                               class="form-control">
-                                                    </div>
-                                                </div>
+<!--                                                <div class="row form-group">-->
+<!--                                                    <div class="col-md-12">-->
+<!--                                                        <label for="login-username">Flight Number</label>-->
+<!--                                                        <input type="text" id="flight_number" name="flight_number" value="--><?php //echo($edit_row['flight_number'])?><!--"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
 
                                                 <div class="row form-group">
                                                     <div class="col-md-12">

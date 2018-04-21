@@ -35,6 +35,7 @@ if (isset($_POST['submit'])) {
     $trip->car_type_id = mysqli_real_escape_string($conn, $_POST['car']);
     $trip->travel_price = calculate_travel_price($_POST['travel_from'], $_POST['travel_to'], $_POST['car'], $conn);
     $trip->trip_status = 'Added';
+    $trip->flight_number = mysqli_real_escape_string($conn, $_POST['flight_number']);;
 
     if ($trip->travel_from == "None") {
         $dropdown_from_error = "Please select place";
@@ -48,7 +49,7 @@ if (isset($_POST['submit'])) {
         $total_price = $total_price - $current_price;
         $total_price = $total_price + $trip->travel_price;
 
-        $insertQuery = "UPDATE trip SET travel_date='$trip->travel_date',travel_time='$trip->travel_time',travel_from=$trip->travel_from,travel_to=$trip->travel_to,number_of_pessengers=$trip->number_of_pessengers,travel_price=$trip->travel_price,car_type_id=$trip->car_type_id,trip_status='$trip->trip_status' 
+        $insertQuery = "UPDATE trip SET travel_date='$trip->travel_date',travel_time='$trip->travel_time',travel_from=$trip->travel_from,travel_to=$trip->travel_to,number_of_pessengers=$trip->number_of_pessengers,travel_price=$trip->travel_price,car_type_id=$trip->car_type_id,trip_status='$trip->trip_status',flight_number='$trip->flight_number' 
                         WHERE trip_id='$trip_id'";
 
         if ($conn->query($insertQuery)) {
@@ -299,6 +300,12 @@ function convert_date_format($travel_date)
                                                                 <option value="4" <?=$edit_row['car_type_id'] == 4 ? ' selected="selected"' : '';?>>16 seater coach</option>
                                                             </select>
                                                             <span style="font-weight: bold;color: red"><?php echo($car_type_error); ?></span>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label for="login-username">Flight NO:</label>
+                                                            <input type="text" id="flight_number"
+                                                                   name="flight_number"
+                                                                   class="form-control" value="<?php echo($edit_row['flight_number'])?>">
                                                         </div>
                                                     </div>
                                                 </div>

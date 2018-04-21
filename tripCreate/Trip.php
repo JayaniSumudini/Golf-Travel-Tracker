@@ -16,5 +16,6 @@ class Trip
     public $travel_price;
     public $car_type_id;
     public $trip_status;
+    public $flight_number;
 
 }
