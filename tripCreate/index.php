@@ -122,6 +122,12 @@ function convert_date_format($travel_date)
     return $date->format('Y-m-d');
 }
 
+function convert_date_format_to_display($travel_date)
+{
+    $date = DateTime::createFromFormat('Y-m-d', $travel_date);
+    return $date->format('d-m-Y');
+}
+
 if (isset($_POST['print'])) {
     header("location: ../print/");
 }
@@ -213,7 +219,7 @@ if (isset($_POST['print'])) {
                                 <div class="tab">
                                     <div class="tab-content">
 
-                                        <div id="login" class="tab-content-inner active" data-content="signup">
+                                        <div id="trip" class="tab-content-inner active">
                                             <h3 style="text-align:center">Plan your trip</h3>
                                             <form role="form" action="index.php" method="post">
                                                 <div class="row form-group">
@@ -226,7 +232,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">Date</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <input data-provide="datepicker" type="text"
+                                                            <input data-provide="datepicker" type="text" required
                                                                    id="travel_date"
                                                                    name="travel_date"
                                                                    class="form-control">
@@ -235,7 +241,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">Time</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <input type="time" id="travel_time"
+                                                            <input type="time" id="travel_time" required
                                                                    name="travel_time"
                                                                    class="form-control">
                                                         </div>
@@ -243,7 +249,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">From</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <select class="form-control" name="travel_from">
+                                                            <select class="form-control" name="travel_from" required>
                                                                 <option>None</option>
                                                                 <?php
                                                                 $query = "SELECT destination_id,destination_name FROM destinations";
@@ -264,7 +270,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">To</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <select class="form-control" name="travel_to">
+                                                            <select class="form-control" name="travel_to" required>
                                                                 <?php
                                                                 $query = "SELECT destination_id,destination_name FROM destinations";
                                                                 $placeList = $conn->query($query);
@@ -296,20 +302,26 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">Number of pessengers</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <input type="number" id="number_of_pessengers"
+                                                            <input type="number" id="number_of_pessengers" required
                                                                    name="number_of_pessengers"
                                                                    class="form-control">
                                                         </div>
                                                         <div class="col-md-2">
                                                             <label for="login-username">Car</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <select class="form-control" name="car">
+                                                            <select class="form-control" name="car" required>
                                                                 <option>None</option>
                                                                 <option value="1">Saloon (2 seats)</option>
                                                                 <option value="2">Van (6 seats)</option>
                                                                 <option value="3">Van + Traier (8 seats)</option>
                                                             </select>
                                                             <span style="font-weight: bold;color: red"><?php echo($car_type_error); ?></span>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label for="login-username">Flight NO:</label>
+                                                            <input type="text" id="flight_number"
+                                                                   name="flight_number"
+                                                                   class="form-control">
                                                         </div>
                                                     </div>
                                                     <div class="row form-group" id="isSelect">
@@ -339,6 +351,9 @@ if (isset($_POST['print'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12" style="overflow-x:auto; width: 100%">
                                                         <table class="table table-bordered">
+<!--                                                            <colgroup>-->
+<!--                                                                <col style="width:105px">-->
+<!--                                                            </colgroup>-->
                                                             <thead>
                                                             <tr style="font-weight: 800;">
                                                                 <th>Date</th>
@@ -361,8 +376,8 @@ if (isset($_POST['print'])) {
                                                                 while ($rowValue = $tripList->fetch_assoc()) {
                                                                     ?>
                                                                     <tr>
-                                                                        <td><?php echo($rowValue["travel_date"]); ?></td>
-                                                                        <td><?php echo($rowValue["travel_time"]); ?></td>
+                                                                        <td><?php echo(convert_date_format_to_display($rowValue["travel_date"])); ?></td>
+                                                                        <td><?php echo(date("H:i", strtotime($rowValue["travel_time"]))); ?></td>
                                                                         <td>
                                                                             <?php
                                                                             $destination_id1 = $rowValue["travel_from"];
@@ -397,7 +412,7 @@ if (isset($_POST['print'])) {
                                                                                 echo("");
                                                                             }
                                                                             ?></td>
-                                                                        <td><?php echo($rowValue["travel_price"]); ?></td>
+                                                                        <td align="right"><?php echo($rowValue["travel_price"]); ?></td>
                                                                         <td><?php
                                                                             if ($rowValue["trip_status"] == 'Added') {
                                                                                 echo '<span style="color:red;">';
@@ -483,8 +498,8 @@ if (isset($_POST['print'])) {
                                                             ?>
                                                             </tbody>
                                                             <tr style="font-weight: 800;">
-                                                                <td colspan="10">Total Price For Trip</td>
-                                                                <td><?php
+                                                                <td colspan="7">Total Price For Trip (£) </td>
+                                                                <td align="right"><?php
                                                                     $query = "SELECT total_price FROM itenary WHERE itenary_id='$itenary_id'";
                                                                     $total_price = mysqli_query($conn, $query);
                                                                     $total_prices[] = mysqli_fetch_assoc($total_price);
@@ -496,7 +511,6 @@ if (isset($_POST['print'])) {
                                                         </table>
                                                     </div>
                                                 </div>
-
                                                 <div class="row form-group">
                                                     <div class="col-md-6">
                                                         <div class="col-md-6">

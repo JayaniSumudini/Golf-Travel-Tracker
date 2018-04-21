@@ -112,12 +112,6 @@ if (isset($_POST['signUp'])) {
                                             <form role="form" action="index.php" method="post">
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
-                                                        <label for="username">Username</label>
-                                                        <input type="text" id="username" class="form-control" name="username" required>
-                                                    </div>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col-md-12">
                                                         <label for="email">Email</label>
                                                         <input type="text" id="email" class="form-control" name="email" required>
                                                     </div>
@@ -140,10 +134,10 @@ if (isset($_POST['signUp'])) {
                                                     <div class="col-md-12">
                                                         <input type="submit" class="btn btn-primary btn-block"
                                                                id="signUp" name="signUp" value="Sign Up" >
-                                                        <a href="../login/">
-                                                            <input type="button" class="btn btn-primary btn-block"
-                                                                   value="Login">
-                                                        </a>
+<!--                                                        <a href="../login/">-->
+<!--                                                            <input type="button" class="btn btn-primary btn-block"-->
+<!--                                                                   value="Login">-->
+<!--                                                        </a>-->
                                                     </div>
                                                 </div>
                                             </form>
