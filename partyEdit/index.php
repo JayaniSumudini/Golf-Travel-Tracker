@@ -2,14 +2,14 @@
 session_start();
 $register_error = "";
 $edit_row = [];
-$party_id ="";
+$party_id = "";
 if (!isset($_SESSION['user'])) {
     header("Location:../login");
 }
 
 if (!isset($_SESSION['editParty'])) {
     header("Location:../partyCreate");
-}else{
+} else {
     $edit_row = $_SESSION['editParty'];
     $party_id = $edit_row['party_id'];
 }
@@ -31,9 +31,18 @@ if (isset($_POST['submit'])) {
 
         if ($conn->query($query)) {
             $_SESSION['editParty'] = null;
-            echo "<script>
-                     window.location.href='../partyCreate';
-                  </script>";
+
+            if (!isset($_SESSION['istrip'])) {
+                echo "<script>
+             window.location.href='../partyCreate';
+          </script>";
+            }
+            if (isset($_SESSION['istrip']) && $_SESSION['istrip'] == true) {
+                unset($_SESSION['istrip']);
+                echo "<script>
+             window.location.href='../tripCreate';
+          </script>";
+            }
         } else {
             $register_error = "error while edit data";
         }
@@ -45,9 +54,17 @@ if (isset($_POST['submit'])) {
 }
 
 if (isset($_POST['cancel'])) {
-    echo "<script>
+    if (!isset($_SESSION['istrip'])) {
+        echo "<script>
              window.location.href='../partyCreate';
           </script>";
+    }
+    if (isset($_SESSION['istrip']) && $_SESSION['istrip'] == true) {
+        unset($_SESSION['istrip']);
+        echo "<script>
+             window.location.href='../tripCreate';
+          </script>";
+    }
 }
 ?>
 
@@ -139,7 +156,8 @@ if (isset($_POST['cancel'])) {
                                                     <div class="col-md-12">
                                                         <label for="login-username">Lead Name</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="text" id="lead_name" name="lead_name" required value="<?php echo($edit_row['lead_name'])?>"
+                                                        <input type="text" id="lead_name" name="lead_name" required
+                                                               value="<?php echo($edit_row['lead_name']) ?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -148,7 +166,8 @@ if (isset($_POST['cancel'])) {
                                                     <div class="col-md-12">
                                                         <label for="login-username">Phone Number</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="text" id="phone_number" name="phone_number" value="<?php echo($edit_row['phone_number'])?>"
+                                                        <input type="text" id="phone_number" name="phone_number"
+                                                               value="<?php echo($edit_row['phone_number']) ?>"
                                                                required
                                                                class="form-control">
                                                     </div>
@@ -158,7 +177,8 @@ if (isset($_POST['cancel'])) {
                                                     <div class="col-md-12">
                                                         <label for="login-username">Email</label>
                                                         <span style="font-weight: bold;color: red">*</span>
-                                                        <input type="email" id="email" name="email" required value="<?php echo($edit_row['email'])?>"
+                                                        <input type="email" id="email" name="email" required
+                                                               value="<?php echo($edit_row['email']) ?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -166,7 +186,8 @@ if (isset($_POST['cancel'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Number in Party</label>
-                                                        <input type="number" id="number_in_party" name="number_in_party" value="<?php echo($edit_row['number_in_party'])?>"
+                                                        <input type="number" id="number_in_party" name="number_in_party"
+                                                               value="<?php echo($edit_row['number_in_party']) ?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
@@ -174,24 +195,26 @@ if (isset($_POST['cancel'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Hotel Address</label>
-                                                        <input type="text" id="hotel_address" name="hotel_address" value="<?php echo($edit_row['hotel_address'])?>"
+                                                        <input type="text" id="hotel_address" name="hotel_address"
+                                                               value="<?php echo($edit_row['hotel_address']) ?>"
                                                                class="form-control">
                                                     </div>
                                                 </div>
 
-<!--                                                <div class="row form-group">-->
-<!--                                                    <div class="col-md-12">-->
-<!--                                                        <label for="login-username">Flight Number</label>-->
-<!--                                                        <input type="text" id="flight_number" name="flight_number" value="--><?php //echo($edit_row['flight_number'])?><!--"-->
-<!--                                                               class="form-control">-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
+                                                <!--                                                <div class="row form-group">-->
+                                                <!--                                                    <div class="col-md-12">-->
+                                                <!--                                                        <label for="login-username">Flight Number</label>-->
+                                                <!--                                                        <input type="text" id="flight_number" name="flight_number" value="-->
+                                                <?php //echo($edit_row['flight_number'])?><!--"-->
+                                                <!--                                                               class="form-control">-->
+                                                <!--                                                    </div>-->
+                                                <!--                                                </div>-->
 
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-username">Notes</label>
                                                         <textarea type="text" id="notes" name="notes" rows="4"
-                                                                  class="form-control"><?php echo($edit_row['notes'])?></textarea>
+                                                                  class="form-control"><?php echo($edit_row['notes']) ?></textarea>
                                                     </div>
                                                 </div>
 

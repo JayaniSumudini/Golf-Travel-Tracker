@@ -26,7 +26,6 @@ if ($row[0]["itenary_id"] != null || $row[0]["itenary_id"] != "") {
     $itenary_id = $_SESSION['itenary'];
 } else {
     $status = 'SAVED';
-    $create_date_and_time =
     $query = "INSERT INTO itenary (party_id,status) VALUES ('$party_id','$status')";
     if ($conn->query($query)) {
         $_SESSION['itenary'] = $conn->insert_id;
@@ -210,16 +209,31 @@ if (isset($_POST['print'])) {
             <div class="col-md-12 col-md-offset-0 text-left">
 
                 <ul class="nav nav-tabs">
-
+                    <form role="form" action="index.php" method="post">
+                        <input type="submit" id="edit_plan" name="edit_plan"
+                               class="btn btn-md btn-info" value="Edit trip details"
+                               style="float: right;margin-top: 30px;">
+                        <?php
+                        if (isset($_POST['edit_plan'])) {
+                            $party_id1 = $_SESSION['party'];
+                            $query1 = "SELECT * FROM party_details WHERE party_id='$party_id1'";
+                            $result1 = $conn->query($query1);
+                            $row1 = $result1->fetch_assoc();
+                            $_SESSION['editParty'] = $row1;
+                            $_SESSION['istrip'] = true;
+                            print("<script>
+                                    window.location.href='../partyEdit';
+                                   </script>");
+                        }
+                        ?>
+                    </form>
 
                     <div class="row row-mt-15em" style="margin-top: 4em;">
-
                         <div class="col-md-12 animate-box" data-animate-effect="fadeInRight">
                             <div class="form-wrap"
                                  style="box-shadow: none; border: 1px solid #09C6AB; border-top: 5px solid #09C6AB;">
                                 <div class="tab">
                                     <div class="tab-content">
-
                                         <div id="trip" class="tab-content-inner active">
                                             <h3 style="text-align:center">Plan your trip</h3>
                                             <form role="form" action="index.php" method="post">
@@ -250,7 +264,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">From</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <select class="form-control" name="travel_from" >
+                                                            <select class="form-control" name="travel_from">
                                                                 <option>None</option>
                                                                 <?php
                                                                 $query = "SELECT destination_id,destination_name FROM destinations";
@@ -271,7 +285,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">To</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <select class="form-control" name="travel_to" >
+                                                            <select class="form-control" name="travel_to">
                                                                 <?php
                                                                 $query = "SELECT destination_id,destination_name FROM destinations";
                                                                 $placeList = $conn->query($query);
@@ -310,7 +324,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">Car</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <select class="form-control" name="car" >
+                                                            <select class="form-control" name="car">
                                                                 <option>None</option>
                                                                 <option value="1">Saloon (2 seats)</option>
                                                                 <option value="2">Van (6 seats)</option>
@@ -344,7 +358,6 @@ if (isset($_POST['print'])) {
                                                             echo(" number of Trips."); ?>"
                                                                    style="float: right;margin-top: 30px;">
                                                         </div>
-
                                                     </div>
                                                 </div>
 
@@ -352,9 +365,9 @@ if (isset($_POST['print'])) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12" style="overflow-x:auto; width: 100%">
                                                         <table class="table table-bordered">
-<!--                                                            <colgroup>-->
-<!--                                                                <col style="width:105px">-->
-<!--                                                            </colgroup>-->
+                                                            <!--                                                            <colgroup>-->
+                                                            <!--                                                                <col style="width:105px">-->
+                                                            <!--                                                            </colgroup>-->
                                                             <thead>
                                                             <tr style="font-weight: 800;">
                                                                 <th>Date</th>
@@ -389,9 +402,9 @@ if (isset($_POST['print'])) {
                                                                             $destination_names1 = null;
                                                                             ?></td>
                                                                         <td><?php
-//                                                                            $query = "SELECT flight_number FROM party_details WHERE party_id='$party_id'";
-//                                                                            $flight_number = mysqli_query($conn, $query);
-//                                                                            $flight_numbers[] = mysqli_fetch_assoc($flight_number);
+                                                                            //                                                                            $query = "SELECT flight_number FROM party_details WHERE party_id='$party_id'";
+                                                                            //                                                                            $flight_number = mysqli_query($conn, $query);
+                                                                            //                                                                            $flight_numbers[] = mysqli_fetch_assoc($flight_number);
                                                                             echo($rowValue["flight_number"]);
                                                                             ?></td>
                                                                         <td><?php
@@ -499,7 +512,7 @@ if (isset($_POST['print'])) {
                                                             ?>
                                                             </tbody>
                                                             <tr style="font-weight: 800;">
-                                                                <td colspan="7">Total Price For Trip (£) </td>
+                                                                <td colspan="7">Total Price For Trip (£)</td>
                                                                 <td align="right"><?php
                                                                     $query = "SELECT total_price FROM itenary WHERE itenary_id='$itenary_id'";
                                                                     $total_price = mysqli_query($conn, $query);
