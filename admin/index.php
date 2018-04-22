@@ -1,7 +1,9 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
+    header("Location:../login");
+}elseif ($_SESSION['user_role'] != 'ADMIN'){
     header("Location:../login");
 }
 

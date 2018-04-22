@@ -24,7 +24,7 @@ if ($_POST) {
 
         if ($row[0]["password"] == $password) {
             $_SESSION['user'] = $row[0]['user_id'];
-        } else {
+            $_SESSION['user_role'] = $row[0]['user_role'];
             $errorUserError = "User email or password is incorrect!";
         }
 

@@ -14,8 +14,15 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-<!--            <li class="active"><a href="#">-- Create Your Party <span class="sr-only">(current)</span></a></li>-->
-                            <li><a href="/web/admin/">dashboard</a></li>
+            <!--            <li class="active"><a href="#">-- Create Your Party <span class="sr-only">(current)</span></a></li>-->
+            <?php if (isset($_SESSION['user_role'])) {
+                if (($_SESSION['user_role']) == 'ADMIN') {
+                    ?>
+                    <li><a href="/web/admin/">dashboard</a></li>
+            <?php
+                }
+            } ?>
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="../logout/logout.php?logout">Log Out</a></li>
