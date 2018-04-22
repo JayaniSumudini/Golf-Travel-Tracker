@@ -15,6 +15,7 @@ create table user_details(
   user_email varchar(100) not null,
   password varchar(32) not null,
   reset_key varchar(100),
+  user_role enum ('USER','ADMIN') not null DEFAULT 'USER',
   PRIMARY KEY(user_id)
 );
 

@@ -41,29 +41,6 @@ VALUES
   (9,9,'SUBMITED',290),
   (10,10,'ADMIN_CHANGED',420);
 
-INSERT INTO destinations
- (destination_id,destination_name)
-VALUES
- (1,'St Andrews'),
- (2,'Eden Club House'),
- (3,'Links Club House'),
- (4,'Castle Course'),
- (5,'Kings Barns'),
- (6,'Crail Golf'),
- (7,'Carnoustie'),
- (8,'Glen Eagles'),
- (9,'North Berwick'),
- (10,'Dundee AP'),
- (11,'Edinburgh AP'),
- (12,'Glasgow AP'),
- (13,'Aberdeen AP'),
- (14,'Prestwick AP'),
- (15,'Dundee'),
- (16,'Perth'),
- (17,'Edinburgh'),
- (18,'Glasgow'),
- (19,'Aberdeen');
-
 
 INSERT INTO trip
   (trip_id,travel_date,travel_time,travel_from,travel_to,number_of_pessengers,travel_price,itenary_id,car_type_id)
@@ -100,6 +77,38 @@ VALUES
 --  (17,1,17,60,'1 hour 30 mins',90,100,0,0),
 --  (18,1,18,74,'1 hour 40 mins',110,120,0,0),
 --  (19,1,19,79,'1 hour 50 mins',110,130,0,0);
+
+
+
+
+INSERT INTO user_details
+(user_id,user_email,password,user_role)
+VALUES
+  (1,'user@gmail.com','user','USER'),
+  (2,'admin@gmail.com','admin','ADMIN');
+
+INSERT INTO destinations
+ (destination_id,destination_name)
+VALUES
+ (1,'St Andrews'),
+ (2,'Eden Club House'),
+ (3,'Links Club House'),
+ (4,'Castle Course'),
+ (5,'Kings Barns'),
+ (6,'Crail Golf'),
+ (7,'Carnoustie'),
+ (8,'Glen Eagles'),
+ (9,'North Berwick'),
+ (10,'Dundee AP'),
+ (11,'Edinburgh AP'),
+ (12,'Glasgow AP'),
+ (13,'Aberdeen AP'),
+ (14,'Prestwick AP'),
+ (15,'Dundee'),
+ (16,'Perth'),
+ (17,'Edinburgh'),
+ (18,'Glasgow'),
+ (19,'Aberdeen');
 
 
 INSERT INTO distance
