@@ -37,7 +37,6 @@ $pdf->Cell(0,10,'Lead name: '.$results["lead_name"],0,2,'L');
 $pdf->Cell(0,10,'Phone number: '.$results["phone_number"],0,2,'L');
 $pdf->Cell(0,10,'Email address: '.$results["email"],0,2,'L');
 $pdf->Cell(0,10,'Hotel address: '.$results["hotel_address"],0,2,'L');
-$pdf->Cell(0,10,'Flight Number: '.$results["flight_number"],0,2,'L');
 $pdf->Cell(0,10,'Notes: '.$results["notes"],0,2,'L');
 
 $pdf->Ln(10);
@@ -56,7 +55,7 @@ while ($header = mysqli_fetch_assoc($result1)) {
 if ($column_names > 0) {
     foreach ($column_names as $heading) {
         foreach ($heading as $column_heading)
-            if($column_heading != "trip_id" && $column_heading != "itenary_id" && $column_heading != "trip_status" && $column_heading != "flight_number"){
+            if($column_heading != "trip_id" && $column_heading != "itenary_id" && $column_heading != "trip_status"){
                 if($column_heading == "number_of_pessengers"){
                     $column_heading = "No. pessengers";
                 }
@@ -78,7 +77,10 @@ if ($column_names > 0) {
                 if ($column_heading == "car_type_id") {
                     $column_heading = "Car type";
                 }
-                $pdf->Cell(28, 10, $column_heading, 1,0,'C');
+                if ($column_heading == "flight_number") {
+                    $column_heading = "Flight No";
+                }
+                $pdf->Cell(24.5, 10, $column_heading, 1,0,'C');
             }
 
     }
@@ -93,24 +95,24 @@ while ($header1 = mysqli_fetch_assoc($result2)) {
 
 if ($results > 0) {
     foreach ($results as $row) {
-        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetFont('Arial', '', 9);
         $pdf->Ln();
-        $pdf->Cell(28, 10, $row['travel_date'], 1,0,'C');
-        $pdf->Cell(28, 10, $row['travel_time'], 1,0,'C');
+        $pdf->Cell(24.5, 10, $row['travel_date'], 1,0,'C');
+        $pdf->Cell(24.5, 10, $row['travel_time'], 1,0,'C');
 
         $from = $row['travel_from'];
         $from_query = "SELECT destination_name FROM destinations WHERE destination_id = '$from'";
         $result_from = mysqli_query($conn, $from_query);
         $from_names = mysqli_fetch_assoc($result_from);
-        $pdf->Cell(28, 10, $from_names["destination_name"], 1,0,'C');
+        $pdf->Cell(24.5, 10, $from_names["destination_name"], 1,0,'C');
 
         $to = $row['travel_to'];
         $to_query = "SELECT destination_name FROM destinations WHERE destination_id = '$to'";
         $result_to = mysqli_query($conn, $to_query);
         $to_names = mysqli_fetch_assoc($result_to);
-        $pdf->Cell(28, 10, $to_names["destination_name"], 1,0,'C');
+        $pdf->Cell(24.5, 10, $to_names["destination_name"], 1,0,'C');
 
-        $pdf->Cell(28, 10, $row['number_of_pessengers'], 1,0,'C');
+        $pdf->Cell(24.5, 10, $row['number_of_pessengers'], 1,0,'C');
 
         $car_id= $row['car_type_id'];
 
@@ -122,8 +124,9 @@ if ($results > 0) {
         }else{
             $car_type="Van + Traier";
         }
-        $pdf->Cell(28, 10,$car_type, 1,0,'C');
-        $pdf->Cell(28, 10, $row['travel_price'], 1,0,'C');
+        $pdf->Cell(24.5, 10,$car_type, 1,0,'C');
+        $pdf->Cell(24.5, 10, $row['flight_number'], 1,0,'C');
+        $pdf->Cell(24.5, 10, $row['travel_price'], 1,0,'C');
 
     }
 }

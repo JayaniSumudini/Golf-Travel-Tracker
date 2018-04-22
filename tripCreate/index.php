@@ -125,7 +125,7 @@ function convert_date_format($travel_date)
 function convert_date_format_to_display($travel_date)
 {
     $date = DateTime::createFromFormat('Y-m-d', $travel_date);
-    return $date->format('d-m-Y');
+    return $date->format('d/m/Y');
 }
 
 if (isset($_POST['print'])) {
@@ -214,6 +214,13 @@ if (isset($_POST['print'])) {
                                class="btn btn-md btn-info" value="Edit trip details"
                                style="float: right;margin-top: 30px;">
                         <?php
+                        if ($_SESSION['user_role'] == 'ADMIN') {
+                            ?>
+                            <script type="text/javascript">$('#edit_plan').hide()</script>
+                            <?php
+                        }
+                        ?>
+                        <?php
                         if (isset($_POST['edit_plan'])) {
                             $party_id1 = $_SESSION['party'];
                             $query1 = "SELECT * FROM party_details WHERE party_id='$party_id1'";
@@ -235,12 +242,35 @@ if (isset($_POST['print'])) {
                                 <div class="tab">
                                     <div class="tab-content">
                                         <div id="trip" class="tab-content-inner active">
-                                            <h3 style="text-align:center">Plan your trip</h3>
+                                            <h3 id="title_user" style="text-align:center">Plan your trip</h3>
+                                            <h3 id="title_admin" style="text-align:center">Trip details</h3>
+                                            <?php
+                                            if ($_SESSION['user_role'] == 'ADMIN') {
+                                                ?>
+                                                <script type="text/javascript">$('#title_user').hide()</script>
+                                                <?php
+                                            }
+                                            ?>
+                                            <?php
+                                            if ($_SESSION['user_role'] != 'ADMIN') {
+                                                ?>
+                                                <script type="text/javascript">$('#title_admin').hide()</script>
+                                                <?php
+                                            }
+                                            ?>
                                             <form role="form" action="index.php" method="post">
                                                 <div class="row form-group">
                                                     <span style="-webkit-text-fill-color: red" id="errorSpan"></span>
                                                 </div>
-                                                <div style="border:solid 1px #09C6AB;border-radius: 5px; padding: 16px;margin-bottom: 20px">
+
+                                                <div style="border:solid 1px #09C6AB;border-radius: 5px; padding: 16px;margin-bottom: 20px" id="div1">
+                                                    <?php
+                                                    if ($_SESSION['user_role'] == 'ADMIN') {
+                                                        ?>
+                                                    <script type="text/javascript">$('#div1').hide()</script>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                     <h4>Add New Trip to your plan</h4>
                                                     <span style="font-weight: bold;color: red"><?php echo($itineary_error); ?></span>
                                                     <div class="row form-group" id="isSelect">
@@ -361,7 +391,6 @@ if (isset($_POST['print'])) {
                                                     </div>
                                                 </div>
 
-
                                                 <div class="row form-group">
                                                     <div class="col-md-12" style="overflow-x:auto; width: 100%">
                                                         <table class="table table-bordered">
@@ -401,12 +430,7 @@ if (isset($_POST['print'])) {
                                                                             echo($destination_names1[0]["destination_name"]);
                                                                             $destination_names1 = null;
                                                                             ?></td>
-                                                                        <td><?php
-                                                                            //                                                                            $query = "SELECT flight_number FROM party_details WHERE party_id='$party_id'";
-                                                                            //                                                                            $flight_number = mysqli_query($conn, $query);
-                                                                            //                                                                            $flight_numbers[] = mysqli_fetch_assoc($flight_number);
-                                                                            echo($rowValue["flight_number"]);
-                                                                            ?></td>
+                                                                        <td><?php echo($rowValue["flight_number"]); ?></td>
                                                                         <td><?php
                                                                             $destination_id2 = $rowValue["travel_to"];
                                                                             $query2 = "SELECT destination_name FROM destinations WHERE destination_id = '$destination_id2'";

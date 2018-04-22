@@ -2,8 +2,10 @@
 session_start();
 $register_error = "";
 //$_POST = array();
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) ) {
     header("Location:../login");
+}elseif ($_SESSION['user_role'] == 'ADMIN'){
+    header("Location:../admin");
 }
 
 if (isset($_POST['submit'])) {
@@ -128,7 +130,7 @@ if (isset($_POST['submit'])) {
                             ?>
                             <h4>Your Existing Trips</h4>
                             <?php
-                            $query = "SELECT * FROM party_details WHERE user_id =" . $_SESSION['user'];
+                            $query = "SELECT * FROM party_details WHERE user_id =" . $_SESSION['user']." ORDER BY create_date_and_time";
                             $result = $conn->query($query);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
