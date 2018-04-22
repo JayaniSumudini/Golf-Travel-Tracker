@@ -34,7 +34,20 @@ if (isset($_POST['submit'])) {
     $trip->number_of_pessengers = mysqli_real_escape_string($conn, $_POST['number_of_pessengers']);
     $trip->car_type_id = mysqli_real_escape_string($conn, $_POST['car']);
     $trip->travel_price = calculate_travel_price($_POST['travel_from'], $_POST['travel_to'], $_POST['car'], $conn);
+
+    $status_query = "SELECT trip_status FROM trip WHERE trip_id='$trip_id'";
+    $var_status = mysqli_query($conn, $status_query);
+    $statuses[] = mysqli_fetch_assoc($var_status);
+    $status = $statuses[0]["trip_status"];
     $trip->trip_status = 'Added';
+    if($_SESSION['user_role'] != 'ADMIN'){
+        if($status == 'AdminChanged'){
+            $trip->trip_status = 'ToBeAcceptance';
+        }
+    }
+    if($_SESSION['user_role'] == 'ADMIN'){
+        $trip->trip_status = 'AdminChanged';
+    }
     $trip->flight_number = mysqli_real_escape_string($conn, $_POST['flight_number']);;
 
     if ($trip->travel_from == "None") {

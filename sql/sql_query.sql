@@ -57,7 +57,7 @@ create table trip(
 	number_of_pessengers int not null,
 	itenary_id int not null ,
 	car_type_id int not null default 1,
-	trip_status enum('Added','Saved') not null default 'Added',
+	trip_status enum('Added','Saved','Submited','AdminChanged','ToBeAcceptance','Accepted') not null default 'Added',
 	flight_number varchar(200) not null,
 	travel_price decimal(6,2),
 	PRIMARY KEY(trip_id),

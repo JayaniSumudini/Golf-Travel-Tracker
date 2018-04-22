@@ -86,6 +86,15 @@ if (isset($_POST['save'])) {
     }
 }
 
+if (isset($_POST['submit'])) {
+    $updateQuery = "UPDATE trip SET trip_status = 'Submited' WHERE itenary_id='$itenary_id' AND trip_status='Saved'";
+    if ($conn->query($updateQuery)) {
+        $total_prices = null;
+    } else {
+
+    }
+}
+
 function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
 {
     $travel_price = 0;
@@ -413,7 +422,12 @@ if (isset($_POST['print'])) {
                                                             <tbody>
                                                             <?php
                                                             $itenary_id = $_SESSION['itenary'];
-                                                            $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id' ORDER BY travel_date,travel_time ";
+                                                            if($_SESSION['user_role']== 'ADMIN'){
+                                                                $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id' AND (trip_status='Submited' OR trip_status='AdminChanged') ORDER BY travel_date,travel_time ";
+                                                            }else{
+                                                                $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id' ORDER BY travel_date,travel_time ";
+                                                            }
+
                                                             $tripList = $conn->query($query);
                                                             if ($tripList->num_rows > 0) {
                                                                 while ($rowValue = $tripList->fetch_assoc()) {
@@ -453,12 +467,24 @@ if (isset($_POST['print'])) {
                                                                         <td align="right"><?php echo($rowValue["travel_price"]); ?></td>
                                                                         <td><?php
                                                                             if ($rowValue["trip_status"] == 'Added') {
-                                                                                echo '<span style="color:red;">';
+                                                                                echo '<span style="color:#ff2a2f;">';
                                                                                 echo($rowValue["trip_status"]);
                                                                                 echo '</span>';
                                                                             } elseif ($rowValue["trip_status"] == 'Saved') {
-                                                                                echo '<span style="color:darkblue;">';
+                                                                                echo '<span style="color:#0e2eff;">';
                                                                                 echo($rowValue["trip_status"]);
+                                                                                echo '</span>';
+                                                                            } elseif ($rowValue["trip_status"] == 'Submited') {
+                                                                                echo '<span style="color:#74ff26;">';
+                                                                                echo($rowValue["trip_status"]);
+                                                                                echo '</span>';
+                                                                            }elseif ($rowValue["trip_status"] == 'AdminChanged') {
+                                                                                echo '<span style="color:#ffbb56;">';
+                                                                                echo("Admin Changed");
+                                                                                echo '</span>';
+                                                                            }elseif ($rowValue["trip_status"] == 'ToBeAcceptance') {
+                                                                                echo '<span style="color:#ff05bf;">';
+                                                                                echo("To Be Acceptance");
                                                                                 echo '</span>';
                                                                             }
                                                                             ?>
@@ -472,6 +498,7 @@ if (isset($_POST['print'])) {
                                                                                        id="delete" name="delete"
                                                                                        value="Delete"
                                                                                        style="font-size: 12px; padding: 3px;">
+
                                                                                 <span style="font-weight: bold;color: red"><?php echo($delete_error); ?></span>
                                                                                 <input type="submit"
                                                                                        class="btn btn-sm "
@@ -479,7 +506,20 @@ if (isset($_POST['print'])) {
                                                                                        value="edit_trip"
                                                                                        style="font-size: 12px; padding: 3px;">
                                                                             </form>
+                                                                            <?php
+                                                                            $trip_id = $rowValue["trip_id"];
+                                                                            $status_query1 = "SELECT trip_status FROM trip WHERE trip_id='$trip_id'";
+                                                                            $var_status1 = mysqli_query($conn, $status_query1);
+                                                                            $statuses1[] = mysqli_fetch_assoc($var_status1);
+                                                                            $status1 = $statuses1[0]["trip_status"];
 
+                                                                            if (($status1=='Submited' || $status1=='Accepted' )&& $_SESSION['user_role']!='ADMIN') {
+                                                                                ?>
+                                                                                <script type="text/javascript">$('#delete').hide()</script>
+                                                                                <script type="text/javascript">$('#edit_trip').hide()</script>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
 
                                                                         </td>
                                                                         <?php
