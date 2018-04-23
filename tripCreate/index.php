@@ -379,23 +379,35 @@ if (isset($_POST['print'])) {
                                                         </div>
                                                     </div>
                                                     <div class="row form-group" id="isSelect">
+                                                        <div class="col-md-10">
+                                                            <span id="added_count" name="added_count" style="float: right;margin-top: 20px; padding: 8px 20px; background:#f39c12; color: #fff; border-radius: 3px">
+                                                                <?php
+                                                                $query1 = "SELECT * FROM trip WHERE trip_status = 'Added' and itenary_id = $itenary_id";
+                                                                $query2 = "SELECT * FROM trip WHERE itenary_id = $itenary_id";
+                                                                $addList = $conn->query($query1);
+                                                                $List = $conn->query($query2);
+                                                                if($List->num_rows == 0){
+                                                                    echo("Create Your Own Trip");
+                                                                }
+                                                                else {
+                                                                    if($addList->num_rows == 0){
+                                                                        echo("All the Trips are SAVED ");
+                                                                    }
+                                                                    else{
+                                                                        echo("You have to SAVE ");
+                                                                        echo($addList->num_rows);
+                                                                        echo(" number of Trips.");
+                                                                    }
+                                                                }
 
+                                                                 ?>
+                                                            </span>
+                                                        </div>
                                                         <div class="col-md-2">
                                                             <label for="login-username"></label>
                                                             <input type="submit" id="add" name="add"
                                                                    class="btn btn-sm btn-primary " value="Add"
-                                                                   style="float: right;margin-top: 30px;">
-                                                        </div>
-
-                                                        <div class="col-md-5">
-                                                            <input type="button" id="added_count" name="added_count"
-                                                                   class="btn btn-md btn-info" value="<?php
-                                                            $query1 = "SELECT * FROM trip WHERE trip_status = 'Added' and itenary_id = $itenary_id";
-                                                            $addList = $conn->query($query1);
-                                                            echo("You have to SAVE ");
-                                                            echo($addList->num_rows);
-                                                            echo(" number of Trips."); ?>"
-                                                                   style="float: right;margin-top: 30px;">
+                                                                   style="float: right;margin-top: 20px; width: 90%">
                                                         </div>
                                                     </div>
                                                 </div>
