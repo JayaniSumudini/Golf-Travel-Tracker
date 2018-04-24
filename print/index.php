@@ -44,7 +44,7 @@ $pdf->Ln(10);
 //table-Trip details
 $pdf->SetFont('Arial', 'B', 9);
 $query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='golf_travel_route' AND `TABLE_NAME`='trip'";
-//    $query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='eigendem_golf_travel_route' AND `TABLE_NAME`='trip'";
+//$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='eigendem_golf_travel_route' AND `TABLE_NAME`='trip'";
 
 $result1 = mysqli_query($conn, $query1);
 //    $header[] = mysqli_fetch_assoc($result1);
@@ -86,7 +86,7 @@ if ($column_names > 0) {
     }
 }
 //code for print data
-$query2 = "SELECT * from trip WHERE trip_status = 'Saved' and itenary_id = '$itenary_id' ORDER BY travel_date,travel_time";
+$query2 = "SELECT * from trip WHERE (trip_status = 'Saved' OR trip_status='Submited' OR trip_status='AdminChanged' OR trip_status='ToBeAcceptance' OR trip_status='Accepted' ) and itenary_id = '$itenary_id' ORDER BY travel_date,travel_time";
 $result2 = mysqli_query($conn, $query2);
 $results = [];
 while ($header1 = mysqli_fetch_assoc($result2)) {

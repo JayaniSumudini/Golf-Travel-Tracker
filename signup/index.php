@@ -1,11 +1,10 @@
 <?php
-$passwordErr="";
+$passwordErr=$createError="";
 $password=$rePassword="";
 
 if (isset($_POST['signUp'])) {
     require "../function/function.php";
     $conn = connection();
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $rePassword = mysqli_real_escape_string($conn, $_POST['rePassword']);
@@ -25,7 +24,7 @@ if (isset($_POST['signUp'])) {
                 print("<script>alert('error while create user ');</script>");
             }
         }else{
-            //already have email want to reset password?
+            $createError = "already have email want to reset password?";
         }
 
     }
@@ -128,6 +127,7 @@ if (isset($_POST['signUp'])) {
                                                         <input type="password" id="rePassword" class="form-control" name="rePassword" required>
                                                     </div>
                                                     <span style="color:darkred"><?php echo $passwordErr;?></span>
+                                                    <span style="color:darkred"><?php echo $createError;?></span>
                                                 </div>
 
                                                 <div class="row form-group">

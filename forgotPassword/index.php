@@ -16,33 +16,18 @@ if (isset($_POST['reset']) & !empty($_POST['reset'])) {
     if ($count == 1) {
         $row[] = mysqli_fetch_assoc($result);
         $user_id = $row[0]["user_id"];
-        $user_name="Dileepa";
+        $user_name=$email;
         $key = substr(base64_encode(crypt('', '')), 0, 32);
-        $url = "http://localhost/web/resetPassword/index.php?token=$key&email=$email";
-        mail($email,"Reset Your Password","Hi $user_name, We got a request to reset your BACK9TOURS password.Please visit this: $url","From:jayanisumudini@gmail.com\r\n");
+        $url = "http://eigendemo.info/web/resetPassword/index.php?token=$key&email=$email";
+        
+         $mailbody = "Dear user,\n\nIf this e-mail does not apply to you please ignore it. It appears that you have requested a password reset at our website http://eigendemo.info/web\n\nTo reset your password, please click the link below. If you cannot click it, please paste it into your web browser's address bar.\n\n" . $url . "\n\nThanks,\nThe Administration";
+         
+        mail($email,"Reset Your Password",$mailbody,"From:back9tours@eigendemo.info\r\n");
 
         $query = "UPDATE user_details SET reset_key = '$key' WHERE user_email = '$email'";
         $conn -> query($query);
 
-        echo "Please check your email!";
-
-        //// ///        $row[] = mysqli_fetch_assoc($result);
-////        $Login = $row[0]["user_id"];
-////        $query = "UPDATE user_details SET reset_key = '$key' WHERE user_email = '$email'";
-//
-//
-//        $salt = "498#2D83B631%3800EBD!801600D*7E3CC13";
-//
-//        // Create the unique user password reset key
-//        $password = hash('sha512', $salt.$email);
-//
-//        // Create a url which we will direct them to reset their password
-//        $pwrurl = "localhost/web/resetPassword/index.php?q=".$password;
-//
-//        // Mail them their key
-//        $mailbody = "Dear user,\n\nIf this e-mail does not apply to you please ignore it. It appears that you have requested a password reset at our website www.yoursitehere.com\n\nTo reset your password, please click the link below. If you cannot click it, please paste it into your web browser's address bar.\n\n" . $pwrurl . "\n\nThanks,\nThe Administration";
-//        mail($email, "www.yoursitehere.com - Password Reset", $mailbody);
-////        echo "Your password recovery key has been sent to your e-mail address.";
+        echo "Your password recovery mail has been sent to your e-mail address";
 
     }else {
         print("<script>

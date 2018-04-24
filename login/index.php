@@ -1,7 +1,9 @@
 <?php
 
 session_start();
-if (isset($_SESSION['user'])) {
+require "../function/function.php";
+$conn = connection();
+if (isset($_SESSION['user']) && isset($_SESSION['user_role'])) {
     header("location: ../partyCreate/");
 }
 
@@ -9,8 +11,6 @@ $errorRequired = "";
 $errorUserError = "";
 
 if ($_POST) {
-    require "../function/function.php";
-    $conn = connection();
     $user_email = mysqli_real_escape_string($conn, $_POST['user_email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
@@ -25,6 +25,7 @@ if ($_POST) {
         if ($row[0]["password"] == $password) {
             $_SESSION['user'] = $row[0]['user_id'];
             $_SESSION['user_role'] = $row[0]['user_role'];
+        } else {
             $errorUserError = "User email or password is incorrect!";
         }
 
@@ -126,14 +127,14 @@ if ($_POST) {
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-user_email">User Email</label>
-                                                        <input type="text" id="user_email" name="user_email"
+                                                        <input type="text" id="user_email" name="user_email" required
                                                                class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-12">
                                                         <label for="login-password">Password</label>
-                                                        <input type="password" name="password" id="password"
+                                                        <input type="password" name="password" id="password" required
                                                                class="form-control">
                                                     </div>
                                                 </div>

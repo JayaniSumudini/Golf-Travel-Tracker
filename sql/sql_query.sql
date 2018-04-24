@@ -16,7 +16,7 @@ create table user_details(
   password varchar(32) not null,
   reset_key varchar(100),
   user_role enum ('USER','ADMIN') not null DEFAULT 'USER',
-  PRIMARY KEY(user_id)
+  PRIMARY KEY(user_id,user_email)
 );
 
 create table party_details(
