@@ -135,7 +135,7 @@ function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
 
 function convert_date_format($travel_date)
 {
-    $date = DateTime::createFromFormat('m/d/Y', $travel_date);
+    $date = DateTime::createFromFormat('d/m/Y', $travel_date);
     return $date->format('Y-m-d');
 }
 
@@ -294,7 +294,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">Date</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <input data-provide="datepicker" type="text"
+                                                            <input data-provide="datepicker" type="text" data-date-format="dd/mm/yyyy"
                                                                    id="travel_date"
                                                                    name="travel_date"
                                                                    class="form-control">
@@ -387,23 +387,35 @@ if (isset($_POST['print'])) {
                                                         </div>
                                                     </div>
                                                     <div class="row form-group" id="isSelect">
+                                                        <div class="col-md-10">
+                                                            <span id="added_count" name="added_count" style="float: right;margin-top: 20px; padding: 8px 20px; background:#f39c12; color: #fff; border-radius: 3px">
+                                                                <?php
+                                                                $query1 = "SELECT * FROM trip WHERE trip_status = 'Added' and itenary_id = $itenary_id";
+                                                                $query2 = "SELECT * FROM trip WHERE itenary_id = $itenary_id";
+                                                                $addList = $conn->query($query1);
+                                                                $List = $conn->query($query2);
+                                                                if($List->num_rows == 0){
+                                                                    echo("Create Your Own Trip");
+                                                                }
+                                                                else {
+                                                                    if($addList->num_rows == 0){
+                                                                        echo("All the Trips are SAVED ");
+                                                                    }
+                                                                    else{
+                                                                        echo("You have to SAVE ");
+                                                                        echo($addList->num_rows);
+                                                                        echo(" number of Trips.");
+                                                                    }
+                                                                }
 
+                                                                 ?>
+                                                            </span>
+                                                        </div>
                                                         <div class="col-md-2">
                                                             <label for="login-username"></label>
                                                             <input type="submit" id="add" name="add"
                                                                    class="btn btn-sm btn-primary " value="Add"
-                                                                   style="float: right;margin-top: 30px;">
-                                                        </div>
-
-                                                        <div class="col-md-5">
-                                                            <input type="button" id="added_count" name="added_count"
-                                                                   class="btn btn-md btn-info" value="<?php
-                                                            $query1 = "SELECT * FROM trip WHERE trip_status = 'Added' and itenary_id = $itenary_id";
-                                                            $addList = $conn->query($query1);
-                                                            echo("You have to SAVE ");
-                                                            echo($addList->num_rows);
-                                                            echo(" number of Trips."); ?>"
-                                                                   style="float: right;margin-top: 30px;">
+                                                                   style="float: right;margin-top: 20px; width: 90%">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -586,8 +598,23 @@ if (isset($_POST['print'])) {
                                                                     $query = "SELECT total_price FROM itenary WHERE itenary_id='$itenary_id'";
                                                                     $total_price = mysqli_query($conn, $query);
                                                                     $total_prices[] = mysqli_fetch_assoc($total_price);
-                                                                    echo($total_prices[0]["total_price"]);
+                                                                    $total_show_price = $total_prices[0]["total_price"];
+
+                                                                    if($_SESSION["user_role"] == 'ADMIN'){
+                                                                        $queryPrice = "SELECT travel_price FROM trip WHERE itenary_id='$itenary_id' AND (trip_status='Saved' OR trip_status='Added')";
+                                                                        $query_total_price = $conn->query($queryPrice);
+                                                                        if($query_total_price->num_rows >0){
+                                                                            $remove_value = 0;
+                                                                            while ($rowValue = $query_total_price->fetch_assoc()) {
+                                                                                $remove_value = $remove_value + $rowValue["travel_price"];
+                                                                            }
+                                                                            $total_show_price=$total_show_price-$remove_value;
+                                                                        }
+
+                                                                    }
+                                                                    echo number_format((float)$total_show_price, 2, '.', '');
                                                                     $total_prices = null;
+                                                                    $total_show_price = null;
                                                                     ?></td>
                                                             </tr>
                                                             </tbody>

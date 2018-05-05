@@ -123,7 +123,7 @@ function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
 
 function convert_date_format($travel_date)
 {
-    $date = DateTime::createFromFormat('m/d/Y', $travel_date);
+    $date = DateTime::createFromFormat('d/m/Y', $travel_date);
     return $date->format('Y-m-d');
 }
 
@@ -226,12 +226,12 @@ function convert_date_format($travel_date)
                                                         <div class="col-md-2">
                                                             <label for="login-username">Date</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <input data-provide="datepicker" type="text"
+                                                            <input data-provide="datepicker" type="text" data-date-format="dd/mm/yyyy"
                                                                    id="travel_date"
                                                                    name="travel_date"
                                                                    class="form-control" value="<?php
                                                             $date = DateTime::createFromFormat('Y-m-d', $edit_row['travel_date']);
-                                                            echo($date->format('m/d/Y'))?>">
+                                                            echo($date->format('d/m/Y'))?>">
                                                         </div>
 
                                                         <div class="col-md-2">

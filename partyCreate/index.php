@@ -93,6 +93,7 @@ if (isset($_POST['submit'])) {
 
     <!-- Theme style  -->
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.css">
 
     <!-- Modernizr JS -->
     <script src="../js/modernizr-2.6.2.min.js"></script>
@@ -136,29 +137,45 @@ if (isset($_POST['submit'])) {
                                 while ($row = $result->fetch_assoc()) {
                                     ?>
                                     <div class="col-md-12"
-                                         style="border: 1px solid #09C6AB;padding:10px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
+                                         style="border: 1px solid #09C6AB;padding:10px;margin-bottom: 3px;border-radius: 3px; font-size: 14px;padding-left: 25px;">
                                         <div class="row">
 
                                             <div class="col-sm-9">
-                                                <b>Leader Name : </b><?php echo($row["lead_name"]); ?><br>
-                                                <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
-                                                <b>Email : </b><?php echo($row["email"]); ?><br>
-                                                <b>Part Created Time : </b><?php echo($row["create_date_and_time"]); ?>
+                                                <b> <i class="fa fa-user" style="margin-right: 8px;"></i> Leader Name : </b><?php echo($row["lead_name"]); ?><br>
+                                                <b> <i class="fa fa-phone" style="margin-right: 8px;"></i> Phone Number : </b><?php echo($row["phone_number"]); ?><br>
+                                                <b> <i class="fa fa-envelope" style="margin-right: 8px;"></i> Email : </b><?php echo($row["email"]); ?><br>
+                                                <b> <i class="fa fa-calendar" style="margin-right: 8px;"></i> Part Created Time : </b><?php
+//                                                $datetimeFromMysql=$row["create_date_and_time"];
+//                                                $time = strtotime($datetimeFromMysql);
+//                                                $myFormatForView = date("d/m/y h:i", $time);
+//                                                echo($myFormatForView);
+//
+//
+                                                $date = DateTime::createFromFormat('Y-m-d H:i:s', $row["create_date_and_time"]);
+//                                                return $date->format('d/m/Y');
+                                                  echo($date->format('d/m/Y H:i:s'));
+                                                ?>
                                                 <br>
                                             </div>
                                             <div class="col-sm-3 ">
                                                 <form role="form" action='index.php' method='POST'>
                                                     <input type='hidden' name='party_id'
                                                            value='<?php echo($row["party_id"]); ?> '>
+                                                    <div class="col-sm-12 col-xs-4" style="padding-left: 0px">
                                                     <input type="submit" class="btn btn-sm btn-success btn-block"
                                                            id="edit" name="edit"
                                                            value="Edit" style="font-size: 12px; padding: 3px;">
+                                                    </div>
+                                                    <div class="col-sm-12 col-xs-4" style="padding-left: 0px">
                                                     <input type="submit" class="btn btn-sm btn-danger btn-block"
                                                            id="delete" name="delete"
                                                            value="Delete" style="font-size: 12px; padding: 3px;">
+                                                    </div>
+                                                    <div class="col-sm-12 col-xs-4" style="padding-left: 0px">
                                                     <input type="submit" class="btn btn-sm btn-info btn-block"
                                                            id="view" name="view"
                                                            value="Plan Trip" style="font-size: 12px; padding: 3px;">
+                                                    </div>
                                                 </form>
                                                 <?php
                                                 if (isset($_POST['delete'])) {

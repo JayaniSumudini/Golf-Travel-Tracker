@@ -101,10 +101,10 @@ if ($_POST) {
     <![endif]-->
 
 </head>
-<body>
+<body style="background-image: url(../images/background.jpg); background-size: cover">
 
 <header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner"
-        style="background-image: url(../images/img_bg_2.jpg)">
+        style="background: transparent">
     <div class="gtco-container">
         <div class="row">
             <div class="col-md-12 col-md-offset-0 text-left">
