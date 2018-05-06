@@ -18,7 +18,8 @@
             <?php if (isset($_SESSION['user_role'])) {
                 if (($_SESSION['user_role']) == 'ADMIN') {
                     ?>
-                    <li><a href="/web/admin/">dashboard</a></li>
+                    <li><a href="/web/admin/">Admin Panel</a></li>
+                    <li><a href="/web/dashboard/">Dashboard</a></li>
             <?php
                 }
             } ?>

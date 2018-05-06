@@ -80,192 +80,11 @@ $conn = connection();
 ?>
 
 <div class="gtco-container">
-    <div class="row">
-        <div class="col-sm-12"><h2>SUMMERY</h2></div>
 
-        <div class="col-sm-4">
-
-            <div class="col-sm-12">
-                <?php
-                $query = "SELECT COUNT(*) AS sum FROM user_details";
-                $result = $conn->query($query);
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        ?>
-                        <div style="width: 90%;background: #002a80;color: #ffffff;border-radius: 5px;padding: 10px;text-align: center;margin: 5px auto">
-                            <span>Total Users </span><br>
-                            <span style="font-size: 60px;font-weight: bolder; line-height: 1 "><?php echo($row["sum"]); ?></span>
-                        </div>
-                        <?php
-                    };
-                }
-                ?>
-            </div>
-
-            <div class="col-sm-12">
-                <?php
-                $query = "SELECT COUNT(*) AS sum FROM party_details";
-                $result = $conn->query($query);
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        ?>
-                        <div style="width: 90%;background: #002a80;color: #ffffff;border-radius: 5px;padding: 10px;text-align: center;margin: 5px auto">
-                            <span>Total Parties </span><br>
-                            <span style="font-size: 60px;font-weight: bolder; line-height: 1 "><?php echo($row["sum"]); ?></span>
-                        </div>
-                        <?php
-                    };
-                }
-                ?>
-            </div>
-        </div>
-        <div class="col-sm-8">
-
-            <!--        ====================================================================================================-->
-            <canvas id="myChart" width="400" height="200"></canvas>
-
-
-            <script>
-              var ctx = document.getElementById("myChart").getContext("2d");
-              var myChart = new Chart(ctx, {
-                type: "bar",
-                data: {
-                  labels: ["SAVE", "SUBMITED", "ACCEPTED", "ADMIN CHANGED", "NEW"],
-                  datasets: [{
-                    label: "# Summery of total trip states",
-                    data: [
-                        <?php
-                        $save = $subbmited = $accepted = $adminChanged = 0;
-
-                        $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'SAVE'";
-                        $result = $conn->query($query);
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo($row["sum"]);
-                            }
-                        }
-                        ?> ,
-                        <?php
-                        $save = $subbmited = $accepted = $adminChanged = 0;
-
-                        $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'SUBMITED'";
-                        $result = $conn->query($query);
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo($row["sum"]);
-                            }
-                        }
-                        ?> ,
-                        <?php
-                        $save = $subbmited = $accepted = $adminChanged = 0;
-
-                        $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'ACCEPTED'";
-                        $result = $conn->query($query);
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo($row["sum"]);
-                            }
-                        }
-                        ?> ,
-                        <?php
-                        $save = $subbmited = $accepted = $adminChanged = 0;
-
-                        $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'ADMIN_CHANGED'";
-                        $result = $conn->query($query);
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo($row["sum"]);
-                            }
-                        }
-                        ?> ,
-                        <?php
-                        $save = $subbmited = $accepted = $adminChanged = 0;
-
-                        $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'NEW'";
-                        $result = $conn->query($query);
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo($row["sum"]);
-                            }
-                        }
-                        ?> ],
-                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-                  }]
-                },
-                options: {
-                  scales: {
-                    yAxes: [{
-                      ticks: {
-                        beginAtZero: true
-                      }
-                    }]
-                  }
-                }
-              });
-            </script>
-
-            <!--        ==================================================================================================-->
-
-        </div>
-
-
-    </div>
     <div class="row">
         <div class="col-md-12 col-md-offset-0 text-left">
 
             <div class="row row-mt-15em" style="margin-top: 4em;">
-<!--                    --><?php
-//                    $query = "SELECT * FROM party_details ORDER BY create_date_and_time";
-//                    $result = $conn->query($query);
-//                    if ($result->num_rows > 0) {
-//                        while ($row = $result->fetch_assoc()) {
-//                            ?>
-<!---->
-<!--                            <div class="col-md-16"-->
-<!--                                 style="border: 1px solid #09C6AB;padding:6px 15px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <b>Leader : </b>--><?php //echo($row["lead_name"]); ?>
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <b>Phone Number : </b>--><?php //echo($row["phone_number"]); ?>
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <b>Email : </b>--><?php //echo($row["email"]); ?>
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <b>Created date & time : </b>--><?php //echo($row["create_date_and_time"]); ?>
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-1 col-md-push-2">-->
-<!--                                        <form role="form" action='index.php' method='POST'>-->
-<!--                                            <input type='hidden' name='party_id'-->
-<!--                                                   value='--><?php //echo($row["party_id"]); ?><!-- '>-->
-<!--                                            <input type="submit" class="btn btn-sm btn-info btn-block"-->
-<!--                                                   id="view" name="view"-->
-<!--                                                   value="View Trip" style="font-size: 12px; padding: 3px;">-->
-<!---->
-<!--                                        </form>-->
-<!--                                        --><?php
-//                                        if (isset($_POST['view'])) {
-//                                            $_SESSION['party'] = $row["party_id"] ? $row["party_id"] : "";
-//                                            unset($_SESSION['trips']);
-//                                            unset($_SESSION['itenary_id']);
-//                                            echo "<script>
-//                                                             window.location.href='../tripCreate';
-//                                                           </script>";
-////                                            exit;
-//                                        }
-//                                        ?>
-<!--                                    </div>-->
-<!---->
-<!--                                </div>-->
-<!--                            </div>-->
-<!---->
-<!--                            --><?php
-//                        }
-//                    }
-//                    ?>
-
                     <div class="col-md-12  mt-text animate-box" data-animate-effect="fadeInUp"
                          style="margin-top:1em">
 
@@ -291,45 +110,11 @@ $conn = connection();
                                             <form role="form" action='index.php' method='POST'>
                                                 <input type='hidden' name='party_id'
                                                        value='<?php echo($row["party_id"]); ?> '>
-<!--                                                <input type="submit" class="btn btn-sm btn-success btn-block"-->
-<!--                                                       id="edit" name="edit"-->
-<!--                                                       value="Edit" style="font-size: 12px; padding: 3px;">-->
-<!--                                                <input type="submit" class="btn btn-sm btn-danger btn-block"-->
-<!--                                                       id="delete" name="delete"-->
-<!--                                                       value="Delete" style="font-size: 12px; padding: 3px;">-->
                                                 <input type="submit" class="btn btn-sm btn-info btn-block"
                                                        id="view" name="view"
                                                        value="View Trip" style="font-size: 12px; padding: 3px;">
                                             </form>
-<!--                                            --><?php
-//                                            if (isset($_POST['delete'])) {
-//                                                //                                                    print("<script> alert('delete'); </script>");
-//                                                $party_id = isset($_POST['party_id']) ? $_POST['party_id'] : "";
-//                                                $queryDelete = "DELETE FROM party_details WHERE party_id='$party_id'";
-//                                                if ($conn->query($queryDelete)) {
-//                                                    $_SESSION['party'] = "";
-//                                                    $_SESSION['trips'] = [];
-//                                                    print("<script>
-//                                //                                                                alert('Party removed');
-//                                                                                                 window.location.href='../tripCreate';
-//                                                                                                </script>");
-//                                                } else {
-//                                                    print("<script>alert('Error when remove ! ');</script>");
-//                                                }
-//                                                $_POST = array();
-//                                            }
-//
-//                                            if (isset($_POST['edit'])) {
-//                                                $party_id1 = isset($_POST['party_id']) ? $_POST['party_id'] : "";
-//                                                $query1 = "SELECT * FROM party_details WHERE party_id='$party_id1'";
-//                                                $result1 = $conn->query($query1);
-//                                                $row1 = $result1->fetch_assoc();
-//                                                $_SESSION['editParty'] = $row1;
-//                                                print("<script>
-//                                                             window.location.href='../partyEdit';
-//                                                           </script>");
-//                                            }
-
+                                            <?php
                                             if (isset($_POST['view'])) {
                                                 $_SESSION['party'] = isset($_POST['party_id']) ? $_POST['party_id'] : "";
                                                 $_SESSION['trips'] = [];
