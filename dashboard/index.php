@@ -1,11 +1,78 @@
 <?php
+require "../function/function.php";
+$conn = connection();
 session_start();
-
+?>
+<?php
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
     header("Location:../login");
 } elseif ($_SESSION['user_role'] != 'ADMIN') {
     header("Location:../login");
 }
+
+
+if (isset($_POST['get_data'])) {
+    if($_SESSION['user_role']=='ADMIN'){
+        array_to_csv_download($conn);
+    }
+}
+
+function array_to_csv_download($conn) {
+    $filename = 'trip_data.csv';
+//    $export_data = unserialize($_POST['export_data']);
+
+// file creation
+    $file = fopen($filename,"w");
+
+// output the column headings
+    fputcsv($file, array('travel date', 'travel time', 'travel from', 'travel to','number of pessengers', 'car type', 'trip status', 'flight number', 'travel price( £ )'));
+
+    $query = "SELECT travel_date,travel_time,travel_from,travel_to,number_of_pessengers,car_type_id,trip_status ,flight_number,travel_price FROM trip";
+    $travelList = $conn->query($query);
+    while ($rowValue = $travelList->fetch_assoc()) {
+
+        $from = $rowValue['travel_from'];
+        $from_query = "SELECT destination_name FROM destinations WHERE destination_id = '$from'";
+        $result_from = mysqli_query($conn, $from_query);
+        $from_names = mysqli_fetch_assoc($result_from);
+        $rowValue['travel_from'] = $from_names["destination_name"];
+
+        $to = $rowValue['travel_to'];
+        $to_query = "SELECT destination_name FROM destinations WHERE destination_id = '$to'";
+        $result_to = mysqli_query($conn, $to_query);
+        $to_names = mysqli_fetch_assoc($result_to);
+        $rowValue['travel_to'] = $to_names["destination_name"];
+
+        $car_id= $rowValue['car_type_id'];
+
+        if($car_id == 1){
+            $rowValue['car_type_id'] = "Saloon";
+        }elseif ($car_id== 2){
+            $rowValue['car_type_id'] = "Van";
+        }else{
+            $rowValue['car_type_id'] ="Van + Traier";
+        }
+
+//        fputcsv($output, $rowValue);
+        fputcsv($file,$rowValue);
+    }
+
+    fclose($file);
+
+// download
+    header("Content-Description: File Transfer");
+    header("Content-Disposition: attachment; filename=$filename");
+    header("Content-Type: application/csv; ");
+
+    readfile($filename);
+
+// deleting file
+    unlink($filename);
+    exit();
+}
+
+// loop over the rows, outputting them
+//    while ($row = mysql_fetch_assoc($rows)) fputcsv($output, $row);
 ?>
 
 <!DOCTYPE HTML>
@@ -74,11 +141,6 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
 </nav>
 <!---------------------------------------------------------------------------------------------------------------->
 
-<?php
-require "../function/function.php";
-$conn = connection();
-?>
-
 <div class="gtco-container">
     <div class="col-sm-12"><h2>SUMMERY</h2></div>
 
@@ -122,14 +184,21 @@ $conn = connection();
 
         <!--        ====================================================================================================-->
         <canvas id="myChart" width="500" height="300"></canvas>
-
-
+        <br>
+        <div class="col-sm-7"></div>
+        <form role="form" action="index.php" method="post">
+            <div class="col-sm-5" align="right">
+                <input type="submit" class="btn btn-primary btn-block"
+                       id="get_data" name="get_data"
+                       value="Download Data As CSV" align="center">
+            </div>
+        </form>
         <script>
             var ctx = document.getElementById("myChart").getContext("2d");
             var myChart = new Chart(ctx, {
                 type: "horizontalBar",
                 data: {
-                    labels: ["ADDED","SAVED","SUBMITED","ADMIN CHANGED","TO Be ACCEPTANCE","ACCEPTED"],
+                    labels: ["ADDED", "SAVED", "SUBMITED", "ADMIN CHANGED", "TO Be ACCEPTANCE", "ACCEPTED"],
                     datasets: [{
                         data: [
                             <?php
@@ -198,7 +267,7 @@ $conn = connection();
                                 }
                             }
                             ?> ],
-                        backgroundColor: ["#ff2a2f","#0e2eff","#74ff26","#ffbb56","#ff05bf","#090909"],
+                        backgroundColor: ["#ff2a2f", "#0e2eff", "#74ff26", "#ffbb56", "#ff05bf", "#090909"],
                         borderWidth: 1
                     }]
                 },
@@ -220,7 +289,6 @@ $conn = connection();
         </script>
 
         <!--        ==================================================================================================-->
-
     </div>
 
 

@@ -306,11 +306,9 @@ function convert_date_format($travel_date)
                                                             <label for="login-username">Car</label>
                                                             <span style="font-weight: bold;color: red">*</span>
                                                             <select class="form-control" name="car">
-                                                                <option>None</option>
-                                                                <option value="1" <?=$edit_row['car_type_id'] == 1 ? ' selected="selected"' : '';?>>4 seater saloon</option>
-                                                                <option value="2" <?=$edit_row['car_type_id'] == 2 ? ' selected="selected"' : '';?>>8 seater mini van</option>
-                                                                <option value="3" <?=$edit_row['car_type_id'] == 3 ? ' selected="selected"' : '';?>>12 seater bus</option>
-                                                                <option value="4" <?=$edit_row['car_type_id'] == 4 ? ' selected="selected"' : '';?>>16 seater coach</option>
+                                                                <option value="1" <?=$edit_row['car_type_id'] == 1 ? ' selected="selected"' : '';?>>Saloon (2 seats)</option>
+                                                                <option value="2" <?=$edit_row['car_type_id'] == 2 ? ' selected="selected"' : '';?>>Van (6 seats)</option>
+                                                                <option value="3" <?=$edit_row['car_type_id'] == 3 ? ' selected="selected"' : '';?>>Van + Traier (8 seats)</option>
                                                             </select>
                                                             <span style="font-weight: bold;color: red"><?php echo($car_type_error); ?></span>
                                                         </div>
