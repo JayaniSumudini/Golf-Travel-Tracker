@@ -25,12 +25,14 @@ function array_to_csv_download($conn) {
     $file = fopen($filename,"w");
 
 // output the column headings
-    fputcsv($file, array('travel date', 'travel time', 'travel from', 'travel to','number of pessengers', 'car type', 'trip status', 'flight number', 'travel price( £ )'));
+    fputcsv($file, array('travel date', 'travel time', 'travel from', 'travel to','number of pessengers', 'car type', 'trip status', 'flight number', 'travel price(£)'
+    ,'lead name','phone number','email','hotel address','notes','number in party','create date and time'));
 
-    $query = "SELECT travel_date,travel_time,travel_from,travel_to,number_of_pessengers,car_type_id,trip_status ,flight_number,travel_price FROM trip";
+    $query = "SELECT travel_date,travel_time,travel_from,travel_to,number_of_pessengers,car_type_id,trip_status ,flight_number,travel_price,itenary_id FROM trip";
     $travelList = $conn->query($query);
     while ($rowValue = $travelList->fetch_assoc()) {
-
+        $itenary_id = $rowValue['itenary_id'];
+        unset($rowValue['itenary_id']);
         $from = $rowValue['travel_from'];
         $from_query = "SELECT destination_name FROM destinations WHERE destination_id = '$from'";
         $result_from = mysqli_query($conn, $from_query);
@@ -54,8 +56,49 @@ function array_to_csv_download($conn) {
         }
 
 //        fputcsv($output, $rowValue);
+
+        $query = "SELECT party_id FROM itenary WHERE itenary_id='$itenary_id'";
+        $party_id_query = mysqli_query($conn, $query);
+        $party_ids = mysqli_fetch_assoc($party_id_query);
+        $party_id = $party_ids["party_id"];
+
+        $query = "SELECT lead_name,phone_number,email,hotel_address,notes,number_in_party,create_date_and_time FROM party_details WHERE party_id='$party_id'";
+        $party_details_query = mysqli_query($conn, $query);
+        $party_details = mysqli_fetch_assoc($party_details_query);
+
+        $rowValue['lead_name'] = $party_details["lead_name"];
+        $rowValue['phone_number'] = $party_details["phone_number"];
+        $rowValue['email'] = $party_details["email"];
+        $rowValue['hotel_address'] = $party_details["hotel_address"];
+        $rowValue['notes'] = $party_details["notes"];
+        $rowValue['number_in_party'] = $party_details["number_in_party"];
+        $rowValue['create_date_and_time'] = $party_details["create_date_and_time"];
+
+
         fputcsv($file,$rowValue);
+
     }
+
+    fputcsv($file, array('lead name','email','number in party','total price(£)'));
+
+    $query = "SELECT party_id,total_price FROM itenary";
+    $query_result = $conn->query($query);
+    while ($rowValue1 = $query_result->fetch_assoc()) {
+        $party_id = $rowValue1['party_id'];
+        unset($rowValue1['party_id']);
+
+        $query = "SELECT lead_name,email,number_in_party FROM party_details WHERE party_id='$party_id'";
+        $party_details_query = mysqli_query($conn, $query);
+        $party_details = mysqli_fetch_assoc($party_details_query);
+
+        $show['lead_name'] = $party_details['lead_name'];
+        $show['email'] = $party_details['email'];
+        $show['number_in_party'] = $party_details['number_in_party'];
+        $show['total_price'] = $rowValue1['total_price'];
+        fputcsv($file,$show);
+
+    }
+
 
     fclose($file);
 
