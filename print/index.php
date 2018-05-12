@@ -43,8 +43,8 @@ $pdf->Ln(10);
 
 //table-Trip details
 $pdf->SetFont('Arial', 'B', 9);
-$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='golf_travel_route' AND `TABLE_NAME`='trip'";
-//$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='eigendem_golf_travel_route' AND `TABLE_NAME`='trip'";
+//$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='golf_travel_route' AND `TABLE_NAME`='trip'";
+$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='standrewstaxica' AND `TABLE_NAME`='trip'";
 
 $result1 = mysqli_query($conn, $query1);
 //    $header[] = mysqli_fetch_assoc($result1);
@@ -98,7 +98,7 @@ if ($results > 0) {
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln();
         $pdf->SetFillColor(4,3,5);
-        $pdf->Cell(24.5, 10, $row['travel_date'], 1,0,'C',true);
+        $pdf->Cell(24.5, 10, $row['travel_date'], 1,0,'C');
         $pdf->Cell(24.5, 10, $row['travel_time'], 1,0,'C');
 
         $from = $row['travel_from'];
