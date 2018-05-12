@@ -119,8 +119,8 @@ $conn = connection();
                                                 $_SESSION['party'] = isset($_POST['party_id']) ? $_POST['party_id'] : "";
                                                 $_SESSION['trips'] = [];
                                                 echo "<script>
-                                                             window.location.href='../tripCreate';
-                                                           </script>";
+                                                       window.location.href='../tripCreate';
+                                                      </script>";
                                             }
                                             ?>
                                         </div>

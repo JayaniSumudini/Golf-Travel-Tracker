@@ -121,22 +121,21 @@ $conn = connection();
     <div class="col-sm-8">
 
         <!--        ====================================================================================================-->
-        <canvas id="myChart" width="400" height="200"></canvas>
+        <canvas id="myChart" width="500" height="300"></canvas>
 
 
         <script>
             var ctx = document.getElementById("myChart").getContext("2d");
             var myChart = new Chart(ctx, {
-                type: "bar",
+                type: "horizontalBar",
                 data: {
-                    labels: ["SAVE", "SUBMITED", "ACCEPTED", "ADMIN CHANGED", "NEW"],
+                    labels: ["ADDED","SAVED","SUBMITED","ADMIN CHANGED","TO Be ACCEPTANCE","ACCEPTED"],
                     datasets: [{
-                        label: "# Summery of total trip states",
                         data: [
                             <?php
                             $save = $subbmited = $accepted = $adminChanged = 0;
 
-                            $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'SAVE'";
+                            $query = "SELECT COUNT(*) AS sum FROM trip WHERE trip_status = 'Added'";
                             $result = $conn->query($query);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
@@ -147,7 +146,7 @@ $conn = connection();
                             <?php
                             $save = $subbmited = $accepted = $adminChanged = 0;
 
-                            $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'SUBMITED'";
+                            $query = "SELECT COUNT(*) AS sum FROM trip WHERE trip_status = 'Saved'";
                             $result = $conn->query($query);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
@@ -158,7 +157,7 @@ $conn = connection();
                             <?php
                             $save = $subbmited = $accepted = $adminChanged = 0;
 
-                            $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'ACCEPTED'";
+                            $query = "SELECT COUNT(*) AS sum FROM trip WHERE trip_status = 'Submited'";
                             $result = $conn->query($query);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
@@ -169,7 +168,7 @@ $conn = connection();
                             <?php
                             $save = $subbmited = $accepted = $adminChanged = 0;
 
-                            $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'ADMIN_CHANGED'";
+                            $query = "SELECT COUNT(*) AS sum FROM trip WHERE trip_status = 'AdminChanged'";
                             $result = $conn->query($query);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
@@ -180,7 +179,18 @@ $conn = connection();
                             <?php
                             $save = $subbmited = $accepted = $adminChanged = 0;
 
-                            $query = "SELECT COUNT(*) AS sum FROM itenary WHERE status = 'NEW'";
+                            $query = "SELECT COUNT(*) AS sum FROM trip WHERE trip_status = 'ToBeAcceptance'";
+                            $result = $conn->query($query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo($row["sum"]);
+                                }
+                            }
+                            ?>,
+                            <?php
+                            $save = $subbmited = $accepted = $adminChanged = 0;
+
+                            $query = "SELECT COUNT(*) AS sum FROM trip WHERE trip_status = 'Accepted'";
                             $result = $conn->query($query);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
@@ -188,7 +198,8 @@ $conn = connection();
                                 }
                             }
                             ?> ],
-                        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                        backgroundColor: ["#ff2a2f","#0e2eff","#74ff26","#ffbb56","#ff05bf","#090909"],
+                        borderWidth: 1
                     }]
                 },
                 options: {
@@ -198,7 +209,12 @@ $conn = connection();
                                 beginAtZero: true
                             }
                         }]
-                    }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Summery of total trip states'
+                    },
+                    legend: false
                 }
             });
         </script>
