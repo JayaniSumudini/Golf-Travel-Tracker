@@ -95,18 +95,18 @@ $conn = connection();
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 ?>
-                                <div class="col-md-16"
+                                <div class="col-md-6"
                                      style="border: 1px solid #09C6AB;padding:6px 15px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
                                     <div class="row">
 
-                                        <div class="col-sm-9">
+                                        <div class="col-sm-8">
                                             <b>Leader Name : </b><?php echo($row["lead_name"]); ?><br>
                                             <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
                                             <b>Email : </b><?php echo($row["email"]); ?><br>
                                             <b>Part Created Time : </b><?php echo($row["create_date_and_time"]); ?>
                                             <br>
                                         </div>
-                                        <div class="col-sm-3 ">
+                                        <div class="col-sm-4">
                                             <form role="form" action='index.php' method='POST'>
                                                 <input type='hidden' name='party_id'
                                                        value='<?php echo($row["party_id"]); ?> '>
