@@ -8,7 +8,7 @@ define("HOST","localhost");
 
 define("DBNAME","golf_travel_route");
 define("UNAME","root");
-define("PW","");
+define("PW","root");
 
 ///* file path for save new projects */
 //define("ROAD","../roads/");
