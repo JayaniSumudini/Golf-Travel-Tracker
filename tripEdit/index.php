@@ -89,33 +89,34 @@ if (isset($_POST['cancel'])) {
           </script>";
 }
 
-function calculate_travel_price($travel_from, $travel_to, $car_type, $conn)
+function calculate_travel_price($travel_from, $travel_to, $vehicle_id, $conn)
 {
     $travel_price = 0;
 
-//always in db from<=to
-    if($travel_from <= $travel_to){
+    if ($travel_from <= $travel_to) {
         $query = "select * from distance where travel_from='$travel_from' and travel_to='$travel_to'";
-    }else{
-        //because A to B distance equals to B to A distance
+    } else {
         $query = "select * from distance where travel_from='$travel_to' and travel_to='$travel_from'";
     }
     $result = mysqli_query($conn, $query);
     $row[] = mysqli_fetch_assoc($result);
 
-    if ($car_type == 1) {
-        $travel_price = 1.8 * $row[0]["distance"];
-    } elseif ($car_type == 2) {
-        $travel_price = 2 * $row[0]["distance"];
-    } elseif ($car_type == 3) {
-        $travel_price = 2.1 * $row[0]["distance"];
-    } else {
-        $car_type_error = "please select car type";
-    }
-
+//    if ($car_type == 1) {
+//        $travel_price = 1.8 * $row[0]["distance"];
+//    } elseif ($car_type == 2) {
+//        $travel_price = 2 * $row[0]["distance"];
+//    } elseif ($car_type == 3) {
+//        $travel_price = 2.1 * $row[0]["distance"];
+//    } else {
+//        $car_type_error = "please select car type";
+//    }
+    $query1 = "select vehicle_price from vehicle where vehicle_id='$vehicle_id'";
+    $result1 = mysqli_query($conn, $query1);
+    $row1 = mysqli_fetch_assoc($result1);
+    $travel_price = $row1["vehicle_price"] * $row[0]["distance"];
     $cost = 0;
-    $cost= $travel_price;
-    if($travel_price < 10){
+    $cost = $travel_price;
+    if ($travel_price < 10) {
         $cost = 10;
     }
     return $cost;
@@ -305,11 +306,23 @@ function convert_date_format($travel_date)
                                                         <div class="col-md-2">
                                                             <label for="login-username">Car</label>
                                                             <span style="font-weight: bold;color: red">*</span>
+
                                                             <select class="form-control" name="car">
-                                                                <option value="1" <?=$edit_row['car_type_id'] == 1 ? ' selected="selected"' : '';?>>Saloon (2 seats)</option>
-                                                                <option value="2" <?=$edit_row['car_type_id'] == 2 ? ' selected="selected"' : '';?>>Van (6 seats)</option>
-                                                                <option value="3" <?=$edit_row['car_type_id'] == 3 ? ' selected="selected"' : '';?>>Van + Traier (8 seats)</option>
+                                                                <option>None</option>
+                                                                <?php
+                                                                $query = "SELECT vehicle_id,vehicle_name FROM vehicle";
+                                                                $vehicleList = $conn->query($query);
+                                                                if ($vehicleList->num_rows > 0) {
+                                                                    while ($rowValue = $vehicleList->fetch_assoc()) {
+                                                                        ?>
+                                                                        <option value="<?php echo($rowValue["vehicle_id"]); ?>" <?=$edit_row['car_type_id'] == $rowValue["vehicle_id"] ? ' selected="selected"' : '';?>>
+                                                                            <?php echo($rowValue["vehicle_name"]); ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
                                                             </select>
+
                                                             <span style="font-weight: bold;color: red"><?php echo($car_type_error); ?></span>
                                                         </div>
                                                         <div class="col-md-2">
