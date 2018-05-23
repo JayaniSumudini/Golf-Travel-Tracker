@@ -177,6 +177,10 @@ $conn = connection();
 
                             <?php
                         }
+                    }else{
+                        ?>
+                        <h3 align="center" style="color: #adadad">No Party Available</h3>
+                        <?php
                     }
                     ?>
                 </div>

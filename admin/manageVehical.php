@@ -1,11 +1,28 @@
 <?php
 session_start();
-$delete_error = "";
+$delete_error = $added_error = "";
+//$_SESSION['is_edit'] = false;
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
     header("Location:../login");
 } elseif ($_SESSION['user_role'] != 'ADMIN') {
     header("Location:../login");
 }
+
+
+if (isset($_POST['save'])) {
+    /*$vehicle_name_input = isset($_POST['vehicle_name_input']) ? $_POST['vehicle_name_input'] : "";
+    $vehicle_price_input = isset($_POST['vehicle_price_input']) ? $_POST['vehicle_price_input'] : "";
+    $insertQuery = "INSERT INTO vehicle (vehicle_name,vehicle_price)
+                    VALUES ('$vehicle_name_input',$vehicle_price_input)";
+    if ($conn->query($insertQuery)) {
+
+    } else {
+        $added_error = "error while insert data";
+    }*/
+
+    $_SESSION['is_edit'] = false;
+}
+
 
 ?>
 
@@ -95,9 +112,7 @@ $conn = connection();
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <!--			<a class="navbar-brand" href="#">Admin Panel</a>-->
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="/web/admin/">Home<span style="font-size:16px;"
@@ -111,161 +126,117 @@ $conn = connection();
         </div>
     </nav>
 
-
     <!--car edit-->
-    <div class="row row-mt-15em" style="margin-top: 4em;">
-        <div class="col-md-12 animate-box" data-animate-effect="fadeInRight">
-            <div class="form-wrap"
-                 style="box-shadow: none; border: 1px solid #09C6AB; border-top: 5px solid #09C6AB;">
-                <div class="tab">
-                    <div class="tab-content">
-                        <div id="trip" class="tab-content-inner active">
-                            <!--                            <h3 id="title_user" style="text-align:center">Plan your trip</h3>-->
-                            <h3 id="title_admin" style="text-align:center">Vehicle Details</h3>
-                            <!--                            --><?php
-                            //                            if ($_SESSION['user_role'] == 'ADMIN') {
-                            //                                ?>
-                            <!--                                <script type="text/javascript">$('#title_user').hide()</script>-->
-                            <!--                                --><?php
-                            //                            }
-                            //                            ?>
-                            <!--                            --><?php
-                            //                            if ($_SESSION['user_role'] != 'ADMIN') {
-                            //                                ?>
-                            <!--                                <script type="text/javascript">$('#title_admin').hide()</script>-->
-                            <!--                                --><?php
-                            //                            }
-                            //                            ?>
-                            <form role="form" action="index.php" method="post">
-                                <div class="row form-group">
-                                    <span style="-webkit-text-fill-color: red" id="errorSpan"></span>
-                                </div>
+    <div class="row">
+        <div class="col-md-12 col-md-offset-0 text-left">
 
-                                <div style="border:solid 1px #09C6AB;border-radius: 5px; padding: 16px;margin-bottom: 20px"
-                                     id="div1">
-                                    <!--                                    <?php
-/*                                                                        if ($_SESSION['user_role'] == 'ADMIN') {
-                                                                            */?>
-                                                                            <script type="text/javascript">$('#div1').hide()</script>
-                                                                            --><?php
-/*                                                                        }
-                                                                        */?>
-                                    <h4>Add New Vehicle</h4>
-                                   <!--                                     <span style="font-weight: bold;color: red">
-                                    <?php /*echo($itineary_error); */?></span>-->
-                                    <div class="row form-group" id="isSelect">
-                                        <div class="col-md-4">
-                                            <label>Vehicle Name</label>
-                                            <span style="font-weight: bold;color: red">*</span>
-                                            <input type="text"
-                                                   id="vehicle_name"
-                                                   name="vehicle_name"
-                                                   class="form-control">
-                                        </div>
+            <div class="row row-mt-15em" style="margin-top: 4em;">
+                <div class="col-md-12  mt-text animate-box" data-animate-effect="fadeInUp"
+                     style="margin-top:1em">
 
-                                        <div class="col-md-4">
-                                            <label>Vehicle Price (£)</label>
-                                            <span style="font-weight: bold;color: red">*</span>
-                                            <input type="number" id="vehicle_price"
-                                                   name="vehicle_price"
-                                                   class="form-control">
-                                        </div>
+                    <h2>Vehicle Details</h2>
+                    <form role="form" action='manageVehical.php' method='POST'>
+                        <div class="row form-group" id="isSelect">
+                            <div class="col-md-4">
+                                <label>Vehicle Name</label>
+                                <span style="font-weight: bold;color: red">*</span>
+                                <input type="text" required
+                                       id="vehicle_name_input"
+                                       name="vehicle_name_input"
+                                       class="form-control">
+                            </div>
 
-                                        <div class="col-md-3">
-                                            <label></label>
-                                            <input type="submit" id="add" name="add"
-                                                   class="btn btn-sm btn-primary " value="Add"
-                                                   style="float: right;margin-top: 20px; width: 90%">
-                                        </div>
+                            <div class="col-md-2">
+                                <label>Vehicle Price</label>
+                                <span style="font-weight: bold;color: red">*</span>
+                                <input type="text" required
+                                       id="vehicle_price_input"
+                                       name="vehicle_price_input"
+                                       class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                    <input type="submit" id="add" name="add"
+                                           class="btn btn-sm btn-primary " value="Add"
+                                           style="float: right;margin-top: 20px; width: 90%">
+                            </div>
+                        </div>
+                        <?php
+                        if (isset($_POST['add'])) {
+                            $vehicle_name_input = isset($_POST['vehicle_name_input']) ? $_POST['vehicle_name_input'] : "";
+                            $vehicle_price_input = isset($_POST['vehicle_price_input']) ? $_POST['vehicle_price_input'] : "";
+                            $insertQuery = "INSERT INTO vehicle (vehicle_name,vehicle_price) 
+                                            VALUES ('$vehicle_name_input',$vehicle_price_input)";
+                            if ($conn->query($insertQuery)) {
+
+                            } else {
+                                $added_error = "error while insert data";
+                            }
+                        }
+
+
+                        ?>
+                    </form>
+                    <?php
+                    $query = "SELECT * FROM vehicle ORDER BY vehicle_id";
+                    $result = $conn->query($query);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <div class="col-md-6"
+                                 style="border: 1px solid #09C6AB;padding:6px 15px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
+                                <div class="row">
+
+                                    <div class="col-sm-8">
+                                        <b>Vehicle Name : </b><?php echo($row["vehicle_name"]); ?><br>
+                                        <b>Vehicle Price : </b><?php echo($row["vehicle_price"]); ?><br>
+                                        <br>
                                     </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-md-12" style="overflow-x:auto; width: 100%">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                            <tr style="font-weight: 800;">
-                                                <th>Vehicle Name</th>
-                                                <th>Vehicle Price (£)</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                            $query = "SELECT * FROM vehicle";
-
-                                            $vehicleList = $conn->query($query);
-                                            if ($vehicleList->num_rows > 0) {
-                                                while ($rowValue = $vehicleList->fetch_assoc()) {
-                                                    ?>
-                                                    <tr>
-                                                        <td><?php echo($rowValue["vehicle_name"]); ?></td>
-                                                        <td><?php echo($rowValue["vehicle_price"]); ?></td>
-                                                        <td>
-                                                            <form method="post" action="">
-                                                                <input type='hidden' name='vehicle_id'
-                                                                       value='<?php echo($rowValue["vehicle_id"]); ?> '>
-                                                                <input type="submit"
-                                                                       class="btn btn-sm btn-danger"
-                                                                       id="delete" name="delete"
-                                                                       value="Delete"
-                                                                       style="font-size: 12px; padding: 3px;">
-
-                                                                <span style="font-weight: bold;color: red"><?php echo($delete_error); ?></span>
-                                                                <input type="submit"
-                                                                       class="btn btn-sm "
-                                                                       id="edit_trip" name="edit_trip"
-                                                                       value="edit_trip"
-                                                                       style="font-size: 12px; padding: 3px;">
-                                                            </form>
-                                                        </td>
-                                                        <?php
-                                                        if (isset($_POST['delete'])) {
-                                                            $vehicle_id = $rowValue["vehicle_id"];
-                                                            $queryDelete = "DELETE FROM vehicle WHERE vehicle_id='$vehicle_id'";
-                                                            if ($conn->query($queryDelete)) {
-                                                                print("<script>
-//                                                                                alert('Party removed');
+                                    <div class="col-sm-4">
+                                        <form role="form" action='manageVehical.php' method='POST'>
+                                            <input type='hidden' name='vehicle_id'
+                                                   value='<?php echo($row["vehicle_id"]); ?> '>
+                                            <input type="submit" class="btn btn-sm btn-info btn-block"
+                                                   id="edit" name="edit"
+                                                   value="Edit" style="font-size: 12px; padding: 3px;">
+                                            <input type="submit" class="btn btn-sm btn-danger btn-block"
+                                                   id="delete" name="delete"
+                                                   value="Delete" style="font-size: 12px; padding: 3px;">
+                                        </form>
+                                        <?php
+                                        if (isset($_POST['delete'])) {
+                                            $vehicle_id = isset($_POST['vehicle_id']) ? $_POST['vehicle_id'] : "";
+                                            $queryDelete = "DELETE FROM vehicle WHERE vehicle_id='$vehicle_id'";
+                                            if ($conn->query($queryDelete)) {
+                                                print("<script>
                                                                                 window.location.href='../admin/manageVehical.php';
                                                                                 </script>");
-                                                            } else {
-                                                                $delete_error = "Error when remove ! ";
-                                                            }
-                                                            $_POST = array();
-                                                        }
-
-
-                                                        if (isset($_POST['edit_trip'])) {
-                                                            $vehicle_id2 = isset($_POST['vehicle_id']) ? $_POST['vehicle_id'] : "";
-                                                            $query2 = "SELECT * FROM vehicle WHERE vehicle_id='$vehicle_id2'";
-                                                            $result2 = $conn->query($query2);
-                                                            $row2 = $result2->fetch_assoc();
-                                                            $_SESSION['editTrip'] = $row2;
-//                                                            /*print("<script>
-//                                                                                window.location.href='../tripEdit';
-//                                                                                    </script>");*/
-                                                        }
-
-                                                        ?>
-                                                    </tr>
-
-                                                    <?php
-                                                }
+                                            } else {
+                                                $delete_error = "Error when remove ! ";
                                             }
-                                            ?>
-                                            </tbody>
-                                        </table>
+                                        }
+
+                                        if (isset($_POST['edit'])) {
+
+                                        }
+                                        ?>
                                     </div>
+
                                 </div>
-                            </form>
+                            </div>
 
-                        </div>
-
-                    </div>
+                            <?php
+                        }
+                    } else {
+                        ?>
+                        <h3 align="center" style="color: #adadad">No Vehicles Available</h3>
+                        <?php
+                    }
+                    ?>
                 </div>
+
             </div>
         </div>
     </div>
-
     <!--end car edit-->
 </div>
 
@@ -297,13 +268,13 @@ $conn = connection();
 <!-- Main -->
 <script src="../js/main.js"></script>
 
-<script> $(document).ready(function () {
-
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
-
-    });</script>
+<!--<script> $(document).ready(function () {-->
+<!---->
+<!--        $('#sidebarCollapse').on('click', function () {-->
+<!--            $('#sidebar').toggleClass('active');-->
+<!--        });-->
+<!---->
+<!--    });</script>-->
 
 </body>
 </html>

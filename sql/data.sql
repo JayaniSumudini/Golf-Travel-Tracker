@@ -311,6 +311,7 @@ INSERT INTO vehicle
 VALUES
   ('Saloon (2 seats)',1.8),
   ('Van (6 seats)',2),
+  ('Bus',3),
   ('Van + Traier (8 seats)',2.1);
 
 
