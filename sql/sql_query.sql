@@ -51,7 +51,7 @@ create table destinations(
 create table vehicle(
  vehicle_id int not null AUTO_INCREMENT,
  vehicle_name varchar(200) not null,
- vehicle_price decimal(6,2),
+ vehicle_price decimal(8,2),
  PRIMARY KEY(vehicle_id)
 );
 

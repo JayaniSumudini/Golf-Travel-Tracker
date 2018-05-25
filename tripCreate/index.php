@@ -374,12 +374,7 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">Car</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-<!--                                                            <select class="form-control" name="car">-->
-<!--                                                                <option>None</option>-->
-<!--                                                                <option value="1">Saloon (2 seats)</option>-->
-<!--                                                                <option value="2">Van (6 seats)</option>-->
-<!--                                                                <option value="3">Van + Traier (8 seats)</option>-->
-<!--                                                            </select>-->
+
 
                                                             <select class="form-control" name="car">
                                                                 <option>None</option>

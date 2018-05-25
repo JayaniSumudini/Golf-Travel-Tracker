@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: jayani
+ * Date: 5/25/2018
+ * Time: 9:57 PM
+ */
+
 session_start();
 $delete_error = $added_error = "";
 //$_SESSION['is_edit'] = false;
@@ -8,6 +15,14 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
     header("Location:../login");
 }
 
+if (!isset($_SESSION['editVehicle'])) {
+    header("Location:../manageVehical.php");
+}else{
+    $edit_row = $_SESSION['editVehicle'];
+    $vehicle_id = $edit_row['vehicle_id'];
+    $vehicle_name = $edit_row['vehicle_name'];
+    $vehicle_price = $edit_row['vehicle_price'];
+}
 ?>
 
 
@@ -118,8 +133,8 @@ $conn = connection();
                 <div class="col-md-12  mt-text animate-box" data-animate-effect="fadeInUp"
                      style="margin-top:1em">
 
-                    <h2>Vehicle Details</h2>
-                    <form role="form" action='manageVehical.php' method='POST'>
+                    <h2>Vehicle Details Edit</h2>
+                    <form role="form" action='editVehical.php' method='POST'>
                         <div class="row form-group" id="isSelect">
                             <div class="col-md-4">
                                 <label>Vehicle Name</label>
@@ -127,7 +142,7 @@ $conn = connection();
                                 <input type="text" required
                                        id="vehicle_name_input"
                                        name="vehicle_name_input"
-                                       class="form-control">
+                                       class="form-control" value="<?php echo($vehicle_name)?>">
                             </div>
 
                             <div class="col-md-2">
@@ -136,22 +151,23 @@ $conn = connection();
                                 <input type="text" required
                                        id="vehicle_price_input"
                                        name="vehicle_price_input"
-                                       class="form-control">
+                                       class="form-control" value="<?php echo($vehicle_price)?>">
                             </div>
                             <div class="col-md-2">
-                                    <input type="submit" id="add" name="add"
-                                           class="btn btn-sm btn-primary " value="Add"
+                                    <input type="submit" id="save" name="save"
+                                           class="btn btn-sm btn-primary " value="Save"
                                            style="float: right;margin-top: 20px; width: 90%">
                             </div>
                         </div>
                         <?php
-                        if (isset($_POST['add'])) {
+                        if (isset($_POST['save'])) {
                             $vehicle_name_input = isset($_POST['vehicle_name_input']) ? $_POST['vehicle_name_input'] : "";
                             $vehicle_price_input = isset($_POST['vehicle_price_input']) ? $_POST['vehicle_price_input'] : "";
-                            $insertQuery = "INSERT INTO vehicle (vehicle_name,vehicle_price) 
-                                            VALUES ('$vehicle_name_input',$vehicle_price_input)";
+                            $insertQuery =  "UPDATE vehicle SET vehicle_name='$vehicle_name_input',vehicle_price=$vehicle_price_input WHERE vehicle_id='$vehicle_id'";
                             if ($conn->query($insertQuery)) {
-
+                                echo "<script>
+                                        window.location.href='manageVehical.php';
+                                      </script>";
                             } else {
                                 $added_error = "error while insert data";
                             }
@@ -160,70 +176,6 @@ $conn = connection();
 
                         ?>
                     </form>
-                    <?php
-                    $query = "SELECT * FROM vehicle ORDER BY vehicle_id";
-                    $result = $conn->query($query);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            ?>
-                            <div class="col-md-6"
-                                 style="border: 1px solid #09C6AB;padding:6px 15px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
-                                <div class="row">
-
-                                    <div class="col-sm-8">
-                                        <b>Vehicle Name : </b><?php echo($row["vehicle_name"]); ?><br>
-                                        <b>Vehicle Price : </b><?php echo($row["vehicle_price"]); ?><br>
-                                        <br>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <form role="form" action='manageVehical.php' method='POST'>
-                                            <input type='hidden' name='vehicle_id'
-                                                   value='<?php echo($row["vehicle_id"]); ?> '>
-                                            <input type="submit" class="btn btn-sm btn-info btn-block"
-                                                   id="edit" name="edit"
-                                                   value="Edit" style="font-size: 12px; padding: 3px;">
-                                            <input type="submit" class="btn btn-sm btn-danger btn-block"
-                                                   id="delete" name="delete"
-                                                   value="Delete" style="font-size: 12px; padding: 3px;">
-                                        </form>
-                                        <?php
-                                        if (isset($_POST['delete'])) {
-                                            $vehicle_id = isset($_POST['vehicle_id']) ? $_POST['vehicle_id'] : "";
-                                            $queryDelete = "DELETE FROM vehicle WHERE vehicle_id='$vehicle_id'";
-                                            if ($conn->query($queryDelete)) {
-                                                print("<script>
-                                                                                window.location.href='manageVehical.php';
-                                                                                </script>");
-                                            } else {
-                                                $delete_error = "Error when remove ! ";
-                                            }
-                                        }
-
-                                        if (isset($_POST['edit'])) {
-                                            $vehicle_id = isset($_POST['vehicle_id']) ? $_POST['vehicle_id'] : "";
-                                            $query2 = "SELECT * FROM vehicle WHERE vehicle_id='$vehicle_id'";
-                                            $result2 = $conn->query($query2);
-                                            $row2 = $result2->fetch_assoc();
-                                            $_SESSION['editVehicle'] = $row2;
-                                            print("<script>
-                                                 window.location.href='editVehical.php';
-                                             </script>");
-                                        }
-                                        ?>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <?php
-                        }
-                    } else {
-                        ?>
-                        <h3 align="center" style="color: #adadad">No Vehicles Available</h3>
-                        <?php
-                    }
-                    ?>
                 </div>
 
             </div>
