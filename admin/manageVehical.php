@@ -105,6 +105,9 @@ $conn = connection();
                     <li class="active"><a href="/web/admin/manageVehical.php">Manage Vehicles<span
                                     style="font-size:16px;"
                                     class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+
+                    <li><a href="/web/admin/manageDestination.php">Manage Destinations<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+
                 </ul>
             </div>
         </div>

@@ -122,6 +122,7 @@ $conn = connection();
         <ul class="nav navbar-nav">
 				<li  class="active"><a href="/web/admin/">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
 				<li><a href="/web/admin/manageVehical.php">Manage Vehicles<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                <li><a href="/admin/manageDestination.php">Manage Destinations<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
 			</ul>
 		</div>
 	</div>
