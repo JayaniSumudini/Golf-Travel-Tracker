@@ -6,7 +6,7 @@
  * Time: 11:31 PM
  */
 session_start();
-$delete_error = $added_error = "";
+$delete_error = $added_error = $itineary_error = "";
 //$_SESSION['is_edit'] = false;
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
     header("Location:../login");
@@ -73,9 +73,6 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="dist/jquery.tabledit.js"></script>
-    <script type="text/javascript" src="custom_table_edit.js"></script>
 </head>
 <body>
 
@@ -136,27 +133,109 @@ $conn = connection();
 
                     <h2>Destination Details</h2>
                     <form role="form" action='addDestination.php' method='POST'>
-                        <div class="col-md-4">
-                            <label>Destination Name</label>
-                            <span style="font-weight: bold;color: red">*</span>
-                            <input type="text" required
-                                   id="destination_name_input"
-                                   name="destination_name_input"
-                                   class="form-control">
-                        </div>
                         <div class="row form-group" id="isSelect">
-                            <div class="col-md-4">
-                                <input type="submit" id="add" name="add"
-                                       class="btn btn-sm btn-primary " value="Add New Destination"
-                                       style="float: right;margin-top: 20px; width: 90%">
+
+                            <div class="col-md-3">
+                                <label for="destination_name_input">Destination Name</label>
+                                <span style="font-weight: bold;color: red">*</span>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" required
+                                       id="destination_name_input"
+                                       name="destination_name_input"
+                                       class="form-control">
                             </div>
                         </div>
+                        <!-- <?php
+                        /*                        $query = "SELECT * FROM destinations ORDER BY destination_id";
+                                                $result = $conn->query($query);
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        */ ?>
+
+
+                                --><?php
+                        /*                            }
+                                                } else {
+
+                                                }
+                                                */ ?>
+                        <form role="form" action='addDestination.php' method='POST'>
+                            <div class="row form-group" id="isSelect">
+                                <table id="data_table" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;border: 1px solid #ddd;">
+                                            Destination Name
+                                        </th>
+                                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;border: 1px solid #ddd;">
+                                            Distance
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $sql_query = "SELECT * FROM destinations ORDER BY destination_id";
+                                    $resultset = mysqli_query($conn, $sql_query) or die("database error:" . mysqli_error($conn));
+                                    while ($destination = mysqli_fetch_assoc($resultset)) {
+                                        ?>
+                                        <td hidden
+                                            style="border: 1px solid #ddd;"><?php echo $destination['destination_id']; ?></td>
+                                        <td style="border: 1px solid #ddd;"><?php echo $destination['destination_name']; ?></td>
+                                        <td style="border: 1px solid #ddd;"><input type="number" required
+                                                                                   class="w3-input"
+                                                                                   id="<?php echo($destination['destination_id']) ?>distance_input"
+                                                                                   name="<?php echo($destination['destination_id']) ?>distance_input">
+                                        </td>
+                                        </tr>
+                                    <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row form-group" id="isSelect">
+                                <div class="col-md-4">
+                                    <input type="submit" id="add" name="add"
+                                           class="btn btn-sm btn-primary " value="Add New Destination"
+                                           style="float: right;margin-top: 20px; width: 90%">
+                                </div>
+                            </div>
+                        </form>
                         <?php
                         if (isset($_POST['add'])) {
+                            $destination_name_input = isset($_POST['destination_name_input']) ? $_POST['destination_name_input'] : "";
+                            $query = "INSERT INTO destinations (destination_name) VALUES ('$destination_name_input')";
+                            if ($conn->query($query)) {
+                                $destination_id = $conn->insert_id;
+                            } else {
+                                $itineary_error = "error while create itineary";
+                            }
+
+                            $sql_query1 = "SELECT * FROM destinations ORDER BY destination_id";
+                            $resultset1 = mysqli_query($conn, $sql_query1) or die("database error:" . mysqli_error($conn));
+                            $input_array = [];
+                            while ($destination = mysqli_fetch_assoc($resultset1)) {
+                                $id = $destination['destination_id'];
+                                $input = $destination['destination_id'] . 'distance_input';
+                                $value = isset($_POST[$input]) ? $_POST[$input] : 0;
+                                add_distance($input, $value, $destination_id);
+
+                                $input = $value = $destination_id = null;
+
+                            }
+
+
                             print("<script>
                                                  window.location.href='addDestination.php';
                                              </script>");
                         }
+
+
+                        function add_distance($input, $value, $destination_id)
+                        {
+                            /*then add to distance table*/
+                        }
+
 
                         ?>
                     </form>
