@@ -6,7 +6,7 @@
  * Time: 11:31 PM
  */
 session_start();
-$delete_error = $added_error = $itineary_error = "";
+$delete_error = $added_error = $itineary_error = $insert_error = "";
 //$_SESSION['is_edit'] = false;
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
     header("Location:../login");
@@ -216,24 +216,39 @@ $conn = connection();
                             $input_array = [];
                             while ($destination = mysqli_fetch_assoc($resultset1)) {
                                 $id = $destination['destination_id'];
+                                $destination_id_existing = $destination['destination_id'];
                                 $input = $destination['destination_id'] . 'distance_input';
                                 $value = isset($_POST[$input]) ? $_POST[$input] : 0;
-                                add_distance($input, $value, $destination_id);
+                                add_distance($destination_id_existing, $destination_id, $value, $conn);
 
-                                $input = $value = $destination_id = null;
+                                $input = $value = $destination_id_existing = null;
 
                             }
 
 
                             print("<script>
-                                                 window.location.href='addDestination.php';
+                                                 window.location.href='manageDestination.php';
                                              </script>");
                         }
 
 
-                        function add_distance($input, $value, $destination_id)
+                        function add_distance($destination_id_existing, $destination_id, $distance, $conn)
                         {
                             /*then add to distance table*/
+                            if ($destination_id_existing <= $destination_id) {
+                                $travel_from= $destination_id_existing;
+                                $travel_to=$destination_id;
+                            } else {
+                                $travel_from=$destination_id;
+                                $travel_to=$destination_id_existing;
+                            }
+
+                            $query = "INSERT INTO distance (travel_from,travel_to,distance) VALUES ($travel_from,$travel_to,$distance)";
+                            if ($conn->query($query)) {
+                                $travel_from =  $travel_to = $query = null;
+                            } else {
+                                $insert_error = "error while create itineary";
+                            }
                         }
 
 
