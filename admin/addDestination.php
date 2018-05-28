@@ -7,7 +7,6 @@
  */
 session_start();
 $delete_error = $added_error = $itineary_error = $insert_error = "";
-//$_SESSION['is_edit'] = false;
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
     header("Location:../login");
 } elseif ($_SESSION['user_role'] != 'ADMIN') {
@@ -146,20 +145,7 @@ $conn = connection();
                                        class="form-control">
                             </div>
                         </div>
-                        <!-- <?php
-                        /*                        $query = "SELECT * FROM destinations ORDER BY destination_id";
-                                                $result = $conn->query($query);
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        */ ?>
 
-
-                                --><?php
-                        /*                            }
-                                                } else {
-
-                                                }
-                                                */ ?>
                         <form role="form" action='addDestination.php' method='POST'>
                             <div class="row form-group" id="isSelect">
                                 <table id="data_table" class="table table-striped">
@@ -236,16 +222,16 @@ $conn = connection();
                         {
                             /*then add to distance table*/
                             if ($destination_id_existing <= $destination_id) {
-                                $travel_from= $destination_id_existing;
-                                $travel_to=$destination_id;
+                                $travel_from = $destination_id_existing;
+                                $travel_to = $destination_id;
                             } else {
-                                $travel_from=$destination_id;
-                                $travel_to=$destination_id_existing;
+                                $travel_from = $destination_id;
+                                $travel_to = $destination_id_existing;
                             }
 
                             $query = "INSERT INTO distance (travel_from,travel_to,distance) VALUES ($travel_from,$travel_to,$distance)";
                             if ($conn->query($query)) {
-                                $travel_from =  $travel_to = $query = null;
+                                $travel_from = $travel_to = $query = null;
                             } else {
                                 $insert_error = "error while create itineary";
                             }
@@ -254,69 +240,6 @@ $conn = connection();
 
                         ?>
                     </form>
-                    <?php
-                    /*                    $query = "SELECT * FROM destinations ORDER BY destination_id";
-                                        $result = $conn->query($query);
-                                        if ($result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                */ ?><!--
-                            <div class="col-md-6"
-                                 style="border: 1px solid #09C6AB;padding:6px 15px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
-                                <div class="row">
-
-                                    <div class="col-sm-8">
-                                        <b>Destination Name : </b><?php /*echo($row["destination_name"]); */ ?><br>
-                                        <br>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <form role="form" action='addDestination.php' method='POST'>
-                                            <input type='hidden' name='destination_id'
-                                                   value='<?php /*echo($row["destination_id"]); */ ?> '>
-                                            <input type="submit" class="btn btn-sm btn-info btn-block"
-                                                   id="edit" name="edit"
-                                                   value="Edit" style="font-size: 12px; padding: 3px;">
-                                            <input type="submit" class="btn btn-sm btn-danger btn-block"
-                                                   id="delete" name="delete"
-                                                   value="Delete" style="font-size: 12px; padding: 3px;">
-                                        </form>
-                                        <?php
-                    /*                                        if (isset($_POST['delete'])) {
-                                                                $destination_id = isset($_POST['destination_id']) ? $_POST['destination_id'] : "";
-                                                                $queryDelete = "DELETE FROM destinations WHERE destination_id='$destination_id'";
-                                                                if ($conn->query($queryDelete)) {
-                                                                    print("<script>
-                                                                                                    window.location.href='manageDestination.php';
-                                                                                                    </script>");
-                                                                } else {
-                                                                    $delete_error = "Error when remove ! ";
-                                                                }
-                                                            }
-
-                                                            if (isset($_POST['edit'])) {
-                                                                $destination_id = isset($_POST['destination_id']) ? $_POST['destination_id'] : "";
-                                                                $query2 = "SELECT * FROM destinations WHERE destination_id='$destination_id'";
-                                                                $result2 = $conn->query($query2);
-                                                                $row2 = $result2->fetch_assoc();
-                                                                $_SESSION['editDestination'] = $row2;
-                                                                print("<script>
-                                                                     window.location.href='editDestination.php';
-                                                                 </script>");
-                                                            }
-                                                            */ ?>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <?php
-                    /*                        }
-                                        } else {
-                                            */ ?>
-                        <h3 align="center" style="color: #adadad">No Destinations Available</h3>
-                        --><?php
-                    /*                    }
-                                        */ ?>
                 </div>
 
             </div>
