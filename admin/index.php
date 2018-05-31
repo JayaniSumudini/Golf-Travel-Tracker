@@ -3,10 +3,24 @@ session_start();
 
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_role'])) {
     header("Location:../login");
-}elseif ($_SESSION['user_role'] != 'ADMIN'){
+} elseif ($_SESSION['user_role'] != 'ADMIN') {
     header("Location:../login");
 }
+
+
+if (isset($_POST['confirm'])) {
+    if ($_SESSION['user_role'] == 'ADMIN') {
+        $updateQuery = "UPDATE trip SET trip_status = 'Accepted' WHERE itenary_id='$itenary_id' AND trip_status='Submited' OR trip_status='ToBeAcceptance'";
+    } else {
+        $updateQuery = "UPDATE trip SET trip_status = 'ToBeAcceptance' WHERE itenary_id='$itenary_id' AND trip_status='AdminChanged'";
+    }
+    $conn->query($updateQuery);
+    header("location: index.php");
+    exit;
+}
+
 ?>
+
 
 <!DOCTYPE HTML>
 <html>
@@ -79,65 +93,103 @@ require "../function/function.php";
 $conn = connection();
 ?>
 
+
+
+
+
+
+
+
+
+
+
 <div class="gtco-container">
+
+<nav class="navbar navbar-inverse sidebar" role="navigation">
+    <div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+<!--			<a class="navbar-brand" href="#">Admin Panel</a>-->
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+				<li  class="active"><a href="/web/admin/">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+				<li><a href="/web/admin/manageVehical.php">Manage Vehicles<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                <li><a href="/web/admin/manageDestination.php">Manage Destinations<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
 
     <div class="row">
         <div class="col-md-12 col-md-offset-0 text-left">
 
             <div class="row row-mt-15em" style="margin-top: 4em;">
-                    <div class="col-md-12  mt-text animate-box" data-animate-effect="fadeInUp"
-                         style="margin-top:1em">
+                <div class="col-md-12  mt-text animate-box" data-animate-effect="fadeInUp"
+                     style="margin-top:1em">
 
-                        <h2>All Trip Bookings</h2>
-                        <?php
-                        $query = $query = "SELECT * FROM party_details ORDER BY create_date_and_time";
-                        $result = $conn->query($query);
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                ?>
-                                <div class="col-md-16"
-                                     style="border: 1px solid #09C6AB;padding:6px 15px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
-                                    <div class="row">
+                    <h2>All Trip Bookings</h2>
+                    <?php
+                    $query = "SELECT * FROM party_details ORDER BY create_date_and_time";
+                    $result = $conn->query($query);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <div class="col-md-6"
+                                 style="border: 1px solid #09C6AB;padding:6px 15px;margin-bottom: 3px;border-radius: 3px; font-size: 14px">
+                                <div class="row">
 
-                                        <div class="col-sm-9">
-                                            <b>Leader Name : </b><?php echo($row["lead_name"]); ?><br>
-                                            <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
-                                            <b>Email : </b><?php echo($row["email"]); ?><br>
-                                            <b>Part Created Time : </b><?php echo($row["create_date_and_time"]); ?>
-                                            <br>
-                                        </div>
-                                        <div class="col-sm-3 ">
-                                            <form role="form" action='index.php' method='POST'>
-                                                <input type='hidden' name='party_id'
-                                                       value='<?php echo($row["party_id"]); ?> '>
-                                                <input type="submit" class="btn btn-sm btn-info btn-block"
-                                                       id="view" name="view"
-                                                       value="View Trip" style="font-size: 12px; padding: 3px;">
-                                            </form>
-                                            <?php
-                                            if (isset($_POST['view'])) {
-                                                $_SESSION['party'] = isset($_POST['party_id']) ? $_POST['party_id'] : "";
-                                                $_SESSION['trips'] = [];
-                                                echo "<script>
+                                    <div class="col-sm-8">
+                                        <b>Leader Name : </b><?php echo($row["lead_name"]); ?><br>
+                                        <b>Phone Number : </b><?php echo($row["phone_number"]); ?><br>
+                                        <b>Email : </b><?php echo($row["email"]); ?><br>
+                                        <b>Part Created Time : </b><?php echo($row["create_date_and_time"]); ?>
+                                        <br>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <form role="form" action='index.php' method='POST'>
+                                            <input type='hidden' name='party_id'
+                                                   value='<?php echo($row["party_id"]); ?> '>
+                                            <input type="submit" class="btn btn-sm btn-info btn-block"
+                                                   id="view" name="view"
+                                                   value="View Trip" style="font-size: 12px; padding: 3px;">
+                                        </form>
+                                        <?php
+                                        if (isset($_POST['view'])) {
+                                            $_SESSION['party'] = isset($_POST['party_id']) ? $_POST['party_id'] : "";
+                                            $_SESSION['trips'] = [];
+                                            echo "<script>
                                                        window.location.href='../tripCreate';
                                                       </script>";
-                                            }
-                                            ?>
-                                        </div>
-
+                                        }
+                                        ?>
                                     </div>
+
                                 </div>
+                            </div>
 
-                                <?php
-                            }
+                            <?php
                         }
+                    }else{
                         ?>
-                    </div>
-
+                        <h3 align="center" style="color: #adadad">No Party Available</h3>
+                        <?php
+                    }
+                    ?>
                 </div>
+
             </div>
         </div>
     </div>
+
 </div>
 
 
@@ -167,6 +219,14 @@ $conn = connection();
 
 <!-- Main -->
 <script src="../js/main.js"></script>
+
+<script> $(document).ready(function () {
+
+$('#sidebarCollapse').on('click', function () {
+    $('#sidebar').toggleClass('active');
+});
+
+});</script>
 
 </body>
 </html>
