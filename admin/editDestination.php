@@ -139,7 +139,7 @@ $conn = connection();
                      style="margin-top:1em">
 
                     <h2>Edit Destination</h2>
-                    <form role="form" action='addDestination.php' method='POST'>
+                    <form role="form" action='editDestination.php' method='POST'>
                         <div class="row form-group" id="isSelect">
 
                             <div class="col-md-3">
@@ -150,7 +150,7 @@ $conn = connection();
                                 <input type="text" required
                                        id="destination_name_input"
                                        name="destination_name_input"
-                                       class="form-control">
+                                       class="form-control" value="<?php echo($destination_name) ?>">
                             </div>
                         </div>
 
@@ -172,61 +172,85 @@ $conn = connection();
                                     $sql_query = "SELECT * FROM destinations ORDER BY destination_id";
                                     $resultset = mysqli_query($conn, $sql_query) or die("database error:" . mysqli_error($conn));
                                     while ($destination = mysqli_fetch_assoc($resultset)) {
-                                        ?>
-                                        <td hidden
-                                            style="border: 1px solid #ddd;"><?php echo $destination['destination_id']; ?></td>
-                                        <td style="border: 1px solid #ddd;"><?php echo $destination['destination_name']; ?></td>
-                                        <td style="border: 1px solid #ddd;"><input type="number" required
-                                                                                   class="w3-input"
-                                                                                   id="<?php echo($destination['destination_id']) ?>distance_input"
-                                                                                   name="<?php echo($destination['destination_id']) ?>distance_input">
-                                        </td>
-                                        </tr>
-                                    <?php } ?>
+                                        $iterate_destination_id = $destination['destination_id'];
+                                        if ($iterate_destination_id != $destination_id) {
+                                            ?>
+                                            <td hidden
+                                                style="border: 1px solid #ddd;"><?php echo $destination['destination_id']; ?></td>
+                                            <td style="border: 1px solid #ddd;"><?php echo $destination['destination_name']; ?></td>
+                                            <?php
+
+                                            if ($iterate_destination_id < $destination_id) {
+                                                $query_edit = "select distance from distance where travel_from='$iterate_destination_id' and travel_to='$destination_id'";
+                                            } else {
+                                                $query_edit = "select distance from distance where travel_from='$destination_id' and travel_to='$destination_id'$iterate_destination_id";
+                                            }
+                                            $result_edit = mysqli_query($conn, $query_edit);
+                                            $row = mysqli_fetch_assoc($result_edit);
+
+                                            ?>
+                                            <td style="border: 1px solid #ddd;"><input type="number" required
+                                                                                       class="w3-input"
+                                                                                       id="<?php echo($destination['destination_id']) ?>distance_input"
+                                                                                       name="<?php echo($destination['destination_id']) ?>distance_input"
+                                                                                       value="<?php echo($row['distance']) ?>">
+                                            </td>
+                                            </tr>
+                                            <?php $result_edit = $query_edit = $row = null;
+                                        }
+                                    } ?>
                                     </tbody>
                                 </table>
                             </div>
 
-                            <div class="row form-group" id="isSelect">
-                                <div class="col-md-4">
-                                    <input type="submit" id="add" name="add"
-                                           class="btn btn-sm btn-primary " value="Add New Destination"
+
+                            <div class="row form-group" id="buttondiv">
+
+                                <div class="col-md-3">
+                                    <input type="submit" id="save" name="save"
+                                           class="btn btn-sm btn-primary " value="Save changes"
+                                           style="float: right;margin-top: 20px; width: 90%">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="submit" id="discard" name="discard"
+                                           class="btn btn-sm btn-primary " value="Discard changes"
                                            style="float: right;margin-top: 20px; width: 90%">
                                 </div>
                             </div>
+
                         </form>
                         <?php
-                        if (isset($_POST['add'])) {
+                        if (isset($_POST['save'])) {
                             $destination_name_input = isset($_POST['destination_name_input']) ? $_POST['destination_name_input'] : "";
-                            $query = "INSERT INTO destinations (destination_name) VALUES ('$destination_name_input')";
+                            $query = "UPDATE destinations SET destination_name='$destination_name_input' WHERE destination_id='$destination_id'";
                             if ($conn->query($query)) {
-                                $destination_id = $conn->insert_id;
+                                $sql_query1 = "SELECT * FROM destinations ORDER BY destination_id";
+                                $resultset1 = mysqli_query($conn, $sql_query1) or die("database error:" . mysqli_error($conn));
+                                $input_array = [];
+                                while ($destination = mysqli_fetch_assoc($resultset1)) {
+                                    $destination_id_existing = $destination['destination_id'];
+                                    $input = $destination['destination_id'] . 'distance_input';
+                                    $value = isset($_POST[$input]) ? $_POST[$input] : 0;
+                                    edit_distance($destination_id_existing, $destination_id, $value, $conn);
+                                    $input = $value = $destination_id_existing = null;
+
+                                }
                             } else {
                                 $itineary_error = "error while create itineary";
                             }
-
-                            $sql_query1 = "SELECT * FROM destinations ORDER BY destination_id";
-                            $resultset1 = mysqli_query($conn, $sql_query1) or die("database error:" . mysqli_error($conn));
-                            $input_array = [];
-                            while ($destination = mysqli_fetch_assoc($resultset1)) {
-                                $id = $destination['destination_id'];
-                                $destination_id_existing = $destination['destination_id'];
-                                $input = $destination['destination_id'] . 'distance_input';
-                                $value = isset($_POST[$input]) ? $_POST[$input] : 0;
-                                add_distance($destination_id_existing, $destination_id, $value, $conn);
-
-                                $input = $value = $destination_id_existing = null;
-
-                            }
-
 
                             print("<script>
                                                  window.location.href='manageDestination.php';
                                              </script>");
                         }
 
+                        if (isset($_POST['discard'])) {
+                            print("<script>
+                                   window.location.href='manageDestination.php';
+                                   </script>");
+                        }
 
-                        function add_distance($destination_id_existing, $destination_id, $distance, $conn)
+                        function edit_distance($destination_id_existing, $destination_id, $distance, $conn)
                         {
                             /*then add to distance table*/
                             if ($destination_id_existing <= $destination_id) {
@@ -237,9 +261,10 @@ $conn = connection();
                                 $travel_to = $destination_id_existing;
                             }
 
-                            $query = "INSERT INTO distance (travel_from,travel_to,distance) VALUES ($travel_from,$travel_to,$distance)";
+                            $query = "UPDATE distance SET distance=$distance WHERE travel_from=$travel_from AND travel_to=$travel_to";
+
                             if ($conn->query($query)) {
-                                $travel_from = $travel_to = $query = null;
+                                $travel_from = $travel_to = $query = $distance = null;
                             } else {
                                 $insert_error = "error while create itineary";
                             }

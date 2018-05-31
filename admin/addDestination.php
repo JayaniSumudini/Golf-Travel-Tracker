@@ -193,23 +193,23 @@ $conn = connection();
                             $query = "INSERT INTO destinations (destination_name) VALUES ('$destination_name_input')";
                             if ($conn->query($query)) {
                                 $destination_id = $conn->insert_id;
+                                $sql_query1 = "SELECT * FROM destinations ORDER BY destination_id";
+                                $resultset1 = mysqli_query($conn, $sql_query1) or die("database error:" . mysqli_error($conn));
+                                $input_array = [];
+                                while ($destination = mysqli_fetch_assoc($resultset1)) {
+                                    $destination_id_existing = $destination['destination_id'];
+                                    $input = $destination['destination_id'] . 'distance_input';
+                                    $value = isset($_POST[$input]) ? $_POST[$input] : 0;
+                                    add_distance($destination_id_existing, $destination_id, $value, $conn);
+
+                                    $input = $value = $destination_id_existing = null;
+
+                                }
                             } else {
                                 $itineary_error = "error while create itineary";
                             }
 
-                            $sql_query1 = "SELECT * FROM destinations ORDER BY destination_id";
-                            $resultset1 = mysqli_query($conn, $sql_query1) or die("database error:" . mysqli_error($conn));
-                            $input_array = [];
-                            while ($destination = mysqli_fetch_assoc($resultset1)) {
-                                $id = $destination['destination_id'];
-                                $destination_id_existing = $destination['destination_id'];
-                                $input = $destination['destination_id'] . 'distance_input';
-                                $value = isset($_POST[$input]) ? $_POST[$input] : 0;
-                                add_distance($destination_id_existing, $destination_id, $value, $conn);
 
-                                $input = $value = $destination_id_existing = null;
-
-                            }
 
 
                             print("<script>
