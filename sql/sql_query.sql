@@ -48,6 +48,13 @@ create table destinations(
 	PRIMARY KEY(destination_id)
 );
 
+create table vehicle(
+ vehicle_id int not null AUTO_INCREMENT,
+ vehicle_name varchar(200) not null,
+ vehicle_price decimal(8,2),
+ PRIMARY KEY(vehicle_id)
+);
+
 create table trip(
   trip_id int not null AUTO_INCREMENT,
 	travel_date date not null,
@@ -62,6 +69,7 @@ create table trip(
 	travel_price decimal(6,2),
 	PRIMARY KEY(trip_id),
 	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(car_type_id) REFERENCES vehicle(vehicle_id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(travel_from) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(travel_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -76,5 +84,3 @@ create table distance(
  FOREIGN KEY(travel_from) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
  FOREIGN KEY(travel_to) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-
