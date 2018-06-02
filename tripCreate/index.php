@@ -77,7 +77,6 @@ if (isset($_POST['add'])) {
 
 // Saving new iterenary to DB when creating a new one  -----------------------------------------------------
 if (isset($_POST['save'])) {
-
     $updateQuery = "UPDATE trip SET trip_status = 'Saved' WHERE itenary_id='$itenary_id' AND trip_status='Added'";
     $conn->query($updateQuery);
     $total_prices = null;
@@ -87,6 +86,11 @@ if (isset($_POST['submit'])) {
     $updateQuery = "UPDATE trip SET trip_status = 'Submited' WHERE itenary_id='$itenary_id' AND trip_status='Saved'";
     $conn->query($updateQuery);
     $total_prices = null;
+    $user = $_SESSION['user'];
+    $mailbody = "Dear Admin,\n\nCongratulations!!!\n\n$user submited a new trip.";
+//    $email= "calvinjbrown@gmail.com";
+    $email= "jayanisumudini@gmail.com";
+    mail($email,"You have new trip",$mailbody,"From:back9tours@eigendemo.info\r\n");
     header("location: index.php");
     exit;
 
