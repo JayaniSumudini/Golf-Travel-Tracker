@@ -98,7 +98,7 @@ if ($results > 0) {
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln();
         $pdf->SetFillColor(4,3,5);
-        $pdf->Cell(24.5, 10, $row['travel_date'], 1,0,'C',true);
+        $pdf->Cell(24.5, 10, $row['travel_date'], 1,0,'C');
         $pdf->Cell(24.5, 10, $row['travel_time'], 1,0,'C');
 
         $from = $row['travel_from'];

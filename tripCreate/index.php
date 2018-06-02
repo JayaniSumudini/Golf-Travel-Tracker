@@ -645,6 +645,13 @@ if (isset($_POST['print'])) {
                                                                    id="submit" name="submit"
                                                                    value="Submit">
                                                         </div>
+                                                        <?php
+                                                        if ($_SESSION['user_role'] == 'ADMIN') {
+                                                            ?>
+                                                            <script type="text/javascript">$('#submit').hide()</script>
+                                                            <?php
+                                                        }
+                                                        ?>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="col-md-6">
@@ -659,6 +666,13 @@ if (isset($_POST['print'])) {
                                                             <span style="font-weight: bold;color: red"><?php echo($save_error); ?></span>
 
                                                         </div>
+                                                        <?php
+                                                        if ($_SESSION['user_role'] == 'ADMIN') {
+                                                            ?>
+                                                            <script type="text/javascript">$('#save').hide()</script>
+                                                            <?php
+                                                        }
+                                                        ?>
                                                         <div class="col-md-6">
                                                         </div>
                                                     </div>
