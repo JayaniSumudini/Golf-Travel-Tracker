@@ -77,7 +77,6 @@ if (isset($_POST['add'])) {
 
 // Saving new iterenary to DB when creating a new one  -----------------------------------------------------
 if (isset($_POST['save'])) {
-
     $updateQuery = "UPDATE trip SET trip_status = 'Saved' WHERE itenary_id='$itenary_id' AND trip_status='Added'";
     $conn->query($updateQuery);
     $total_prices = null;
@@ -87,6 +86,11 @@ if (isset($_POST['submit'])) {
     $updateQuery = "UPDATE trip SET trip_status = 'Submited' WHERE itenary_id='$itenary_id' AND trip_status='Saved'";
     $conn->query($updateQuery);
     $total_prices = null;
+    $user = $_SESSION['user'];
+    $mailbody = "Dear Admin,\n\nCongratulations!!!\n\n$user submited a new trip.";
+//    $email= "calvinjbrown@gmail.com";
+    $email= "jayanisumudini@gmail.com";
+    mail($email,"You have new trip",$mailbody,"From:back9tours@eigendemo.info\r\n");
     header("location: index.php");
     exit;
 
@@ -124,7 +128,8 @@ function calculate_travel_price($travel_from, $travel_to, $vehicle_id, $conn)
 //    } else {
 //        $car_type_error = "please select car type";
 //    }
-    $query1 = "select vehicle_price from vehicle where vehicle_id='$vehicle_id'";
+//    $query1 = "select vehicle_price from vehicle where vehicle_id='$vehicle_id'";
+    $query1 = "select vehicle_price from vehicle_destination_price_mapper where destination_id='$travel_from' and vehicle_id='$vehicle_id'";
     $result1 = mysqli_query($conn, $query1);
     $row1 = mysqli_fetch_assoc($result1);
     $travel_price = $row1["vehicle_price"] * $row[0]["distance"];
@@ -645,6 +650,13 @@ if (isset($_POST['print'])) {
                                                                    id="submit" name="submit"
                                                                    value="Submit">
                                                         </div>
+                                                        <?php
+                                                        if ($_SESSION['user_role'] == 'ADMIN') {
+                                                            ?>
+                                                            <script type="text/javascript">$('#submit').hide()</script>
+                                                            <?php
+                                                        }
+                                                        ?>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="col-md-6">
@@ -659,6 +671,13 @@ if (isset($_POST['print'])) {
                                                             <span style="font-weight: bold;color: red"><?php echo($save_error); ?></span>
 
                                                         </div>
+                                                        <?php
+                                                        if ($_SESSION['user_role'] == 'ADMIN') {
+                                                            ?>
+                                                            <script type="text/javascript">$('#save').hide()</script>
+                                                            <?php
+                                                        }
+                                                        ?>
                                                         <div class="col-md-6">
                                                         </div>
                                                     </div>

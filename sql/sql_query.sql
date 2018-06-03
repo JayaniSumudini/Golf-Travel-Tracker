@@ -51,8 +51,17 @@ create table destinations(
 create table vehicle(
  vehicle_id int not null AUTO_INCREMENT,
  vehicle_name varchar(200) not null,
- vehicle_price decimal(8,2),
  PRIMARY KEY(vehicle_id)
+);
+
+create table vehicle_destination_price_mapper (
+ vehicle_destination_price_mapper_id int not null AUTO_INCREMENT,
+ destination_id int not null,
+ vehicle_id int not null,
+ vehicle_price decimal(8,2),
+ PRIMARY KEY(vehicle_destination_price_mapper_id),
+ FOREIGN KEY(destination_id) REFERENCES destinations(destination_id)  ON DELETE CASCADE ON UPDATE CASCADE,
+ FOREIGN KEY(vehicle_id) REFERENCES vehicle(vehicle_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table trip(

@@ -110,7 +110,7 @@ function calculate_travel_price($travel_from, $travel_to, $vehicle_id, $conn)
 //    } else {
 //        $car_type_error = "please select car type";
 //    }
-    $query1 = "select vehicle_price from vehicle where vehicle_id='$vehicle_id'";
+    $query1 = "select vehicle_price from vehicle_destination_price_mapper where destination_id='$travel_from' and vehicle_id='$vehicle_id'";
     $result1 = mysqli_query($conn, $query1);
     $row1 = mysqli_fetch_assoc($result1);
     $travel_price = $row1["vehicle_price"] * $row[0]["distance"];
