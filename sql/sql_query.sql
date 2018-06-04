@@ -38,7 +38,7 @@ create table itenary(
   itenary_id int not null AUTO_INCREMENT,
   party_id int not null,
   status enum ('NEW','SAVE','SUBMITED','ACCEPTED','ADMIN_CHANGED','TO_BE_ACCEPTANCE') not null DEFAULT 'NEW',
-  total_price decimal(6,2) not null default 0.0,
+  total_price decimal(20,2) not null default 0.0,
   PRIMARY KEY(itenary_id),
   FOREIGN KEY(party_id)REFERENCES party_details(party_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -52,7 +52,7 @@ create table destinations(
 create table vehicle(
  vehicle_id int not null AUTO_INCREMENT,
  vehicle_name varchar(200) not null,
- vehicle_price decimal(8,2),
+ vehicle_price decimal(10,2),
  PRIMARY KEY(vehicle_id)
 );
 
@@ -67,7 +67,7 @@ create table trip(
 	car_type_id int not null default 1,
 	trip_status enum('Added','Saved','Submited','AdminChanged','ToBeAcceptance','Accepted') not null default 'Added',
 	flight_number varchar(200) not null,
-	travel_price decimal(6,2),
+	travel_price decimal(10,2),
 	PRIMARY KEY(trip_id),
 	FOREIGN KEY(itenary_id) REFERENCES itenary(itenary_id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(car_type_id) REFERENCES vehicle(vehicle_id)  ON DELETE CASCADE ON UPDATE CASCADE,
