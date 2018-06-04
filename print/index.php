@@ -140,7 +140,7 @@ $results3 = mysqli_fetch_assoc($result3);
 $pdf->SetFont('Times','',12);
 $pdf->Cell(0,10,'Total Price: '.$results3["total_price"],0,2,'R');
 
-$pdf->Cell(0,10,'Status: Saved',0,2,'L');
+//$pdf->Cell(0,10,'Status: Saved',0,2,'L');
 $pdf->Cell(0,10,'Authorised: Calvin J Brown',0,2,'L');
 $pdf->Cell(0,10,'Contact number: +98-7635190',0,2,'L');
 
