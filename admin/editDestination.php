@@ -154,7 +154,7 @@ $conn = connection();
                             </div>
                         </div>
 
-                        <form role="form" action='addDestination.php' method='POST'>
+                        <form role="form" action='editDestination.php' method='POST'>
                             <div class="row form-group" id="isSelect">
                                 <table id="data_table" class="table table-striped">
                                     <thead>
@@ -183,7 +183,7 @@ $conn = connection();
                                             if ($iterate_destination_id < $destination_id) {
                                                 $query_edit = "select distance from distance where travel_from='$iterate_destination_id' and travel_to='$destination_id'";
                                             } else {
-                                                $query_edit = "select distance from distance where travel_from='$destination_id' and travel_to='$destination_id'$iterate_destination_id";
+                                                $query_edit = "select distance from distance where travel_from='$destination_id' and travel_to='$iterate_destination_id'";
                                             }
                                             $result_edit = mysqli_query($conn, $query_edit);
                                             $row = mysqli_fetch_assoc($result_edit);

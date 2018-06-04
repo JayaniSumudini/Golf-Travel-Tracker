@@ -9,6 +9,7 @@ drop table if exists itenary;
 drop table if exists trip;
 drop table if exists destinations;
 drop table if exists distance;
+drop table if exists vehicle;
 
 create table user_details(
   user_id int not null AUTO_INCREMENT,
