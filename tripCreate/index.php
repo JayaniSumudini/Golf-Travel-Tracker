@@ -89,17 +89,17 @@ if (isset($_POST['submit'])) {
     $user = $_SESSION['user'];
     $mailbody = "Dear Admin,\n\nCongratulations!!!\n\n$user submited a new trip.";
 //    $email= "calvinjbrown@gmail.com";
-    $email= "jayanisumudini@gmail.com";
-    mail($email,"You have new trip",$mailbody,"From:back9tours@eigendemo.info\r\n");
+    $email = "jayanisumudini@gmail.com";
+    mail($email, "You have new trip", $mailbody, "From:back9tours@eigendemo.info\r\n");
     header("location: index.php");
     exit;
 
 }
 
 if (isset($_POST['confirm'])) {
-    if($_SESSION['user_role']=='ADMIN'){
+    if ($_SESSION['user_role'] == 'ADMIN') {
         $updateQuery = "UPDATE trip SET trip_status = 'Accepted' WHERE itenary_id='$itenary_id' AND trip_status='Submited' OR trip_status='ToBeAcceptance'";
-    }else{
+    } else {
         $updateQuery = "UPDATE trip SET trip_status = 'ToBeAcceptance' WHERE itenary_id='$itenary_id' AND trip_status='AdminChanged'";
     }
     $conn->query($updateQuery);
@@ -287,12 +287,13 @@ if (isset($_POST['print'])) {
                                                     <span style="-webkit-text-fill-color: red" id="errorSpan"></span>
                                                 </div>
 
-                                                <div style="border:solid 1px #09C6AB;border-radius: 5px; padding: 16px;margin-bottom: 20px" id="div1">
+                                                <div style="border:solid 1px #09C6AB;border-radius: 5px; padding: 16px;margin-bottom: 20px"
+                                                     id="div1">
                                                     <?php
                                                     if ($_SESSION['user_role'] == 'ADMIN') {
                                                         ?>
-                                                    <script type="text/javascript">$('#div1').hide()</script>
-                                                    <?php
+                                                        <script type="text/javascript">$('#div1').hide()</script>
+                                                        <?php
                                                     }
                                                     ?>
                                                     <h4>Add New Trip to your plan</h4>
@@ -301,7 +302,8 @@ if (isset($_POST['print'])) {
                                                         <div class="col-md-2">
                                                             <label for="login-username">Date</label>
                                                             <span style="font-weight: bold;color: red">*</span>
-                                                            <input data-provide="datepicker" type="text" data-date-format="dd/mm/yyyy"
+                                                            <input data-provide="datepicker" type="text"
+                                                                   data-date-format="dd/mm/yyyy"
                                                                    id="travel_date"
                                                                    name="travel_date"
                                                                    class="form-control">
@@ -407,28 +409,49 @@ if (isset($_POST['print'])) {
                                                     </div>
                                                     <div class="row form-group" id="isSelect">
                                                         <div class="col-md-10">
-                                                            <span id="added_count" name="added_count" style="float: right;margin-top: 20px; padding: 8px 20px; background:#f39c12; color: #fff; border-radius: 3px">
+                                                            <span id="added_count" name="added_count"
+                                                                  style="float: right;margin-top: 20px; padding: 8px 20px; background:#f39c12; color: #fff; border-radius: 3px">
                                                                 <?php
                                                                 $query1 = "SELECT * FROM trip WHERE trip_status = 'Added' and itenary_id = $itenary_id";
                                                                 $query2 = "SELECT * FROM trip WHERE itenary_id = $itenary_id";
                                                                 $addList = $conn->query($query1);
                                                                 $List = $conn->query($query2);
-                                                                if($List->num_rows == 0){
+                                                                if ($List->num_rows == 0) {
                                                                     echo("Create Your Own Trip");
-                                                                }
-                                                                else {
-                                                                    if($addList->num_rows == 0){
+                                                                } else {
+                                                                    if ($addList->num_rows == 0) {
                                                                         echo("All the Trips are SAVED ");
-                                                                    }
-                                                                    else{
+                                                                    } else {
                                                                         echo("You have to SAVE ");
                                                                         echo($addList->num_rows);
                                                                         echo(" number of Trips.");
                                                                     }
                                                                 }
 
-                                                                 ?>
+                                                                ?>
                                                             </span>
+                                                            <span id="save_count" name="save_count"
+                                                                  style="float: right;margin-top: 20px; margin-right: 20px; padding: 8px 20px; background:#edde34; color: #761c19; border-radius: 3px">
+                                                                <?php
+                                                                $query3 = "SELECT * FROM trip WHERE trip_status = 'Saved' and itenary_id = $itenary_id";
+                                                                $addList3 = $conn->query($query3);
+                                                                if ($addList3->num_rows != 0) {
+                                                                    echo("You have to SUBMIT ");
+                                                                    echo($addList3->num_rows);
+                                                                    echo(" number of Trips.");
+                                                                    ?>
+                                                                    <script type="text/javascript">$('#added_count').hide()</script>
+                                                                    <?php
+                                                                }else{
+                                                                    ?>
+                                                                    <script type="text/javascript">$('#save_count').hide()</script>
+                                                                    <?php
+                                                                }
+
+
+                                                                ?>
+                                                            </span>
+
                                                         </div>
                                                         <div class="col-md-2">
                                                             <label for="login-username"></label>
@@ -461,9 +484,9 @@ if (isset($_POST['print'])) {
                                                             <tbody>
                                                             <?php
                                                             $itenary_id = $_SESSION['itenary'];
-                                                            if($_SESSION['user_role']== 'ADMIN'){
+                                                            if ($_SESSION['user_role'] == 'ADMIN') {
                                                                 $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id' AND (trip_status='Submited' OR trip_status='AdminChanged' OR trip_status='ToBeAcceptance' OR trip_status='Accepted') ORDER BY travel_date,travel_time ";
-                                                            }else{
+                                                            } else {
                                                                 $query = "SELECT * FROM trip WHERE itenary_id='$itenary_id' ORDER BY travel_date,travel_time ";
                                                             }
 
@@ -498,7 +521,7 @@ if (isset($_POST['print'])) {
                                                                             $query3 = "select vehicle_name from vehicle where vehicle_id='$car_type_id'";
                                                                             $result3 = mysqli_query($conn, $query3);
                                                                             $row3 = mysqli_fetch_assoc($result3);
-                                                                            echo ($row3["vehicle_name"]);
+                                                                            echo($row3["vehicle_name"]);
                                                                             ?></td>
                                                                         <td align="right"><?php echo($rowValue["travel_price"]); ?></td>
                                                                         <td><?php
@@ -514,15 +537,15 @@ if (isset($_POST['print'])) {
                                                                                 echo '<span style="color:#74ff26;">';
                                                                                 echo($rowValue["trip_status"]);
                                                                                 echo '</span>';
-                                                                            }elseif ($rowValue["trip_status"] == 'AdminChanged') {
+                                                                            } elseif ($rowValue["trip_status"] == 'AdminChanged') {
                                                                                 echo '<span style="color:#ffbb56;">';
                                                                                 echo("Admin Changed");
                                                                                 echo '</span>';
-                                                                            }elseif ($rowValue["trip_status"] == 'ToBeAcceptance') {
+                                                                            } elseif ($rowValue["trip_status"] == 'ToBeAcceptance') {
                                                                                 echo '<span style="color:#ff05bf;">';
                                                                                 echo("To Be Acceptance");
                                                                                 echo '</span>';
-                                                                            }elseif ($rowValue["trip_status"] == 'Accepted') {
+                                                                            } elseif ($rowValue["trip_status"] == 'Accepted') {
                                                                                 echo '<span style="color:#090909;">';
                                                                                 echo("Accepted");
                                                                                 echo '</span>';
@@ -534,21 +557,21 @@ if (isset($_POST['print'])) {
                                                                                 <input type='hidden' name='trip_id'
                                                                                        value='<?php echo($rowValue["trip_id"]); ?> '>
                                                                                 <?php
-                                                                            $trip_id = $rowValue["trip_id"];
-                                                                            $status_query1 = "SELECT trip_status FROM trip WHERE trip_id='$trip_id'";
-                                                                            $var_status1 = mysqli_query($conn, $status_query1);
-                                                                            $statuses1[] = mysqli_fetch_assoc($var_status1);
-                                                                            $status1 = $statuses1[0]["trip_status"];
-                                                                            $statuses1 = null;?>
+                                                                                $trip_id = $rowValue["trip_id"];
+                                                                                $status_query1 = "SELECT trip_status FROM trip WHERE trip_id='$trip_id'";
+                                                                                $var_status1 = mysqli_query($conn, $status_query1);
+                                                                                $statuses1[] = mysqli_fetch_assoc($var_status1);
+                                                                                $status1 = $statuses1[0]["trip_status"];
+                                                                                $statuses1 = null; ?>
 
-                                                                                <input type="submit" <?php if(($status1=='Submited' || $status1=='ToBeAcceptance'  || $status1=='Accepted') && $_SESSION['user_role'] !='ADMIN' ) {?> disabled="disabled" <?php } ?>
+                                                                                <input type="submit" <?php if (($status1 == 'Submited' || $status1 == 'ToBeAcceptance' || $status1 == 'Accepted') && $_SESSION['user_role'] != 'ADMIN') { ?> disabled="disabled" <?php } ?>
                                                                                        class="btn btn-sm btn-danger"
                                                                                        id="delete" name="delete"
                                                                                        value="Delete"
                                                                                        style="font-size: 12px; padding: 3px;">
 
                                                                                 <span style="font-weight: bold;color: red"><?php echo($delete_error); ?></span>
-                                                                                <input type="submit" <?php if(($status1=='Submited' || $status1=='ToBeAcceptance') && $_SESSION['user_role'] !='ADMIN') {?> disabled="disabled" <?php } ?>
+                                                                                <input type="submit" <?php if (($status1 == 'Submited' || $status1 == 'ToBeAcceptance') && $_SESSION['user_role'] != 'ADMIN') { ?> disabled="disabled" <?php } ?>
                                                                                        class="btn btn-sm "
                                                                                        id="edit_trip" name="edit_trip"
                                                                                        value="edit_trip"
@@ -616,15 +639,15 @@ if (isset($_POST['print'])) {
                                                                     $total_prices[] = mysqli_fetch_assoc($total_price);
                                                                     $total_show_price = $total_prices[0]["total_price"];
 
-                                                                    if($_SESSION["user_role"] == 'ADMIN'){
+                                                                    if ($_SESSION["user_role"] == 'ADMIN') {
                                                                         $queryPrice = "SELECT travel_price FROM trip WHERE itenary_id='$itenary_id' AND (trip_status='Saved' OR trip_status='Added')";
                                                                         $query_total_price = $conn->query($queryPrice);
-                                                                        if($query_total_price->num_rows >0){
+                                                                        if ($query_total_price->num_rows > 0) {
                                                                             $remove_value = 0;
                                                                             while ($rowValue = $query_total_price->fetch_assoc()) {
                                                                                 $remove_value = $remove_value + $rowValue["travel_price"];
                                                                             }
-                                                                            $total_show_price=$total_show_price-$remove_value;
+                                                                            $total_show_price = $total_show_price - $remove_value;
                                                                         }
 
                                                                     }

@@ -158,9 +158,51 @@ $conn = connection();
                                         <form role="form" action='index.php' method='POST'>
                                             <input type='hidden' name='party_id'
                                                    value='<?php echo($row["party_id"]); ?> '>
+                                            <?php
+                                            $party_id1 = $row["party_id"];
+                                            $query_get_itenary_id = "SELECT itenary_id FROM itenary  WHERE party_id = '$party_id1'";
+                                            $result2 = mysqli_query($conn, $query_get_itenary_id);
+                                            $row2[] = mysqli_fetch_assoc($result2);
+                                            $itenary_id2 = $row2[0]["itenary_id"];
+                                            $row2 =null;
+                                            $query3 = "SELECT * FROM trip WHERE (trip_status = 'Submited' OR trip_status = 'AdminChanged' OR trip_status ='ToBeAcceptance' OR trip_status ='Accepted') and itenary_id = '$itenary_id2'";
+                                            $addList3 = $conn->query($query3);
+                                            if ($addList3->num_rows == 0) {
+                                                $query4 = "SELECT * FROM trip WHERE trip_status = 'Saved' and itenary_id = '$itenary_id2'";
+                                                $addList4 = $conn->query($query4);
+                                                if($addList4->num_rows== 0){
+                                                    $query5 = "SELECT * FROM trip WHERE trip_status = 'Added' and itenary_id = '$itenary_id2'";
+                                                    $addList5 = $conn->query($query5);
+                                                    if($addList5->num_rows!=0){
+                                                        ?>
+                                                        <input type="button" class="btn btn-sm btn-primary btn-block"
+                                                               id="save_show" name="save_show"
+                                                               value="Have only Added trip" style="font-size: 12px; padding: 3px; cursor:default">
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <input type="button" class="btn btn-sm btn-danger btn-block"
+                                                               id="save_show" name="save_show"
+                                                               value="No Trip Yet" style="font-size: 12px; padding: 3px; cursor:default">
+                                                        <?php
+                                                    }
+                                                }else{
+                                                    ?>
+                                                    <input type="button" class="btn btn-sm btn-success btn-block"
+                                                           id="save_show" name="save_show"
+                                                           value="Have only Save trip" style="font-size: 12px; padding: 3px; cursor:default">
+                                                    <?php
+                                                }
+                                            }else{
+                                                ?>
                                             <input type="submit" class="btn btn-sm btn-info btn-block"
                                                    id="view" name="view"
                                                    value="View Trip" style="font-size: 12px; padding: 3px;">
+                                            <?php
+                                            }
+                                            ?>
+
+
                                         </form>
                                         <?php
                                         if (isset($_POST['view'])) {
@@ -171,6 +213,8 @@ $conn = connection();
                                                       </script>";
                                         }
                                         ?>
+
+
                                     </div>
 
                                 </div>
