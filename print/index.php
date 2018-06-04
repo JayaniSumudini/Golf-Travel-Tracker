@@ -43,8 +43,8 @@ $pdf->Ln(10);
 
 //table-Trip details
 $pdf->SetFont('Arial', 'B', 9);
-$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='golf_travel_route' AND `TABLE_NAME`='trip'";
-//$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='eigendem_golf_travel_route' AND `TABLE_NAME`='trip'";
+//$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='golf_travel_route' AND `TABLE_NAME`='trip'";
+$query1 = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='eigendem_golf_travel_route' AND `TABLE_NAME`='trip'";
 
 $result1 = mysqli_query($conn, $query1);
 //    $header[] = mysqli_fetch_assoc($result1);
